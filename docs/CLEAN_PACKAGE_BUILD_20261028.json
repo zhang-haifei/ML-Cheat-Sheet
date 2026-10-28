@@ -1,0 +1,7 @@
+{
+  "status": "PASS",
+  "pages": 154,
+  "pdf_text_identical": true,
+  "original_rasters_in_package": false,
+  "build_log": "本地校样工作目录中保存；构建入口scripts/build.sh main"
+}
