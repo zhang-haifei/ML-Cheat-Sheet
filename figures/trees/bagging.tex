@@ -1,0 +1,9 @@
+\begin{tikzpicture}[node distance=6mm and 10mm]
+\node[box,text width=22mm] (data) {训练数据};
+\node[box,text width=28mm,right=of data] (m2) {重采样2\\模型2};
+\node[box,text width=28mm,above=of m2] (m1) {重采样1\\模型1};
+\node[box,text width=28mm,below=of m2] (m3) {重采样3\\模型3};
+\node[box,text width=29mm,right=16mm of m2] (agg) {平均或投票\\组合预测};
+\foreach \m in {m1,m2,m3}{\draw[flow] (data.east)--(\m.west);\draw[flow] (\m.east)--(agg.west);}
+\node[lab,below=6mm of m3] {各模型可分别训练，预测误差仍可能相关};
+\end{tikzpicture}

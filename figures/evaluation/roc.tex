@@ -1,0 +1,10 @@
+\begin{tikzpicture}
+\begin{axis}[width=.78\textwidth,height=69mm,xmin=0,xmax=1,ymin=0,ymax=1,
+ xlabel={假正例率 FPR},ylabel={真正例率 TPR},xtick={0,.25,.5,.75,1},ytick={0,.25,.5,.75,1},
+ tick label style={font=\small},grid=major,grid style={gray!15}]
+\addplot[draw=none,fill=Teal!10] coordinates {(0,0)(0,.25)(.25,.5)(.5,.5)(.5,.75)(.75,1)(1,1)(1,0)} \closedcycle;
+\addplot[Teal,thick,mark=*] table[x=fpr,y=tpr,col sep=comma]{figures/evaluation/roc.csv};
+\addplot[Quiet,dashed,domain=0:1]{x};
+\node[font=\small,text=Ink] at (axis cs:.68,.23) {AUC $=0.6875$};
+\end{axis}
+\end{tikzpicture}

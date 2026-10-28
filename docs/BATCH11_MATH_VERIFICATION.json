@@ -1,0 +1,67 @@
+{
+  "status": "PASS",
+  "document_frequencies": [
+    2,
+    1,
+    2,
+    1
+  ],
+  "idf": [
+    1.2876820724517808,
+    1.6931471805599454,
+    1.2876820724517808,
+    1.6931471805599454
+  ],
+  "normalized_first_document": [
+    0.8944271909999159,
+    0.0,
+    0.4472135954999579,
+    0.0
+  ],
+  "rnn_states": [
+    0.7615941559557649,
+    0.3633994843890525,
+    -0.6741436761583508
+  ],
+  "shared_recurrence_gradient": -0.2551959319605769,
+  "recurrence_difference": 3.255629099641055e-11,
+  "lstm_cell": 1.7,
+  "lstm_hidden": 0.7483272564824792,
+  "attention_weights": [
+    [
+      0.25,
+      0.75
+    ]
+  ],
+  "attention_output": [
+    [
+      0.5,
+      3.0
+    ]
+  ],
+  "attention_q_gradient": 2.0625,
+  "attention_gradient_difference": 5.658478130499134e-10,
+  "causal_weights": [
+    [
+      1.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.5,
+      0.5,
+      0.0
+    ],
+    [
+      0.3333333333333333,
+      0.3333333333333333,
+      0.3333333333333333
+    ]
+  ],
+  "memory_MiB": {
+    "128": 0.5,
+    "256": 2.0
+  },
+  "permutation_equivariance": "PASS",
+  "future_value_invariance": "PASS"
+}

@@ -1,0 +1,8 @@
+\begin{tikzpicture}[node distance=9mm]
+\node[box,text width=24mm] (train) {外层训练集};
+\node[box,right=of train,text width=32mm] (inner) {内部交叉验证\\选择完整方案};
+\node[box,right=of inner,text width=26mm] (refit) {用外层训练集\\重新拟合};
+\node[box,right=of refit,text width=24mm] (score) {外层留出折\\只作评估};
+\draw[flow] (train)--(inner);\draw[flow] (inner)--(refit);\draw[flow] (refit)--(score);
+\node[lab,below=11mm of inner,text width=70mm,align=center] {每个外层折都重新执行选择；\\外层分数评价的是整套选择流程。};
+\end{tikzpicture}

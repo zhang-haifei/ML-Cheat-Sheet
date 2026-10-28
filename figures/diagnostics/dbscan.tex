@@ -1,0 +1,11 @@
+\begin{tikzpicture}[x=4cm,y=1cm]
+\draw[Quiet,->] (-.15,0)--(3,0) node[right,lab] {$x$};
+\draw[Teal,dashed] (.04,.85)--(.56,.85);
+\draw[Teal] (.04,.73)--(.04,.97);\draw[Teal] (.56,.73)--(.56,.97);
+\node[lab,above] at (.3,.95) {$0.3\pm\varepsilon$};
+\foreach \x in {.1,.2,.3,2.6,2.7}{\fill[Teal] (\x,0) circle(2.7pt);}
+\foreach \x in {0,.55,2.5,2.8}{\draw[Amber,thick,fill=white] (\x,0) circle(2.7pt);}
+\draw[Ink,thick] (1.48,-.08)--(1.52,.08) (1.48,.08)--(1.52,-.08);
+\foreach \x in {0,.1,.2,.3,.55,1.5,2.5,2.6,2.7,2.8}{\node[lab,below,rotate=55,anchor=north east] at (\x,-.07) {\x};}
+\node[lab] at (1.4,-1.4) {实心：核心点\quad 空心：边界点\quad 叉号：噪声};
+\end{tikzpicture}

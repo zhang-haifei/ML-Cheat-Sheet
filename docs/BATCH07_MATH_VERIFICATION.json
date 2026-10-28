@@ -1,0 +1,57 @@
+{
+  "status": "PASS",
+  "ols_slope": "1/2",
+  "ols_intercept": "7/6",
+  "ols_predictions": [
+    "7/6",
+    "5/3",
+    "13/6"
+  ],
+  "residuals": [
+    "1/6",
+    "-1/3",
+    "1/6"
+  ],
+  "rss": "1/6",
+  "training_mse": "1/18",
+  "scalar_shrinkage": [
+    {
+      "z": "0",
+      "ridge": "0",
+      "lasso": "0"
+    },
+    {
+      "z": "3/10",
+      "ridge": "1/5",
+      "lasso": "0"
+    },
+    {
+      "z": "2",
+      "ridge": "4/3",
+      "lasso": "3/2"
+    },
+    {
+      "z": "-2",
+      "ridge": "-4/3",
+      "lasso": "-3/2"
+    }
+  ],
+  "logistic_probability": 0.75,
+  "logistic_derivative": -0.2500000000016378,
+  "softmax": [
+    0.16666666666666666,
+    0.3333333333333333,
+    0.5000000000000001
+  ],
+  "nearest_positions": [
+    1,
+    3,
+    0
+  ],
+  "knn_prediction": 0,
+  "minkowski": {
+    "l1": 5,
+    "l2": 3.605551275463989,
+    "linf": 3
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "target": "batch14",
+  "pages": 9,
+  "pdf_sha256": "6bf6c3c259fb2c322ce7d2d1e8f660cc870e26240fbf3da0c440ec0a8dbd57db",
+  "overfull": 0,
+  "underfull": 0,
+  "missing_characters": 0,
+  "undefined_references": 0,
+  "source_files": 5,
+  "original_files_still_referenced": 0,
+  "original_image_occurrences": 0,
+  "inspected_total": 159
+}

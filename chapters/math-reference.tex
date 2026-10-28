@@ -1,0 +1,218 @@
+\chapter{数学速查：为模型计算服务}
+\label{ch:math}
+
+本附录保留理解本书公式最常用的数学工具：形状、内积、矩阵运算、导数、概率与统计量。
+每个公式都应先确认变量含义与适用条件。无需在开始学习机器学习之前逐页背诵。
+
+\begin{keyidea}[先检查形状，再检查数值]
+矩阵相乘看内部维度，梯度应与参数具有相同形状，概率应满足非负与归一化。
+这三类检查能较早发现许多实现错误。
+\end{keyidea}
+
+\section{向量、矩阵与乘法形状}
+\label{sec:math-matrix}
+列向量$\vct x\in\R^d$有$d$个分量；矩阵$A\in\R^{m\times n}$有$m$行$n$列，
+元素记为$a_{ij}$，转置满足$(A^\top)_{ji}=a_{ij}$。
+矩阵积$C=AB$的元素为$c_{ij}=\sum_{k=1}^n a_{ik}b_{kj}$。
+
+\begin{figure}[H]
+\centering\input{figures/math/product}
+\caption{例子$A\in\R^{2\times3}$、$B\in\R^{3\times2}$，相乘后为$2\times2$。}
+\end{figure}
+\readfigure{结果每个位置都是左矩阵一行与右矩阵一列的内积。一般$AB\ne BA$，
+甚至可能只有一个方向的积有定义。维度合适时，乘法满足结合律。}
+\[
+ A=\begin{bmatrix}1&2&0\\0&1&3\end{bmatrix},\quad
+ B=\begin{bmatrix}2&1\\1&2\\3&0\end{bmatrix},\quad
+ AB=\begin{bmatrix}4&5\\10&2\end{bmatrix}.
+\]
+例如$(AB)_{12}=1\times1+2\times2+0\times0=5$。
+逐元素乘法$A\odot B$要求相应形状匹配，不是上述矩阵乘法。
+
+\quick{批量线性预测常写作$X\vct w+b\vct1$：$X$为$n\times d$，$\vct w$为$d\times1$，结果为$n\times1$。}
+
+\clearpage
+\section{内积、范数、秩与行列式}
+\label{sec:math-norms}
+内积$\vct x^\top\vct z=\sum_jx_jz_j$衡量方向上的关系。
+常用范数为
+\[
+ \lVert\vct x\rVert_1=\sum_j|x_j|,\quad
+ \lVert\vct x\rVert_2=\sqrt{\sum_jx_j^2},\quad
+ \lVert A\rVert_F=\sqrt{\sum_{i,j}a_{ij}^2}.
+\]
+例如$(3,-4)$的L1范数为7，L2范数为5；范数总是非负。
+矩阵的秩（Rank）是独立列或独立行的最大数目，不等于行数、列数的简单乘积。
+
+\begin{figure}[H]
+\centering\input{figures/math/determinant}
+\caption{二维列向量构成的平行四边形，面积为行列式绝对值。}
+\end{figure}
+\readfigure{$A=[\vct a\ \vct b]=\left[\begin{smallmatrix}2&1\\0&2\end{smallmatrix}\right]$，
+$\det A=2\times2-1\times0=4$，面积为4。行列式本身有符号，交换两列会变号。}
+
+$n\times n$方阵的行列式是$n$个特征值的乘积，\textbf{不是所有元素的乘积}。
+$\det A\ne0$等价于方阵可逆。非方阵没有此处定义的行列式。
+实际求解线性方程常采用稳定分解方法，不必先显式计算$A^{-1}$。
+
+\clearpage
+\section{特征值与奇异值：方向、缩放与降维}
+\label{sec:math-spectral}
+若非零向量$\vct v$满足$A\vct v=\lambda\vct v$，则$\lambda$是特征值，
+$\vct v$是特征向量。实对称矩阵可写成$A=Q\Lambda Q^\top$，$Q$的列为正交单位向量。
+
+\begin{center}
+\begin{tabularx}{\textwidth}{P{32mm}Y}
+\toprule
+工具 & 用途与条件\\
+\midrule
+正半定 & 对称矩阵满足$\vct z^\top A\vct z\geq0$；等价于特征值非负。\\
+奇异值分解 SVD & 任意实$m\times n$矩阵可写成$A=U\Sigma V^\top$，奇异值非负。\\
+低秩近似 & 只保留最大的若干奇异值和相应方向，以压缩矩阵。\\
+PCA的线性代数 & 对中心化的数据矩阵作SVD，或对相应协方差矩阵求特征方向。\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+例如$A=\operatorname{diag}(3,1)$把两个坐标方向分别缩放为3倍、1倍，
+奇异值为3、1。保留第一方向得到$A_1=\operatorname{diag}(3,0)$，
+误差$\lVert A-A_1\rVert_F=1$。
+
+\begin{pitfall}[方向不是自动“有用”的标签信息]
+PCA寻找较大方差方向，不直接使用目标标签，也不保证保留最强预测信号。
+用于监督流程时，中心化和降维都应在训练内拟合。
+一般矩阵不一定有实数特征值；SVD与特征分解不是同一概念。
+\end{pitfall}
+
+\clearpage
+\section{导数、梯度与链式法则}
+\label{sec:math-gradient}
+一元导数$f'(x)$描述局部变化率；多元标量函数的梯度由各偏导组成：
+\[
+\nabla_{\vct w}J=(\partial J/\partial w_1,\ldots,\partial J/\partial w_d)^\top.
+\]
+在可微条件下，$J(\vct w+\Delta)\approx J(\vct w)+\nabla J(\vct w)^\top\Delta$。
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+函数 & 导数或梯度\\
+\midrule
+$x^p$ & $p x^{p-1}$（在有定义且可微处）\\
+$e^x$ & $e^x$\\
+$\log x$ & $1/x$，$x>0$\\
+$\sigma(x)=1/(1+e^{-x})$ & $\sigma(x)(1-\sigma(x))$\\
+$\frac12\lVert\vct w\rVert_2^2$ & $\vct w$\\
+$\frac1{2n}\lVert X\vct w-\vct y\rVert_2^2$ & $\frac1nX^\top(X\vct w-\vct y)$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+复合函数$z=f(g(x))$的导数为$f'(g(x))g'(x)$。
+多条路径依赖同一变量时，各路径贡献相加，这正是计算图中反向传播的基础。
+
+\subsection{一个形状与数值检查}
+$X=\left[\begin{smallmatrix}1&2\\3&4\end{smallmatrix}\right]$、
+$\vct w=(0.5,-0.25)^\top$、$\vct y=(1,0)^\top$，则残差为$(-1,0.5)^\top$，
+$J=0.3125$、$\nabla J=(0.25,0)^\top$。梯度与$\vct w$均为两维列向量。
+
+\begin{pitfall}[不可微与零梯度]
+$|x|$在0处不可微，可以使用次梯度；ReLU在0处也需实现约定。
+梯度为0不一定是极小值。神经网络反向传播要先正确设置损失与计算依赖。
+\end{pitfall}
+
+\clearpage
+\section{条件概率与贝叶斯公式}
+\label{sec:math-probability}
+对事件$A,B$，$P(A\cup B)=P(A)+P(B)-P(A\cap B)$。
+当$P(B)>0$时，$P(A\mid B)=P(A\cap B)/P(B)$。
+独立要求$P(A\cap B)=P(A)P(B)$；互斥事件并不因此独立。
+
+设$B_1,\ldots,B_K$构成互斥且完备的划分，$P(B_k)>0$，则
+\[
+ P(A)=\sum_kP(A\mid B_k)P(B_k),\qquad
+ P(B_j\mid A)=\frac{P(A\mid B_j)P(B_j)}{P(A)}.
+\]
+后一式还要求$P(A)>0$。先验$P(B_j)$、似然$P(A\mid B_j)$与后验$P(B_j\mid A)$的方向不同。
+
+\begin{center}
+\begin{tabularx}{\textwidth}{P{43mm}Y}
+\toprule
+某检测的已知概率 & 数值\\
+\midrule
+患病先验 & $P(D)=0.01$\\
+患病者检出率 & $P(+\mid D)=0.90$\\
+未患病者假阳性率 & $P(+\mid\bar D)=0.05$\\
+\bottomrule
+\end{tabularx}
+\end{center}
+\[
+ P(D\mid+)=\frac{0.90\times0.01}{0.90\times0.01+0.05\times0.99}
+ =\frac2{13}\approx0.154.
+\]
+检出率90\%并不意味着阳性者有90\%患病；先验与假阳性共同影响后验。
+
+\quick{遇到条件概率，先读清楚竖线两侧，再决定能否交换方向。}
+
+\clearpage
+\section{随机变量、期望、方差与协方差}
+\label{sec:math-random}
+随机变量（Random Variable）把试验结果映射到数值。
+例如两次抛硬币的正面个数，把四种等可能结果映射到0、1、2。
+
+\begin{figure}[H]
+\centering\input{figures/math/random-variable}
+\caption{四种试验结果映射到三个计数值；不同结果可以映射到相同数值。}
+\end{figure}
+\readfigure{公平且独立的两次抛掷中，$P(X=0)=1/4$、$P(X=1)=1/2$、$P(X=2)=1/4$，
+所以$\mathbb E X=1$、$\operatorname{Var}(X)=1/2$。}
+
+离散随机变量有$\mathbb E[g(X)]=\sum_x g(x)P(X=x)$；连续情形用密度积分。
+若相应二阶矩存在，
+\[
+ \operatorname{Var}(X)=\mathbb E[(X-\mathbb E X)^2]=\mathbb E[X^2]-(\mathbb E X)^2,
+\]
+\[
+ \operatorname{Cov}(X,Y)=\mathbb E[(X-\mathbb E X)(Y-\mathbb E Y)].
+\]
+期望满足线性性，不要求独立；独立且二阶矩有限时协方差为0，逆命题一般不成立。
+
+\begin{pitfall}[零相关仍可能有确定依赖]
+令$X$等可能取$-1,0,1$，$Y=X^2$，则协方差为0，
+但$Y$完全由$X$决定。相关系数只反映相应的线性关系，且两变量方差应非零。
+\end{pitfall}
+
+\clearpage
+\section{常用分布与样本统计量}
+\label{sec:math-distributions}
+概率质量函数直接给离散取值的概率；概率密度需要在区间上积分。
+密度可以大于1，例如$U(0,0.5)$的密度为2，整个区间概率仍为1。
+
+\begin{center}
+\begin{tabularx}{\textwidth}{P{31mm}P{67mm}Y}
+\toprule
+分布 & 质量函数或密度 & 均值与方差\\
+\midrule
+Bernoulli$(p)$ & $p^x(1-p)^{1-x}$，$x\in\{0,1\}$ & $p$；$p(1-p)$\\
+Binomial$(n,p)$ & $\binom nx p^x(1-p)^{n-x}$，$x=0,\ldots,n$ & $np$；$np(1-p)$\\
+Uniform$(a,b)$ & $1/(b-a)$在$[a,b]$内，区间外0 & $(a+b)/2$；$(b-a)^2/12$\\
+Normal$(\mu,s^2)$ & $\exp[-(x-\mu)^2/(2s^2)]/(s\sqrt{2\pi})$ & $\mu$；$s^2$\\
+\bottomrule
+\end{tabularx}
+\end{center}
+$0\leq p\leq1$，二项$n$为非负整数，均匀分布$a<b$，正态$s>0$。
+固定$n$次独立同分布Bernoulli试验的和才具有上述二项分布。
+
+\subsection{总体矩与样本估计要区分}
+对独立同分布观测$x_1,\ldots,x_n$，样本均值为$\bar x=\sum_i x_i/n$。
+$n>1$时，$s^2=\sum_i(x_i-\bar x)^2/(n-1)$是总体方差的无偏估计（有限二阶矩）。
+描述手头数据或某些标准化实现则使用分母$n$，应明确约定。
+对$[1,2,3]$，均值为2，分母$n$的方差为$2/3$，分母$n-1$为1。
+
+\begin{pitfall}[大样本结论仍有条件]
+在独立同分布等适当条件下，大数定律说明均值趋近总体期望，
+中心极限定理描述标准化均值的近似分布。它们不表示任意原始数据都会随着样本增多变成正态。
+\end{pitfall}
+
+\noindent\textbf{参考：}Deisenroth、Faisal与Ong，\textit{Mathematics for Machine Learning}（2020），
+第2、4、5、6章。本附录图与数字例子独立设计；更多计算细节见本项目复核脚本。

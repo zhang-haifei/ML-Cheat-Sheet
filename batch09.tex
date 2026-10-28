@@ -1,0 +1,33 @@
+\documentclass[a4paper,11pt,oneside,openany]{book}
+\usepackage{styles/handbook}
+\hypersetup{pdftitle={第九批阶段样章：间隔、聚类与降维}}
+\begin{document}
+\frontmatter
+\hypersetup{pageanchor=false}
+\begin{titlepage}
+\vspace*{16mm}
+{\sffamily\color{Teal}\large 机器学习与深度学习：图解速查手册\par}
+\vspace{15mm}
+{\sffamily\bfseries\color{Ink}\Huge 间隔、聚类与降维\par}
+\vspace{6mm}
+{\sffamily\color{Ink}\LARGE SVM、K-means与PCA\par}
+\vspace{12mm}
+\noindent\textcolor{Teal}{\rule{\textwidth}{1.2pt}}
+\vspace{7mm}
+\begin{keyidea}[第九批阶段样章]
+本批详细核查11张to-do原图，补齐SVM、聚类和PCA基础。
+以独立图表解释间隔、核相似性、中心更新、轮廓系数及投影方差。
+本文件是阶段成果；全书仍在连续修订。
+\end{keyidea}
+\vfill
+原项目作者：张海飞、郭金珊、任露芹、李慧、朱靖、朱弘毅\par
+\vspace{4mm}
+2026年10月28日\par
+\end{titlepage}
+\hypersetup{pageanchor=true}
+\tableofcontents
+\mainmatter
+\setcounter{chapter}{8}
+\input{chapters/support-vectors}
+\input{chapters/unsupervised}
+\end{document}

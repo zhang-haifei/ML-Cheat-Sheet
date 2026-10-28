@@ -1,0 +1,59 @@
+\chapter*{参考资料与继续阅读}
+\addcontentsline{toc}{chapter}{参考资料与继续阅读}
+
+本书以小例子解释机制，公式与算法的系统推导可从以下教材继续学习。
+文档中的接口默认值可能随版本变化，实际复现实验时应记录软件版本。
+章节末尾给出相应主题的阅读入口；这里汇总主要来源，不把独立新图当作原书或原卡片的复制品。
+
+\section*{教材与公开教学材料}
+\begin{enumerate}
+\item James, Witten, Hastie, Tibshirani. \textit{An Introduction to Statistical Learning}, 2nd ed., 2021.
+\href{https://www.statlearning.com/}{教材网站}。经典模型、模型评估与无监督方法。
+\item Goodfellow, Bengio, Courville. \textit{Deep Learning}, 2016.
+\href{https://www.deeplearningbook.org/}{公开教材}。前馈网络、正则化、优化、卷积与序列模型。
+\item Deisenroth, Faisal, Ong. \textit{Mathematics for Machine Learning}, 2020.
+\href{https://mml-book.github.io/}{公开教材}。线性代数、概率、优化与PCA。
+\item Zhang, Lipton, Li, Smola. \textit{Dive into Deep Learning}（《动手学深度学习》）.
+\href{https://d2l.ai/}{英文在线版}，\href{https://zh.d2l.ai/}{中文在线版}。计算图、架构与微调。
+\item Manning, Raghavan, Schütze. \textit{Introduction to Information Retrieval}, 2008.
+\href{https://nlp.stanford.edu/IR-book/}{公开教材}。文本表示与TF-IDF。
+\item Little, Rubin. \textit{Statistical Analysis with Missing Data}, 3rd ed., 2019. 缺失机制与分析条件。
+\end{enumerate}
+
+\section*{实现约定与接口}
+\begin{enumerate}
+\item \href{https://scikit-learn.org/stable/user_guide.html}{scikit-learn User Guide}：预处理、流水线、模型选择、指标、校准、聚类与分解。
+\item \href{https://imbalanced-learn.org/stable/}{imbalanced-learn Documentation}：训练内重采样、Tomek链接与验证边界。
+\item \href{https://docs.pytorch.org/docs/stable/}{PyTorch Documentation}：张量、损失、卷积、归一化、优化器与梯度裁剪。
+\item \href{https://docs.pytorch.org/tutorials/beginner/transfer_learning_tutorial.html}{PyTorch Transfer Learning Tutorial}：冻结、微调与训练模式。
+\end{enumerate}
+
+\clearpage
+\section*{代表性原始论文}
+下列论文用于沿着正文中的方法继续查阅；研究论文通常比本书要求更高的数学或实现背景。
+\begin{enumerate}
+\item Hochreiter, Schmidhuber. \textit{Long Short-Term Memory}. Neural Computation, 1997.
+\href{https://doi.org/10.1162/neco.1997.9.8.1735}{DOI}。
+\item Cho等. \textit{Learning Phrase Representations using RNN Encoder--Decoder for Statistical Machine Translation}, 2014.
+\href{https://arxiv.org/abs/1406.1078}{论文}。
+\item Mikolov等. \textit{Efficient Estimation of Word Representations in Vector Space}, 2013.
+\href{https://arxiv.org/abs/1301.3781}{论文}。
+\item Srivastava等. \textit{Dropout: A Simple Way to Prevent Neural Networks from Overfitting}. JMLR, 2014.
+\href{https://jmlr.org/papers/v15/srivastava14a.html}{论文}。
+\item Kingma, Ba. \textit{Adam: A Method for Stochastic Optimization}. ICLR, 2015.
+\href{https://arxiv.org/abs/1412.6980}{预印本（2014）}。
+\item He等. \textit{Delving Deep into Rectifiers: Surpassing Human-Level Performance on ImageNet Classification}. ICCV, 2015.
+\href{https://arxiv.org/abs/1502.01852}{论文}。
+\item He等. \textit{Deep Residual Learning for Image Recognition}. CVPR, 2016.
+\href{https://arxiv.org/abs/1512.03385}{论文}。
+\item Vaswani等. \textit{Attention Is All You Need}. NeurIPS, 2017.
+\href{https://arxiv.org/abs/1706.03762}{论文}。
+\item Loshchilov, Hutter. \textit{Decoupled Weight Decay Regularization}. ICLR, 2019.
+\href{https://arxiv.org/abs/1711.05101}{预印本}。
+\item Bergstra, Bengio. \textit{Random Search for Hyper-Parameter Optimization}. JMLR, 2012.
+\href{https://jmlr.org/papers/v13/bergstra12a.html}{论文}。
+\item Ester等. \textit{A Density-Based Algorithm for Discovering Clusters in Large Spatial Databases with Noise}. KDD, 1996.
+\href{https://aaai.org/Papers/KDD/1996/KDD96-037.pdf}{论文}。
+\item Wilson. \textit{Probable Inference, the Law of Succession, and Statistical Inference}. JASA, 1927.
+Wilson比例区间的原始工作；本书给出的区间为近似推断。
+\end{enumerate}

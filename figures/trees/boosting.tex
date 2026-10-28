@@ -1,0 +1,9 @@
+\begin{tikzpicture}[node distance=8mm]
+\node[box,text width=25mm] (pred) {当前预测\\$F_{m-1}$};
+\node[box,text width=29mm,right=of pred] (grad) {计算修正目标\\负梯度};
+\node[box,text width=25mm,right=of grad] (tree) {拟合新模型\\$h_m$};
+\node[box,text width=29mm,right=of tree] (new) {加到已有预测\\$F_m=F_{m-1}+\nu h_m$};
+\draw[flow] (pred)--(grad);\draw[flow] (grad)--(tree);\draw[flow] (tree)--(new);
+\draw[flow] (new.south)--++(0,-10mm)-|(pred.south);
+\node[lab,below=15mm of grad] {下一轮依赖当前组合的预测};
+\end{tikzpicture}

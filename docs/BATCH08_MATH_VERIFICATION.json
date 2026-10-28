@@ -1,0 +1,29 @@
+{
+  "status": "PASS",
+  "classification_best_threshold": "5/2",
+  "weighted_gini": "1/5",
+  "gini_drop": "3/10",
+  "regression_parent_rss": "27",
+  "regression_split_rss": [
+    "56/3",
+    "2",
+    "32/3"
+  ],
+  "naive_bayes_posterior": "12/13",
+  "beta_posterior_mean": "3/5",
+  "mean_probability": "197/300",
+  "ensemble_variance": [
+    0.28,
+    0.20800000000000002
+  ],
+  "enumerated_correlated_variance": 2.3333333333333335,
+  "gradient_boosting_before": "8/3",
+  "gradient_boosting_after": "7/6",
+  "adaboost_alpha": 0.5493061443340549,
+  "adaboost_weights": [
+    0.16666666666666666,
+    0.16666666666666666,
+    0.16666666666666666,
+    0.5000000000000001
+  ]
+}

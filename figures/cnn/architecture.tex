@@ -1,0 +1,10 @@
+\begin{tikzpicture}[node distance=10mm and 13mm]
+\node[box,text width=33mm] (input) {输入\\$8\times3\times32\times32$};
+\node[box,text width=33mm,right=of input] (conv) {Conv3$\times$3+ReLU\\$8\times16\times32\times32$};
+\node[box,text width=33mm,right=of conv] (pool) {MaxPool2$\times$2\\$8\times16\times16\times16$};
+\node[box,text width=33mm,below=of pool] (gap) {全局平均池化\\$8\times16$};
+\node[box,text width=33mm,left=of gap] (head) {线性分类头\\$8\times10$};
+\node[box,text width=33mm,left=of head] (loss) {10类logits\\训练用交叉熵};
+\draw[flow] (input)--(conv);\draw[flow] (conv)--(pool);\draw[flow] (pool)--(gap);
+\draw[flow] (gap)--(head);\draw[flow] (head)--(loss);
+\end{tikzpicture}

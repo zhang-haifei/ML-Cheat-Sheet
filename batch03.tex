@@ -1,0 +1,32 @@
+\documentclass[a4paper,11pt,oneside,openany]{book}
+\usepackage{styles/handbook}
+\hypersetup{pdftitle={第三批阶段样章：可信评估}}
+\begin{document}
+\frontmatter
+\hypersetup{pageanchor=false}
+\begin{titlepage}
+\vspace*{16mm}
+{\sffamily\color{Teal}\large 机器学习与深度学习：图解速查手册\par}
+\vspace{15mm}
+{\sffamily\bfseries\color{Ink}\Huge 可信评估\par}
+\vspace{6mm}
+{\sffamily\color{Ink}\LARGE 从数据划分到指标选择\par}
+\vspace{12mm}
+\noindent\textcolor{Teal}{\rule{\textwidth}{1.2pt}}
+\vspace{7mm}
+\begin{keyidea}[第三批阶段样章]
+本批详细核查15张评估主题原图，统一纠正指标定义、数据用途和边界条件。
+以独立图表替换原插图，给出混淆矩阵、ROC/AUC和回归的可复算例子。
+本文件是阶段成果；全书仍在连续修订。
+\end{keyidea}
+\vfill
+原项目作者：张海飞、郭金珊、任露芹、李慧、朱靖、朱弘毅\par
+\vspace{4mm}
+2026年10月28日\par
+\end{titlepage}
+\hypersetup{pageanchor=true}
+\tableofcontents
+\mainmatter
+\setcounter{chapter}{2}
+\input{chapters/model-evaluation}
+\end{document}

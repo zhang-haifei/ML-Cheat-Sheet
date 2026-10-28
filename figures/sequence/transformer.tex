@@ -1,0 +1,14 @@
+\begin{tikzpicture}[node distance=11mm and 12mm]
+\node[box,text width=20mm] (x) {$X$};
+\node[box,text width=44mm,right=of x] (attn) {多头注意力\\$\mathrm{MHA}(\mathrm{LN}(X))$};
+\node[circle,draw=Teal,fill=Pale,minimum size=8mm,right=of attn] (a1) {$+$};
+\draw[flow] (x)--(attn);\draw[flow] (attn)--(a1);
+\draw[flow] (x.north)--++(0,10mm)-|(a1.north);
+\node[box,text width=20mm,below=22mm of x] (z) {$Z$};
+\node[box,text width=44mm,right=of z] (ffn) {逐位置前馈层\\$\mathrm{FFN}(\mathrm{LN}(Z))$};
+\node[circle,draw=Teal,fill=Pale,minimum size=8mm,right=of ffn] (a2) {$+$};
+\node[box,text width=20mm,right=of a2] (y) {$Y$};
+\draw[flow] (a1.south)--++(0,-8mm)-|(z.north);
+\draw[flow] (z)--(ffn);\draw[flow] (ffn)--(a2);\draw[flow] (a2)--(y);
+\draw[flow] (z.south)--++(0,-9mm)-|(a2.south);
+\end{tikzpicture}

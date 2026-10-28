@@ -1,0 +1,802 @@
+{
+  "scripts/verify_cnn.py": {
+    "exit_code": 0,
+    "result": {
+      "status": "PASS",
+      "convolution": [
+        [
+          0.0,
+          -1.0,
+          -2.0
+        ],
+        [
+          0.0,
+          0.0,
+          2.0
+        ],
+        [
+          0.0,
+          -1.0,
+          1.0
+        ]
+      ],
+      "shared_kernel_gradient": [
+        [
+          5.0,
+          2.0
+        ],
+        [
+          -6.0,
+          -6.0
+        ]
+      ],
+      "max_gradient_difference": 8.37152569488353e-11,
+      "max_pool": [
+        [
+          6.0,
+          5.0
+        ],
+        [
+          3.0,
+          9.0
+        ]
+      ],
+      "average_pool": [
+        [
+          3.5,
+          2.0
+        ],
+        [
+          1.5,
+          7.0
+        ]
+      ],
+      "shape_cases": [
+        [
+          4,
+          2,
+          0,
+          1,
+          1,
+          3
+        ],
+        [
+          32,
+          3,
+          1,
+          1,
+          1,
+          32
+        ],
+        [
+          7,
+          3,
+          1,
+          2,
+          1,
+          4
+        ],
+        [
+          7,
+          3,
+          0,
+          1,
+          2,
+          3
+        ]
+      ],
+      "receptive_fields": [
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          8,
+          2
+        ]
+      ],
+      "parameters": {
+        "shared_small": 5,
+        "unshared_small": 45,
+        "dense_small": 153,
+        "conv": 448,
+        "head": 170,
+        "total": 618
+      },
+      "tensor_elements": 24576,
+      "bn_example": [
+        -0.9999950000374997,
+        0.9999950000374997
+      ],
+      "gap_shape": [
+        8,
+        16
+      ]
+    }
+  },
+  "scripts/verify_data.py": {
+    "exit_code": 0,
+    "result": {
+      "status": "PASS",
+      "median_fill": 20,
+      "missing_indicator": [
+        0,
+        1,
+        0,
+        0
+      ],
+      "knn_distances": [
+        1.1,
+        0.10000000000000009,
+        5.9,
+        6.9
+      ],
+      "knn_fill": 11.0,
+      "global_median": 46,
+      "mean": 20.0,
+      "population_sd": 8.16496580927726,
+      "standardized": [
+        -1.224744871391589,
+        0.0,
+        1.224744871391589
+      ],
+      "new_minmax": 1.5,
+      "new_standardized": 2.449489742783178,
+      "sampling_counts": {
+        "original": [
+          90,
+          10
+        ],
+        "undersampled": [
+          20,
+          10
+        ],
+        "oversampled": [
+          90,
+          45
+        ]
+      },
+      "smote": [
+        1.5,
+        2.5
+      ]
+    }
+  },
+  "scripts/verify_diagnostics.py": {
+    "exit_code": 0,
+    "result": {
+      "status": "PASS",
+      "probabilities": {
+        "A": {
+          "brier": 0.21000000000000002,
+          "logloss": 0.6546666599918811,
+          "accuracy": 0.75,
+          "auc": 0.75
+        },
+        "B": {
+          "brier": 0.1875,
+          "logloss": 0.5623351446188083,
+          "accuracy": 0.75,
+          "auc": 0.75
+        }
+      },
+      "brier_properness": "21 exact Fraction checks",
+      "cost_threshold": 0.2,
+      "mcc": 0.5291502622129182,
+      "wilson_interval": [
+        0.7222097592919214,
+        0.8748534600729574
+      ],
+      "exact_binomial_coverage_of_approximate_intervals": {
+        "0.01": 0.9206267977478189,
+        "0.1": 0.9363983902254425,
+        "0.5": 0.9431120663590192,
+        "0.81": 0.9454541862845159,
+        "0.99": 0.9206267977478195
+      },
+      "dbscan_neighbor_counts": [
+        3,
+        4,
+        4,
+        4,
+        2,
+        1,
+        3,
+        4,
+        4,
+        3
+      ],
+      "core_indices": [
+        1,
+        2,
+        3,
+        7,
+        8
+      ],
+      "border_indices": [
+        0,
+        4,
+        6,
+        9
+      ],
+      "noise_indices": [
+        5
+      ],
+      "cluster_indices": [
+        [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        [
+          6,
+          7,
+          8,
+          9
+        ]
+      ],
+      "linkage": {
+        "single": 3,
+        "complete": 6,
+        "average": 4.5
+      },
+      "search_fits": {
+        "grid_cv": 60,
+        "grid_with_refit": 61,
+        "nested": 125
+      }
+    }
+  },
+  "scripts/verify_evaluation.py": {
+    "exit_code": 0,
+    "result": {
+      "checks": "PASS",
+      "classification": {
+        "accuracy": 0.81,
+        "precision": 0.72,
+        "recall": 0.6,
+        "f1": 0.6545454545454545
+      },
+      "auc_pair_and_area": 0.6875,
+      "roc_points_checked": 7,
+      "precision_at_prior_half": 0.888888888888889,
+      "precision_at_prior_1percent": 0.07476635514018691,
+      "regression": {
+        "tss": 2,
+        "rss": 1,
+        "ess": 5,
+        "cross_term": -4,
+        "r2": 0.5,
+        "negative_r2_example": -6,
+        "squared_correlation": 0.9642857142857142
+      }
+    }
+  },
+  "scripts/verify_foundations.py": {
+    "exit_code": 0,
+    "result": {
+      "status": "PASS",
+      "fits": [
+        {
+          "degree": 0,
+          "training_mse": 0.13933055555555557,
+          "grid_signal_mse": 0.09706882222222223
+        },
+        {
+          "degree": 2,
+          "training_mse": 0.0063936026936026935,
+          "grid_signal_mse": 0.00018457985097030915
+        },
+        {
+          "degree": 8,
+          "training_mse": 0.0,
+          "grid_signal_mse": 0.023084601943041072
+        }
+      ],
+      "plot_points_checked": 201,
+      "bias": "-1/2",
+      "bias_squared": "1/4",
+      "variance": "2/3",
+      "noise_variance": "1/4",
+      "direct_six_case_mse": "7/6"
+    }
+  },
+  "scripts/verify_kernel_unsupervised.py": {
+    "exit_code": 0,
+    "result": {
+      "status": "PASS",
+      "hard_margin_width": 2,
+      "slack": [
+        "0",
+        "3/5",
+        "1",
+        "7/5"
+      ],
+      "rbf": 0.36787944117144233,
+      "kmeans_centers": [
+        "1/2",
+        "9/2"
+      ],
+      "kmeans_initial_sse": "2",
+      "kmeans_final_sse": "1",
+      "silhouettes": [
+        "7/9",
+        "5/7",
+        "5/7",
+        "7/9"
+      ],
+      "silhouette_mean": "47/63",
+      "pca_covariance": [
+        [
+          3.3333333333333335,
+          2.6666666666666665
+        ],
+        [
+          2.6666666666666665,
+          3.3333333333333335
+        ]
+      ],
+      "pca_eigenvalues": [
+        6.0,
+        0.666666666666667
+      ],
+      "pca_explained_ratio": [
+        0.8999999999999999,
+        0.10000000000000003
+      ],
+      "first_point_projection": 2.1213203435596424,
+      "first_point_reconstruction": [
+        1.4999999999999998,
+        1.4999999999999998
+      ],
+      "reconstruction_sse": 2.0,
+      "centered_kernel_max_row_sum": 1.6653345369377348e-16
+    }
+  },
+  "scripts/verify_linear.py": {
+    "exit_code": 0,
+    "result": {
+      "status": "PASS",
+      "ols_slope": "1/2",
+      "ols_intercept": "7/6",
+      "ols_predictions": [
+        "7/6",
+        "5/3",
+        "13/6"
+      ],
+      "residuals": [
+        "1/6",
+        "-1/3",
+        "1/6"
+      ],
+      "rss": "1/6",
+      "training_mse": "1/18",
+      "scalar_shrinkage": [
+        {
+          "z": "0",
+          "ridge": "0",
+          "lasso": "0"
+        },
+        {
+          "z": "3/10",
+          "ridge": "1/5",
+          "lasso": "0"
+        },
+        {
+          "z": "2",
+          "ridge": "4/3",
+          "lasso": "3/2"
+        },
+        {
+          "z": "-2",
+          "ridge": "-4/3",
+          "lasso": "-3/2"
+        }
+      ],
+      "logistic_probability": 0.75,
+      "logistic_derivative": -0.2500000000016378,
+      "softmax": [
+        0.16666666666666666,
+        0.3333333333333333,
+        0.5000000000000001
+      ],
+      "nearest_positions": [
+        1,
+        3,
+        0
+      ],
+      "knn_prediction": 0,
+      "minkowski": {
+        "l1": 5,
+        "l2": 3.605551275463989,
+        "linf": 3
+      }
+    }
+  },
+  "scripts/verify_math.py": {
+    "exit_code": 0,
+    "result": {
+      "checks": "PASS",
+      "finite_difference_max_error": 1.3011480781699447e-11,
+      "old_loss": 0.31326168751822286,
+      "new_loss": 0.2651689745906373,
+      "new_probability": 0.7670763226166974,
+      "updated_parameters": [
+        0.5537882842739991,
+        0.026894142136999512,
+        1.0268941421369995,
+        0.026894142136999512
+      ],
+      "softmax": [
+        0.6652409557748218,
+        0.24472847105479764,
+        0.09003057317038046
+      ]
+    }
+  },
+  "scripts/verify_numerics.py": {
+    "exit_code": 0,
+    "result": {
+      "status": "PASS",
+      "xor": [
+        {
+          "input": [
+            0,
+            0
+          ],
+          "hidden": [
+            0,
+            0
+          ],
+          "target": 0
+        },
+        {
+          "input": [
+            0,
+            1
+          ],
+          "hidden": [
+            0,
+            1
+          ],
+          "target": 1
+        },
+        {
+          "input": [
+            1,
+            0
+          ],
+          "hidden": [
+            1,
+            0
+          ],
+          "target": 1
+        },
+        {
+          "input": [
+            1,
+            1
+          ],
+          "hidden": [
+            0,
+            0
+          ],
+          "target": 0
+        }
+      ],
+      "activation_derivative_max_error": 2.470439408597258e-10,
+      "categorical_ce_decimal": "1.40760596444438030448291990454507045147294710830619407473",
+      "categorical_ce_stable": 1.4076059644444285,
+      "categorical_gradient": [
+        -0.7552715289452023,
+        0.6652409557748218,
+        0.09003057317038046
+      ],
+      "categorical_gradient_max_error": 6.397455898365934e-10,
+      "extreme_logits_BCE": "finite at -1000 and 1000 for either target",
+      "rmsprop": [
+        {
+          "v": "0.4",
+          "w": "0.683772233983162066800110645556728146628044486067478317314250"
+        },
+        {
+          "v": "0.46",
+          "w": "0.831214190138059200258035783092075301088821623544071539765342"
+        }
+      ],
+      "coupled_l2": [
+        0.97,
+        1.996
+      ],
+      "decoupled_decay": [
+        0.97,
+        1.978
+      ],
+      "clipped_gradient": [
+        1.2,
+        1.6
+      ],
+      "dropout_mean": 0.5,
+      "deterministic_relu": 0,
+      "transfer_head_parameters": 51
+    }
+  },
+  "scripts/verify_sequence.py": {
+    "exit_code": 0,
+    "result": {
+      "status": "PASS",
+      "document_frequencies": [
+        2,
+        1,
+        2,
+        1
+      ],
+      "idf": [
+        1.2876820724517808,
+        1.6931471805599454,
+        1.2876820724517808,
+        1.6931471805599454
+      ],
+      "normalized_first_document": [
+        0.8944271909999159,
+        0.0,
+        0.4472135954999579,
+        0.0
+      ],
+      "rnn_states": [
+        0.7615941559557649,
+        0.3633994843890525,
+        -0.6741436761583508
+      ],
+      "shared_recurrence_gradient": -0.2551959319605769,
+      "recurrence_difference": 3.255629099641055e-11,
+      "lstm_cell": 1.7,
+      "lstm_hidden": 0.7483272564824792,
+      "attention_weights": [
+        [
+          0.25,
+          0.75
+        ]
+      ],
+      "attention_output": [
+        [
+          0.5,
+          3.0
+        ]
+      ],
+      "attention_q_gradient": 2.0625,
+      "attention_gradient_difference": 5.658478130499134e-10,
+      "causal_weights": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.5,
+          0.5,
+          0.0
+        ],
+        [
+          0.3333333333333333,
+          0.3333333333333333,
+          0.3333333333333333
+        ]
+      ],
+      "memory_MiB": {
+        "128": 0.5,
+        "256": 2.0
+      },
+      "permutation_equivariance": "PASS",
+      "future_value_invariance": "PASS"
+    }
+  },
+  "scripts/verify_tools_math.py": {
+    "exit_code": 0,
+    "result": {
+      "status": "PASS",
+      "bootstrap_cases": 256,
+      "bootstrap_mean": 6.0,
+      "bootstrap_variance": 2.5,
+      "omission_n4": 0.31640625,
+      "aic_bic": [
+        {
+          "k": 3,
+          "log_likelihood": -120,
+          "aic": 246,
+          "bic": 253.81551055796427
+        },
+        {
+          "k": 5,
+          "log_likelihood": -117,
+          "aic": 244,
+          "bic": 257.0258509299405
+        }
+      ],
+      "dimension_cells": [
+        5,
+        25,
+        3125,
+        9765625
+      ],
+      "matrix_product": [
+        [
+          4,
+          5
+        ],
+        [
+          10,
+          2
+        ]
+      ],
+      "gradient": [
+        0.25,
+        0
+      ],
+      "finite_difference_gradient": [
+        0.24999999999608666,
+        0.0
+      ],
+      "two_coin_mean": "1",
+      "two_coin_variance": "1/2",
+      "zero_covariance_dependent_example": "0",
+      "bayes_posterior": "2/13",
+      "cross_entropy": [
+        0.2231435513142097,
+        1.6094379124341003
+      ],
+      "convex_chords_checked": 245,
+      "bayes_error": 0.25
+    }
+  },
+  "scripts/verify_training.py": {
+    "exit_code": 0,
+    "result": {
+      "checks": "PASS",
+      "momentum_points_checked": 26,
+      "single_gradient_variance": 2.6666666666666665,
+      "pair_gradient_variance": 0.6666666666666666,
+      "adam": [
+        {
+          "step": 1,
+          "m": 0.2,
+          "v": 0.004,
+          "corrected_m": 2.0,
+          "corrected_v": 4.0,
+          "theta": 0.9000000005
+        },
+        {
+          "step": 2,
+          "m": 0.08,
+          "v": 0.004996,
+          "corrected_m": 0.42105263157894735,
+          "corrected_v": 2.499249624812406,
+          "theta": 0.8733662967024314
+        }
+      ],
+      "dropout_masks_checked": 32,
+      "early_stopping": {
+        "stop": 7,
+        "restore": 5
+      },
+      "xavier_uniform_bound": 0.2,
+      "he_standard_deviation": 0.1414213562373095,
+      "ten_sigmoid_like_factors": 9.5367431640625e-07
+    }
+  },
+  "scripts/verify_trees.py": {
+    "exit_code": 0,
+    "result": {
+      "status": "PASS",
+      "classification_best_threshold": "5/2",
+      "weighted_gini": "1/5",
+      "gini_drop": "3/10",
+      "regression_parent_rss": "27",
+      "regression_split_rss": [
+        "56/3",
+        "2",
+        "32/3"
+      ],
+      "naive_bayes_posterior": "12/13",
+      "beta_posterior_mean": "3/5",
+      "mean_probability": "197/300",
+      "ensemble_variance": [
+        0.28,
+        0.20800000000000002
+      ],
+      "enumerated_correlated_variance": 2.3333333333333335,
+      "gradient_boosting_before": "8/3",
+      "gradient_boosting_after": "7/6",
+      "adaboost_alpha": 0.5493061443340549,
+      "adaboost_weights": [
+        0.16666666666666666,
+        0.16666666666666666,
+        0.16666666666666666,
+        0.5000000000000001
+      ]
+    }
+  },
+  "scripts/verify_reliability.py": {
+    "exit_code": 0,
+    "result": {
+      "status": "PASS",
+      "population_mean": 50.0,
+      "complete_case_mean": 32.0,
+      "adjusted_mean": 50.0,
+      "quartiles": [
+        2.0,
+        3.0
+      ],
+      "fences": [
+        0.5,
+        4.5
+      ],
+      "outlier_mean": 21.6,
+      "outlier_median": 2.0,
+      "clipped_mean": 2.6,
+      "binary_variances": [
+        0.25,
+        0.09,
+        0.0099
+      ],
+      "expected_counts": [
+        [
+          8.0,
+          12.0
+        ],
+        [
+          8.0,
+          12.0
+        ]
+      ],
+      "chi2": "20/3",
+      "xor_contingency_tables": [
+        [
+          [
+            1,
+            1
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        [
+          [
+            1,
+            1
+          ],
+          [
+            1,
+            1
+          ]
+        ]
+      ],
+      "nearest_indices": [
+        1,
+        2,
+        1,
+        4,
+        3
+      ],
+      "tomek_links": [
+        [
+          1,
+          2
+        ]
+      ],
+      "forward_candidate_sets": 7,
+      "forward_fivefold_fits": 35,
+      "TPR": 0.6,
+      "precision": 0.72,
+      "sigmoid_sum": 1.5,
+      "softmax_sum": 1.0
+    }
+  }
+}

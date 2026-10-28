@@ -1,0 +1,10 @@
+\begin{tikzpicture}[x=38mm,y=18mm]
+\node[lab] at (1.5,2.3) {预测类别};
+\node[lab] at (1,1.65) {正类};\node[lab] at (2,1.65) {负类};
+\node[lab,rotate=90] at (-.05,.5) {真实类别};
+\node[lab] at (.45,1) {正类};\node[lab] at (.45,0) {负类};
+\node[box,minimum width=35mm,minimum height=15mm] at (1,1) {TP：18};
+\node[box,minimum width=35mm,minimum height=15mm,draw=Amber,fill=Amber!8] at (2,1) {FN：12};
+\node[box,minimum width=35mm,minimum height=15mm,draw=Amber,fill=Amber!8] at (1,0) {FP：7};
+\node[box,minimum width=35mm,minimum height=15mm] at (2,0) {TN：63};
+\end{tikzpicture}

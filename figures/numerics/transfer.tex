@@ -1,0 +1,7 @@
+\begin{tikzpicture}[node distance=12mm]
+\node[box,text width=25mm] (x) {目标任务输入};
+\node[box,right=of x,text width=40mm] (base) {预训练特征提取器\\输出$d$维表示};
+\node[box,right=of base,text width=32mm] (head) {新任务头\\输出$K$类logits};
+\draw[flow] (x)--(base);\draw[flow] (base)--(head);
+\node[lab,below=10mm of base,text width=68mm,align=center] {冻结：不更新底座参数；微调：更新选定参数。\\两种情况都要规定训练/评估模式与预处理。};
+\end{tikzpicture}

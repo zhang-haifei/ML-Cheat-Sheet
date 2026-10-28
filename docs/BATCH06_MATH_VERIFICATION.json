@@ -1,0 +1,55 @@
+{
+  "status": "PASS",
+  "bootstrap_cases": 256,
+  "bootstrap_mean": 6.0,
+  "bootstrap_variance": 2.5,
+  "omission_n4": 0.31640625,
+  "aic_bic": [
+    {
+      "k": 3,
+      "log_likelihood": -120,
+      "aic": 246,
+      "bic": 253.81551055796427
+    },
+    {
+      "k": 5,
+      "log_likelihood": -117,
+      "aic": 244,
+      "bic": 257.0258509299405
+    }
+  ],
+  "dimension_cells": [
+    5,
+    25,
+    3125,
+    9765625
+  ],
+  "matrix_product": [
+    [
+      4,
+      5
+    ],
+    [
+      10,
+      2
+    ]
+  ],
+  "gradient": [
+    0.25,
+    0
+  ],
+  "finite_difference_gradient": [
+    0.24999999999608666,
+    0.0
+  ],
+  "two_coin_mean": "1",
+  "two_coin_variance": "1/2",
+  "zero_covariance_dependent_example": "0",
+  "bayes_posterior": "2/13",
+  "cross_entropy": [
+    0.2231435513142097,
+    1.6094379124341003
+  ],
+  "convex_chords_checked": 245,
+  "bayes_error": 0.25
+}

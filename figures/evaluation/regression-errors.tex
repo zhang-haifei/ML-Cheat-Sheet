@@ -1,0 +1,14 @@
+\begin{tikzpicture}
+\begin{axis}[width=.83\textwidth,height=60mm,xmin=.7,xmax=3.3,ymin=.5,ymax=4.5,
+ xlabel={样本编号 $i$},ylabel={目标与预测值},xtick={1,2,3},ytick={1,2,3,4},
+ grid=major,grid style={gray!15},tick label style={font=\small},
+ legend style={font=\small,at={(.5,-.23)},anchor=north,legend columns=3,draw=none}]
+\addplot[Teal,only marks,mark=*,mark size=2pt] coordinates {(1,1)(2,2)(3,3)};
+\addlegendentry{真实 $y_i$}
+\addplot[Amber,only marks,mark=square*,mark size=2pt] coordinates {(1,1)(2,2)(3,4)};
+\addlegendentry{预测 $\hat y_i$}
+\addplot[Quiet,dashed,domain=.7:3.3]{2};
+\addlegendentry{目标均值 $\bar y=2$}
+\draw[<->,Amber,thick] (axis cs:3,3.08)--(axis cs:3,3.92);
+\end{axis}
+\end{tikzpicture}

@@ -1,0 +1,268 @@
+\chapter{树、概率模型与集成学习}
+\label{ch:trees}
+
+树把输入空间切成若干区域；朴素贝叶斯通过条件分布计算类别后验；集成学习组合多个模型。
+本章先理解单个预测怎样产生，再解释组合的价值与限制。
+
+\begin{keyidea}[预测结构决定了检查重点]
+树关注切分与叶子，概率模型关注分布假设和概率方向，集成方法关注模型之间的依赖与组合规则。
+任何一种训练方法都仍需正确划分、训练内调参和独立评估。
+\end{keyidea}
+
+\section{分类树：按规则进入叶子}
+\label{sec:tree-classification}
+决策树（Decision Tree）依次询问特征条件，把输入送到一个叶节点。
+叶子可给出多数类别或根据训练记录估计的类别比例。
+下面用八条样本说明一次二元切分。
+
+\begin{figure}[H]
+\centering\input{figures/trees/classification}
+\caption{根节点正负各4条；左叶3条，右叶5条。条件按输入特征判断。}
+\end{figure}
+\readfigure{真实标签为$[1,1,1,0,0,0,0,1]$、输入$x_1=0,\ldots,7$时，
+阈值2.5产生图中计数。右叶仍有一个正样本，所以叶子不一定纯，也不一定全部预测正确。}
+
+分类节点的Gini不纯度为$G=1-\sum_kp_k^2$；熵为$H=-\sum_kp_k\log_2p_k$，约定$0\log0=0$。
+切分后按子节点样本数加权。此例父Gini为0.5，子节点加权Gini为
+$\frac38\times0+\frac58\times[1-(1/5)^2-(4/5)^2]=0.2$，下降0.3。
+
+\quick{训练时用标签评价候选切分；预测时沿已确定规则走树，不需要新样本的标签。}
+
+\clearpage
+\section{回归树：叶子输出常数}
+\label{sec:tree-regression}
+平方损失回归树在区域$R_m$输出训练目标均值$c_m$，
+可写成$\hat f(\vct x)=\sum_mc_m\mathbf1[\vct x\in R_m]$。
+每次尝试特征和阈值，使左右子区域内的残差平方和较小。
+
+\begin{figure}[H]
+\centering\input{figures/trees/regression}
+\caption{四条记录$(0,1),(1,1),(2,5),(3,7)$，在$x=1.5$切分成两个叶子。}
+\end{figure}
+\readfigure{左叶预测1，右叶预测6，平方误差和为0+1+1=2。
+不切分时输出总体均值3.5，平方误差和为27。
+单次切分降低训练误差，不等于已经证明泛化改善。}
+
+叶子均值是在固定区域下平方误差的最优常数；若改为绝对误差，最优常数相应为中位数。
+常规轴向切分使预测呈分段常数，通常不能像线性趋势那样向训练目标范围之外外推。
+
+\begin{pitfall}[贪心不等于全局最优树]
+逐节点选择当前最佳切分是局部搜索。
+它不保证给定深度下找到所有可能树中的最优结构，样本的小变化也可能改变切分。
+\end{pitfall}
+
+\clearpage
+\section{树的复杂度与实现边界}
+\label{sec:tree-control}
+树越深、叶子越小，通常越能适应训练样本细节。
+限制深度、叶子最少样本数、最小增益或作代价复杂度剪枝，都是控制方式。
+具体参数应在训练内验证，而不是按训练误差一直生长到零。
+
+\begin{center}
+\begin{tabularx}{\textwidth}{P{25mm}P{44mm}Y}
+\toprule
+经典方法 & 常见选择准则 & 理解边界\\
+\midrule
+ID3 & 信息增益 & 经典形式面向离散分类特征。\\
+C4.5 & 增益率及相关启发式 & 用于减轻取值数偏好，非简单任意最大化比值。\\
+CART & 分类常用Gini，回归常用平方误差 & 二元树；可有不同损失与实现扩展。\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+原生类别与缺失支持取决于算法和软件版本，不能仅凭“决策树”这个名称假定都支持。
+常规阈值树一般不需要数值标准化，但无序类别的整数编码仍可能改变可表达的分组。
+单棵浅树通常容易读；很深的树和大量树的组合则难以完整解释。
+
+\quick{树可以表达特征交互；不能笼统说树忽略特征之间的所有关联。}
+
+\clearpage
+\section{朴素贝叶斯：给定类别后作独立近似}
+\label{sec:tree-naive-bayes}
+朴素贝叶斯（Naive Bayes）用类先验$P(Y=c)$及各特征的类条件分布，作近似
+\[
+ P(\vct x\mid Y=c)\approx\prod_jP(x_j\mid Y=c),\qquad
+ P(Y=c\mid\vct x)\propto P(Y=c)\prod_jP(x_j\mid Y=c).
+\]
+连续特征应使用相应密度，而非把单点概率写成正数。
+“朴素”假设是\textbf{给定类别后的特征条件独立}，不是要求所有特征无条件独立。
+
+\begin{center}
+\begin{tabular}{lrrr}
+\toprule
+观测$x_1=1,x_2=0$ & 类先验 & $P(x_1=1\mid c)$ & $P(x_2=0\mid c)$\\
+\midrule
+类别1 & 0.6 & 0.8 & 0.5\\
+类别0 & 0.4 & 0.2 & 0.25\\
+\bottomrule
+\end{tabular}
+\end{center}
+未归一化分数分别为0.24与0.02；归一化得到$P(Y=1\mid\vct x)=12/13\approx0.923$。
+0--1损失下选择最大后验；错误成本不同则应比较期望成本。
+
+\begin{pitfall}[不要在后验上再乘一次先验]
+先验已经进入贝叶斯公式。特征强相关时，独立近似可能重复累计证据，
+分类仍可能有效，但输出概率容易过度自信，需要独立检查。
+\end{pitfall}
+
+\clearpage
+\section{概率模型的估计与数值实现}
+\label{sec:tree-probability-estimation}
+不同朴素贝叶斯版本对输入作不同假设。
+
+\begin{center}
+\begin{tabularx}{\textwidth}{P{31mm}P{45mm}Y}
+\toprule
+版本 & 常见输入/假设 & 需要检查\\
+\midrule
+Gaussian NB & 类别内数值特征的高斯密度。 & 方差与分布形态，零方差的稳定处理。\\
+Multinomial NB & 词频等非负计数特征。 & 词典、平滑、非负输入；不是任意有符号数值。\\
+Bernoulli NB & 二元是否出现。 & 出现与未出现都进入相应概率。\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+对离散计数，平滑可避免训练中未见事件使整项乘积为零。
+例如有$K$种取值、总计数$N$、某取值计数$N_j$，加法平滑为$(N_j+\alpha)/(N+K\alpha)$，$\alpha>0$。
+实际常用$\log P(c)+\sum_j\log P(x_j\mid c)$计算，再用稳定方式归一化。
+
+\subsection{MLE、MAP和后验均值不能混用}
+MLE最大化似然，MAP最大化后验，平方损失下的贝叶斯参数点估计为后验均值。
+例如硬币2次正面、1次反面，正面概率$\theta$的MLE为$2/3$。
+均匀先验下，后验密度与$\theta^2(1-\theta)$成比例，即Beta$(3,2)$分布；
+MAP为$2/3$，后验均值为$3/5$。均匀先验没有让均值也自动等于MLE。
+
+\quick{参数估计的不确定性、模型的预测概率和最终决策规则，是相连但不同的对象。}
+
+\clearpage
+\section{Bagging与随机森林：让平均更有价值}
+\label{sec:tree-bagging}
+Bagging（Bootstrap Aggregating）在多份有放回重采样数据上拟合模型，再平均或投票。
+随机森林（Random Forest）进一步在\textbf{每个节点的切分}中随机考虑特征子集，
+常结合Bootstrap，以减少树之间相似的错误。
+
+\begin{figure}[H]
+\centering\input{figures/trees/bagging}
+\caption{并列训练与组合示意；仅画三个模型以说明流程。}
+\end{figure}
+\readfigure{回归可平均预测。分类可硬投票或平均类别概率后决策，具体要看算法实现。
+三模型正类概率0.49、0.49、0.99，硬投票预测0，但概率均值约0.657会预测1。}
+
+若$B$个模型预测方差都为$\sigma^2$、两两相关系数为$\rho$，其均值方差为
+\[
+ \sigma^2\left[\rho+\frac{1-\rho}{B}\right].
+\]
+$\sigma^2=1,\rho=0.2$时，10模型得0.28，100模型得0.208。
+这个简化分析说明相关误差不能仅靠无限增加树数消除，不是对所有森林的精确测量公式。
+
+袋外（Out-of-Bag）记录可用于相应评估，但分组、时间约束与数据处理也需保持正确。
+随机森林能降低单树的高方差风险，仍可能过拟合或遭遇分布变化。
+
+\clearpage
+\section{特征重要性：量的是哪种贡献？}
+\label{sec:tree-importance}
+树的不纯度重要性（Mean Decrease in Impurity, MDI）累计某特征参与切分时带来的加权不纯度下降。
+它反映训练中的使用方式，可能偏向可尝试切分较多的高基数特征。
+
+\begin{center}
+\begin{tabularx}{\textwidth}{P{35mm}Y}
+\toprule
+方法 & 解释与限制\\
+\midrule
+不纯度重要性 & 来自训练切分；高基数、相关特征和过拟合可影响排序。\\
+置换重要性 & 固定已拟合模型，打乱特征后比较评估分数变化；依赖数据、指标与模型。\\
+分组重要性 & 可把同一原始变量的多个编码列作为一组处理。\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+若一个类别变量拆成三个独热列，MDI分别为0.10、0.04、0.06，
+三者求和0.20可作为该模型对原变量的汇总，但不自动消除基数偏好。
+若做分组置换，应对整组使用同一行排列，以保持合法的独热组合；不能随意独立打乱各列。
+
+置换重要性可在开发数据的留出部分计算。若据此反复选择特征或模型，该部分已经参与选择，
+不能再把其结果当作完全未使用的最终测试。
+
+\begin{pitfall}[相关特征可能掩盖彼此的重要性]
+一个特征打乱后，另一个仍提供相似信息，分数下降可能很小。
+这不等于两者都无信息；高重要性也不证明因果作用。
+\end{pitfall}
+
+\clearpage
+\section{梯度提升：逐步拟合修正方向}
+\label{sec:tree-gradient-boosting}
+梯度提升（Gradient Boosting）构建加法模型$F_m=F_{m-1}+\nu h_m$。
+新模型拟合当前损失对预测值的负梯度方向；$\nu$是收缩步长。
+平方损失时，这个方向恰好是残差$y_i-F_{m-1}(x_i)$。
+
+\begin{figure}[H]
+\centering\input{figures/trees/boosting}
+\caption{每轮依赖当前预测。一般损失的修正目标不一定是普通数值残差。}
+\end{figure}
+\readfigure{目标$[0,2,4]$，初始常数预测为2。
+残差$[-2,0,2]$若由一个树桩拟合成$[-2,1,1]$，取$\nu=0.5$，
+新预测为$[1,2.5,2.5]$，训练MSE从$8/3$下降为$7/6$。}
+
+Boosting不都通过“给错样本加权”实现；梯度提升也不是只拟合前一棵树的错误，
+而是针对\textbf{当前全部组合}的损失更新。树深、学习率、轮数、采样与正则化共同影响结果。
+XGBoost、LightGBM等是相关的树提升实现，细节和默认行为应查具体版本文档。
+
+\quick{训练损失下降是一个过程信号；轮数与停止仍应根据合适的验证表现选择。}
+
+\clearpage
+\section{AdaBoost：一个完整的二分类权重步骤}
+\label{sec:tree-adaboost}
+经典离散二分类AdaBoost使用$y_i,h_m(x_i)\in\{-1,1\}$及归一化样本权重$D_m(i)$。
+\[
+ e_m=\sum_iD_m(i)\mathbf1[h_m(x_i)\ne y_i],\qquad
+ \alpha_m=\frac12\log\frac{1-e_m}{e_m},
+\]
+\[
+ D_{m+1}(i)=\frac{D_m(i)\exp[-\alpha_my_ih_m(x_i)]}{Z_m},\qquad
+ H(x)=\operatorname{sign}\!\left(\sum_m\alpha_mh_m(x)\right).
+\]
+$Z_m$使权重和为1；边界、停止与平票需约定。
+
+\begin{figure}[H]
+\centering\input{figures/trees/adaboost}
+\caption{四个样本初始均为1/4，仅第4个被当前弱模型分错。}
+\end{figure}
+\readfigure{$e=1/4$、$\alpha=\frac12\log3\approx0.549$。
+更新归一化后，错样本权重为1/2，另外三个各为1/6；
+这是相对权重变化，不是重新采集了更多错样本。}
+
+若$e=0$，应采用相应提前停止/有限数值处理；不能直接除零。
+若$e\geq1/2$，没有上述正权重弱优势，需按算法策略停止或处理，而非机械继续。
+噪声标签和离群记录可能被反复强调，轮数也需验证。
+
+\clearpage
+\section{投票、Boosting与Stacking怎样选择？}
+\label{sec:tree-compare}
+集成不是保证每个模型都正确，而是利用预测之间的差异及组合结构。
+如果所有模型犯同样的错误，增加数量帮助有限。
+
+\begin{center}
+\begin{tabularx}{\textwidth}{P{28mm}P{49mm}Y}
+\toprule
+方法 & 模型如何形成 & 常见检查\\
+\midrule
+Bagging/森林 & 重采样与随机化后分别拟合。 & 相关性、叶子限制、袋外/独立验证。\\
+Boosting & 根据已有组合逐步添加修正模型。 & 学习率与轮数、损失、噪声敏感性。\\
+Voting/平均 & 组合多个已定义的候选模型。 & 权重、概率与硬标签组合的差别。\\
+Stacking & 用基础模型的预测训练一个组合模型。 & 组合模型需使用折外预测，防止训练预测泄漏。\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+Stacking中，基础模型在某样本上的输入给第二层的预测，通常应由未用该样本训练的模型产生。
+用第一层对自己训练样本的拟合预测直接训练第二层，会让第二层看到过于乐观的输入。
+最终仍要评估包含预处理、第一层和第二层的完整流程。
+
+\subsection{自测与回看}
+森林的树是否必然相互独立？\textbf{不是。}
+梯度提升是否总是修改样本权重？\textbf{不是。}
+贝叶斯后验上是否还要再乘先验？\textbf{不需要。}
+特征重要性是否等于因果作用？\textbf{不等于。}
+
+\noindent\textbf{参考：}ISLR第二版第4、8章；scikit-learn的Decision Trees、Naive Bayes、Ensembles和Permutation importance文档。
+数字、流程图和权重图均独立构造。

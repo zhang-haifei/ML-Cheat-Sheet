@@ -1,0 +1,13 @@
+{
+  "target": "batch10",
+  "pages": 11,
+  "pdf_sha256": "4cbfc77364006bc532fe1753a847fc6f5ef930e73d59ecb99374b0be2ffcc855",
+  "overfull": 0,
+  "underfull": 0,
+  "missing_characters": 0,
+  "undefined_references": 0,
+  "source_files": 7,
+  "original_files_still_referenced": 0,
+  "original_image_occurrences": 0,
+  "inspected_total": 113
+}
