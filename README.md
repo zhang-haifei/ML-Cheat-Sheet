@@ -1,25 +1,30 @@
+最新规则：用户明确批准第二批样章及配套文件公开更新PR #1，取消逐批暂停验收；后续按约两小时会话检查点推进并保存。下文原逐批验收停点不再适用。
+
 # 机器学习与深度学习：图解速查手册
 
-本次草稿 PR 供验收第一批12张原始速查图的修订成果。
+面向初学者的中文图解参考书，按每批10–15张原图推进。
 
-- **先看 [12页验收样章 PDF](review/batch01.pdf)**，再看 [逐图处理说明](review/README.md)。
-- 新章为简体中文，覆盖网络结构、前向计算、激活、输出与损失、反向传播及一次完整参数更新。
-- 本次公开提交仅包括样章、配套 LaTeX、必要样式与审校记录；原 `main.tex` 和原始图像沿用主分支已有版本。
-- 92页整书重构工作稿和完整本地源码包已保留在本轮工作区，未包含在本次缩小范围的PR中。
+- [第二批13页样章：稳定训练](review/batch02.pdf) · [第二批说明](review/batch02.md)（已完成）
+- [第一批12页样章：神经网络基础](review/batch01.pdf) · [第一批说明](review/README.md)（用户已验收）
 
-## 编译与核验
+第二批接续讲解批量、SGD、动量、Adam、梯度消失、初始化、Dropout与提前停止。
+最终选用的原始插图全部换为独立图表；原资产与历史署名保留。当前累计详细审查24/287张，全书尚未完成。
 
-需要 XeLaTeX、latexmk、ctex、TikZ/PGFPlots、tcolorbox、常用数学与表格包，以及 Noto Serif/Sans/Mono CJK SC 字体。
+本分支公开范围为批次样章、支持LaTeX和审校记录。原main.tex与原始图像仍沿用主分支版本；整书重构和104页工作稿保存在本地，未包含于此PR。
+
+## 构建与核验
+
+需要XeLaTeX、latexmk、ctex、TikZ/PGFPlots、tcolorbox、常用数学与表格包，以及Noto Serif/Sans/Mono CJK SC字体。
 
 ```bash
 scripts/build.sh batch01
+scripts/build.sh batch02
 python scripts/verify_math.py
+python scripts/verify_training.py
 ```
 
-生成 `build/batch01.pdf`。本批PDF共12页，正文10页；全部页面已渲染检查，无溢出、缺字或未定义引用。
-梯度用有限差分独立核算。详见 `PROGRESS.md`、`docs/MATH_VERIFICATION.json`。
+输出build/batch01.pdf与build/batch02.pdf。两份独立样章均无Overfull、Underfull、缺字或未定义引用，均已渲染检查。
 
-图片库存 `IMAGE_INVENTORY.csv` 共287条，只有本批12张标记详细视觉核查，其余275张待审。
-原作者及历史贡献保留于原稿和 `work record.tex`。原图许可尚未逐图核实，本批正文使用独立编写的矢量图表。
+图片库存见IMAGE_INVENTORY.csv；第二批科学修订与核验见docs/BATCH02_AUDIT.md。原作者及贡献记录保留在原稿和work record.tex。
 
-**本轮在12张处暂停，等待用户质量验收；不自动开始第二批。全书未完成。**
+继续按约两小时会话推进；草稿PR不合并main。

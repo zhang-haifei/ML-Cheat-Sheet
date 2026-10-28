@@ -1,0 +1,453 @@
+\chapter{让训练稳定下来：批量、优化与正则化}
+\label{ch:training}
+
+知道怎样计算一次梯度，还不足以完成可靠训练。
+训练时要决定每步使用多少数据、怎样利用梯度、参数从哪里开始，以及何时停止。
+本章接着前向与反向传播的基础，把这些选择放回同一条训练流程。
+
+\begin{keyidea}[先分清三类问题]
+\textbf{训练算不动}：检查数据、梯度、初始化和学习率。
+\textbf{训练算得慢}：检查批量与优化器。
+\textbf{训练很好，验证不好}：检查数据划分与泄漏，再考虑正则化和停止时刻。
+不同问题可以同时出现，一个技巧不能替代整套诊断。
+\end{keyidea}
+
+\section{样本、批量、更新次数与轮次}
+\label{sec:train-batches}
+
+批量大小（Batch Size）是一次计算所用的样本数；一次优化器更新称为一步（Step）。
+训练轮次（Epoch）通常表示将整个训练集遍历一次。
+\textbf{一个epoch通常包含很多步，不能把两者混为同一个计数。}
+
+\begin{figure}[H]
+\centering
+\input{figures/training/minibatches}
+\caption{训练集有10个样本，批量大小为4，不丢弃最后一批时，一轮包含3个批量。数字是样本编号。}
+\label{fig:train-batches}
+\end{figure}
+
+\readfigure{本轮先打乱样本顺序，再依次取出4、4、2个样本。
+若每个批量更新一次参数，完整一轮就更新3次。
+下一轮可重新打乱顺序，避免固定顺序持续影响更新。}
+
+设训练样本数为 $n$，批量大小为 $B$，在\textbf{单份数据遍历、每批更新一次、保留末批}的设置下，
+每轮更新次数为
+\[
+ S=\left\lceil\frac nB\right\rceil.
+\]
+本例训练5轮共更新 $5\times3=15$ 次，而不是5次。
+若丢弃最后不足一批的数据，则每轮批数变成 $\lfloor n/B\rfloor$，也不再保证每个样本都被遍历。
+
+\begin{pitfall}[这条计数公式有适用范围]
+梯度累积、分布式采样、重复抽样和无限数据流会改变“批量—更新—轮次”的关系。
+例如先累积两个批量的梯度再更新一次，就不能再把批数直接当作更新次数。
+批量大小也没有通用的最佳值，应结合显存、吞吐量和验证效果选择。
+\end{pitfall}
+
+\clearpage
+\section{小批量SGD：用部分数据估计梯度}
+\label{sec:train-sgd}
+
+记单样本损失为 $\ell_i(\theta)$，未加正则化的训练目标为
+$J(\theta)=n^{-1}\sum_i\ell_i(\theta)$。
+全批量梯度下降每步使用所有样本；小批量随机梯度下降
+（Minibatch Stochastic Gradient Descent, Minibatch SGD）改用一小批样本：
+\begin{equation}
+ \vct g_t=\frac1{|\mathcal B_t|}\sum_{i\in\mathcal B_t}\nabla\ell_i(\theta_t),
+ \qquad \theta_{t+1}=\theta_t-\eta_t\vct g_t.
+ \label{eq:train-sgd}
+\end{equation}
+$\mathcal B_t$ 是当前批次的样本索引集合，$|\mathcal B_t|$ 是本批实际大小，$\eta_t>0$ 为学习率。
+最后不足一批时，也应按其实际大小求平均。严格说，单样本SGD取 $B=1$；实践中“SGD”也常泛指小批量版本。
+
+\subsection{一个能手算的梯度估计}
+设只有一个参数 $\theta$，三个目标值为 $y_1=0,y_2=2,y_3=4$，
+单样本损失 $\ell_i(\theta)=\tfrac12(\theta-y_i)^2$。
+固定 $\theta=0$，可得：
+
+\begin{center}
+\small
+\begin{tabularx}{.93\textwidth}{P{25mm}Y Y}
+\toprule
+样本目标 & 单样本梯度 $\theta-y_i$ & 学习率0.1时的下一步参数\\
+\midrule
+$0$ & $0$ & $0$\\
+$2$ & $-2$ & $0.2$\\
+$4$ & $-4$ & $0.4$\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+全体平均梯度为 $-2$，全批量一步会得到 $\theta'=0.2$。
+若均匀选取一个样本，三个候选梯度的平均同样是 $-2$；
+若均匀选两个不同样本，三种候选批量的平均梯度分别是 $-1,-2,-3$，其平均仍是 $-2$。
+本例后者的梯度估计方差更小，但一次计算也更贵。
+
+\begin{keyidea}[平均方向有用，不代表每一步都下降]
+对固定参数均匀抽样，批量平均梯度的期望等于整体梯度。
+具体一次抽到的梯度可能偏离整体方向，因此小批量损失或整体训练损失都可能短暂上升。
+每轮不放回随机重排与每步独立抽样的随机过程不同，不能不加条件地套用相同的独立性假设。
+\end{keyidea}
+
+\quick{比较批量大小时，要同时关注更新次数、处理的样本数与实际耗时，不能只比较epoch数。}
+
+\clearpage
+\section{动量：给更新方向加上记忆}
+\label{sec:train-momentum}
+
+普通SGD只看当前梯度；动量法（Momentum）还保留过去的方向。
+本书采用以下一种常见约定，初始 $\vct v_0=0$：
+\begin{equation}
+ \vct v_t=\beta\vct v_{t-1}+\vct g_t,\qquad
+ \theta_t=\theta_{t-1}-\eta\vct v_t,\quad 0\leq\beta<1.
+ \label{eq:train-momentum}
+\end{equation}
+这里 $\vct g_t$ 在更新前的 $\theta_{t-1}$ 计算。
+持续同向的梯度会累积；相互抵消的梯度对历史方向的贡献较弱。
+另一些资料把当前梯度乘上 $1-\beta$，对应的学习率解释也会变化，比较公式时须先核对约定。
+
+\begin{figure}[H]
+\centering
+\input{figures/training/momentum}
+\caption{对 $J(\theta)=\theta^2/2$ 的真实递推轨迹：$\theta_0=3$、学习率0.1、动量初值0。}
+\label{fig:train-momentum}
+\end{figure}
+
+\readfigure{两种方法第一步都到2.7。第二步，普通梯度下降到2.43；
+动量累积值为 $0.8\times3+2.7=5.1$，参数到2.19。
+橙线更早接近0，也越过0并振荡；动量可以加快某些方向上的移动，但也可能造成过冲。}
+
+\begin{pitfall}
+不能把“带动量”理解为一定跳出局部极小值，或一定比普通SGD更快。
+效果取决于目标形状、学习率和动量系数。学习率过大时，带动量的更新仍可能不稳定。
+图中的比较仅针对给定二次函数与参数设置。
+\end{pitfall}
+
+\quick{先明确动量的定义，再调整学习率与 $\beta$。梯度历史本身也是优化器状态，不属于网络权重。}
+
+\clearpage
+\section{RMSprop与Adam：按坐标调整更新}
+\label{sec:train-adam}
+
+不同参数坐标的梯度量级可能差别很大。
+RMSprop用梯度平方的指数滑动平均估计近期量级，再按坐标缩放更新。
+Adam（Adaptive Moment Estimation，自适应矩估计）同时平滑有符号梯度和梯度平方。
+
+\begin{figure}[H]
+\centering
+\input{figures/training/adam-flow}
+\caption{Adam的两条统计分支。平方和开方均为逐元素运算，二阶原点矩不是中心方差。}
+\label{fig:train-adam}
+\end{figure}
+
+\readfigure{上方分支保留方向信息，下方分支反映梯度的平方量级。
+两者先修正零初始化带来的早期缩小效应，再组合成参数更新。
+分母通常使近期梯度平方较大的坐标相对少走一些。}
+
+对无权重衰减的基本Adam，令 $\vct m_0=\vct v_0=0$，$t=1,2,\ldots$：
+\begin{align}
+ \vct m_t&=\beta_1\vct m_{t-1}+(1-\beta_1)\vct g_t,\label{eq:train-adam-m}\\
+ \vct v_t&=\beta_2\vct v_{t-1}+(1-\beta_2)(\vct g_t\odot\vct g_t),\\
+ \hat{\vct m}_t&=\frac{\vct m_t}{1-\beta_1^t},\qquad
+ \hat{\vct v}_t=\frac{\vct v_t}{1-\beta_2^t},\\
+ \theta_t&=\theta_{t-1}-\eta\,
+  \frac{\hat{\vct m}_t}{\sqrt{\hat{\vct v}_t}+\epsilon}.
+ \label{eq:train-adam-update}
+\end{align}
+其中 $\beta_1,\beta_2\in[0,1)$ 是平滑系数，$\epsilon>0$ 用于数值稳定；最后一式的除法也逐元素进行。
+偏差修正补偿指数平均的初始权重和，不表示对任意非平稳梯度过程都获得无偏估计。
+
+\begin{keyidea}[优化器选择的边界]
+SGD、带动量SGD、RMSprop与Adam都需要选择学习率。
+Adam的“自适应”不代表不需要调参，也不保证泛化优于SGD。
+AdamW还改变了权重衰减的处理方式，不能只凭名字把它与基本Adam完全等同。
+\end{keyidea}
+
+\clearpage
+\section{手算Adam的两步更新}
+\label{sec:train-adam-example}
+
+用一个参数看清偏差修正与历史记忆。设 $\theta_0=1$，$m_0=v_0=0$，
+$\eta=0.1$，$\beta_1=0.9$，$\beta_2=0.999$，$\epsilon=10^{-8}$。
+为单独检验更新规则，\textbf{人为给定}两次输入梯度为 $g_1=2$、$g_2=-1$；
+不把这组输入当作某项真实实验的测量结果。
+
+\subsection{第一步：先平均，再修正}
+\begin{align*}
+ m_1&=0.1\times2=0.2, &v_1&=0.001\times2^2=0.004,\\
+ \hat m_1&=0.2/(1-0.9)=2, &\hat v_1&=0.004/(1-0.999)=4,\\
+ \theta_1&=1-0.1\frac2{\sqrt4+10^{-8}}\approx0.900000.
+\end{align*}
+若只看未修正的 $m_1$ 和 $v_1$，数值大小受到零初始化的明显影响。
+修正后的第一步基本相当于按梯度符号走一个学习率长度，前提是梯度非零且 $\epsilon$ 可忽略。
+
+\subsection{第二步：新梯度已经反向，历史仍然存在}
+\begin{align*}
+ m_2&=0.9\times0.2+0.1\times(-1)=0.08,\\
+ v_2&=0.999\times0.004+0.001\times(-1)^2=0.004996,\\
+ \hat m_2&=0.08/(1-0.9^2)\approx0.421053,\\
+ \hat v_2&=0.004996/(1-0.999^2)\approx2.499250,\\
+ \theta_2&=\theta_1-0.1\frac{\hat m_2}{\sqrt{\hat v_2}+10^{-8}}
+             \approx0.873366.
+\end{align*}
+当前梯度 $g_2$ 虽为负，历史平均 $m_2$ 仍为正，因此参数这一步继续减小。
+Adam不是每一步都沿当前负梯度方向更新，这也解释了为什么不能仅由当前梯度符号判断实际移动方向。
+
+\begin{pitfall}[续训时只恢复权重够不够？]
+若要接着同一次优化过程继续训练，通常还需恢复优化器的一阶矩、二阶矩、步数，
+以及学习率调度等相关状态。只恢复网络权重后重新创建Adam，会改变后续更新轨迹。
+若只是做最终预测，则不需要这些优化器状态。
+\end{pitfall}
+
+\clearpage
+\section{梯度消失：链条越长，乘积可能越小}
+\label{sec:train-vanishing}
+
+反向传播连续应用链式法则。
+若一条标量计算链上每个局部导数都是 $q$，长度为 $L$ 时，总导数是 $q^L$。
+这给出了梯度消失（Vanishing Gradient）的一个最简单例子。
+
+\begin{figure}[H]
+\centering
+\input{figures/training/gradient-chain}
+\caption{标量链的导数连乘示例。纵轴为对数刻度；该图不代表任意实际网络的梯度曲线。}
+\label{fig:train-vanishing}
+\end{figure}
+
+\readfigure{当每一项只有 $1/4$ 时，乘10次约为 $9.54\times10^{-7}$；
+乘积很快变小。每项为1时量级不变；每项为1.5时则越来越大，提示梯度爆炸的另一种可能。
+纵轴每下降一个十进数量级，数值就缩小10倍。}
+
+真实网络的反传还包含\textbf{权重矩阵、激活导数、不同路径的求和}，
+不是只把激活导数相乘。图中保留的是链式法则的直觉，不能从Sigmoid导数不超过 $1/4$
+直接推出所有深层网络的参数梯度都按 $(1/4)^L$ 衰减。
+
+\subsection{怎样判断与缓解}
+早期层的梯度长期极小、参数几乎不变，可能提示梯度消失；但学习率过小、
+错误的梯度连接或数据问题也会造成训练停滞。应先核对计算与数据，再观察各层梯度量级。
+合适的激活、初始化和网络连接设计有助于稳定传播；后续架构中的残差连接也与此有关。
+
+\begin{keyidea}[两个常见误解]
+ReLU正半轴的局部导数为1，并不保证整个网络梯度稳定；权重连乘仍会影响量级。
+梯度裁剪通常用来限制过大的梯度，不能把已经消失的梯度恢复出来。
+\end{keyidea}
+
+\quick{训练不动时，同时检查梯度是否存在、数值是否有限、量级是否合理，以及优化器是否实际执行更新。}
+
+\clearpage
+\section{初始化：打破对称，并控制传播量级}
+\label{sec:train-initialization}
+
+初始化（Initialization）是选择训练的起点，不是预先找到损失的最小值。
+若一个隐藏层中对称位置的单元采用完全相同的权重，且其它条件保持对称，
+它们可能得到相同输出和梯度，一直学习重复的特征。因此权重通常随机初始化；偏置常可从0开始。
+
+\subsection{先分清输入数、输出数与分布参数}
+对 $W\in\R^{n_{\rm out}\times n_{\rm in}}$，
+$n_{\rm in}$ 是每个单元接收的输入数（fan-in），$n_{\rm out}$ 是本层输出单元数（fan-out），
+两者都不是网络的层数。下面列出两种常见设置：
+
+\begin{center}
+\small
+\renewcommand{\arraystretch}{1.35}
+\begin{tabularx}{\textwidth}{P{25mm}Y P{39mm}}
+\toprule
+方法 & 单个权重的分布 & 主要考虑\\
+\midrule
+Xavier均匀 & $U(-a,a),\ a=\sqrt{6/(n_{\rm in}+n_{\rm out})}$ & 增益为1时，折中前向与反向量级\\
+He正态 & $N(0,\sigma_w^2),\ \sigma_w^2=2/n_{\rm in}$ & 用于ReLU的常见fan-in设置\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\begin{figure}[H]
+\centering
+\input{figures/training/initialization}
+\caption{He初始化的量级直觉：在独立、零均值权重等近似条件下，补偿ReLU对二阶矩的缩减。}
+\label{fig:train-initialization}
+\end{figure}
+
+\readfigure{若 $z=\sum_j w_ja_j$，在相应独立性和均值假设下，
+$E[z^2]\approx n_{\rm in}\sigma_w^2 E[a^2]$。
+若 $z$ 的分布关于0对称，ReLU把二阶矩约减半，于是令 $\sigma_w^2=2/n_{\rm in}$
+可使经过一层后的二阶矩大致保持量级。ReLU输出均值一般不为0，所以这里使用二阶矩，而不把它无条件称作中心方差。}
+
+例如 $n_{\rm in}=100$、$n_{\rm out}=50$ 时，Xavier均匀的界限为 $a=0.2$；
+He正态的\textbf{方差}为0.02，\textbf{标准差}约为0.141421。
+不能把方差直接当作正态采样接口要求的标准差。
+
+\begin{pitfall}
+Xavier可与不同激活的增益配合；He也有fan-out等变体。
+表中仅列明示条件下的常见形式，不是所有结构的唯一规则。
+初始化控制起始量级，不能保证整段训练始终稳定。
+\end{pitfall}
+
+\clearpage
+\section{Dropout：训练时加噪声，评估时关掉}
+\label{sec:train-dropout}
+
+随机失活（Dropout）是一种正则化方法：训练时随机屏蔽一部分激活，减少网络对特定单元组合的依赖。
+本节采用常见的反向缩放Dropout（Inverted Dropout）。
+记丢弃概率为 $p\in[0,1)$、保留概率为 $q=1-p$，则
+\begin{equation}
+ \tilde{\vct a}=\frac{\vct m\odot\vct a}{q},\qquad
+ m_j\sim\operatorname{Bernoulli}(q).
+ \label{eq:train-dropout}
+\end{equation}
+普通逐元素Dropout对各位置独立采样掩码。屏蔽改变当前计算，不会永久删除参数或改变层的宽度。
+
+\begin{figure}[H]
+\centering
+\input{figures/training/dropout}
+\caption{一个具体掩码的效果。训练时保留值放大 $1/q$ 倍；标准评估时使用恒等映射。}
+\label{fig:train-dropout}
+\end{figure}
+
+\readfigure{本例保留第1、3个激活，屏蔽第2、4个，保留值乘2。
+这是一次随机采样，不表示每次一定恰好保留一半。
+评估时不再随机屏蔽，也不再重复做训练时的 $1/q$ 缩放。}
+
+对固定输入激活，$E[m_j]=q$，因此
+\[
+ E[\tilde a_j\mid a_j]=a_j,\qquad
+ \operatorname{Var}(\tilde a_j\mid a_j)=\frac pq a_j^2.
+\]
+缩放保持的是\textbf{该激活的条件期望}，不是保证整个非线性网络的输出
+等于所有随机子网络输出的精确平均。
+“训练许多共享参数的子网络”是一种理解方式，并非逐个独立训练或枚举所有子网络。
+
+\begin{pitfall}
+丢弃概率过高可能导致欠拟合或优化困难；Dropout也不保证验证效果改善。
+训练和验证时必须使用正确模式。若验证仍在随机丢弃，指标会额外波动；
+若在训练时提前关闭，则没有执行预期的正则化。
+\end{pitfall}
+
+\clearpage
+\section{提前停止：保存最优记录，再耐心等待}
+\label{sec:train-early-stopping}
+
+提前停止（Early Stopping）根据验证表现选择训练时长。
+验证指标可能波动，所以通常不会仅因某一轮上升就立刻停止。
+应事先规定监控指标、改进阈值、耐心轮数和最大轮数，并保存最佳检查点。
+
+\begin{figure}[H]
+\centering
+\input{figures/training/early-stopping}
+\caption{人为设定的损失序列，用于说明规则：监控验证损失，阈值为0，patience为2。不是实验测量结果。}
+\label{fig:train-early}
+\end{figure}
+
+\readfigure{第4轮验证损失从0.50升到0.52，暂记一次未改进；第5轮降到0.49，
+刷新最佳记录并把等待计数归零。第6、7轮连续未改进，到第7轮停止，最后恢复第5轮的权重。}
+
+本例明确采用：验证损失 $V_t<V_{\rm best}-\delta$ 才算改进；
+否则计数加1。连续未改进次数达到 $P$ 就停止。
+$\delta$ 是最小改进量（min-delta），$P$ 是耐心轮数（patience），本例分别为0和2。
+
+\begin{center}
+\small
+\begin{tabularx}{.94\textwidth}{P{18mm}Y Y Y}
+\toprule
+轮次 & 验证损失 & 最佳轮次 & 连续未改进数\\
+\midrule
+3 & 0.50 & 3 & 0\\
+4 & 0.52 & 3 & 1\\
+5 & 0.49 & 5 & 0\\
+6 & 0.51 & 5 & 1\\
+7 & 0.53 & 5 & 2：停止\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\begin{keyidea}[提前停止本身也是模型选择]
+最佳轮次不是总体泛化风险的已知最优点，而是当前验证规则选出的检查点。
+patience、阈值和监控指标仍需选择，反复尝试也可能过拟合验证集。
+最终测试集留到方案确定后评估，不用它决定停止时刻。
+\end{keyidea}
+
+\clearpage
+\section{把这些组件放回训练流程}
+\label{sec:train-workflow}
+
+训练和评估不是只差“是否计算梯度”。
+有些层在不同模式下具有不同计算行为，Dropout就是本章的例子。
+因此，\textbf{切换评估模式}与\textbf{关闭梯度记录}应分开理解。
+
+\begin{center}
+\small
+\renewcommand{\arraystretch}{1.4}
+\begin{tabularx}{\textwidth}{P{30mm}Y Y}
+\toprule
+环节 & 训练阶段 & 标准验证/预测阶段\\
+\midrule
+使用哪些数据 & 训练集各小批量 & 验证集或最终测试集\\
+Dropout & 随机掩码与 $1/q$ 缩放 & 恒等传递\\
+梯度与更新 & 对训练目标反传，执行优化器更新 & 通常关闭梯度记录，不更新参数\\
+记录什么 & 每样本平均训练损失等 & 固定评估口径下的损失和指标\\
+影响哪些选择 & 拟合模型参数 & 验证选方案；测试做最终评估\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\subsection{一轮可执行的检查顺序}
+\begin{enumerate}
+ \item 开始训练前，只用训练数据拟合预处理，并初始化网络与优化器状态。
+ \item 每轮打乱训练样本；对每批先清理上一批梯度，再前向、求损失、反传、更新。
+ \item 一轮结束后，切到评估模式，关闭不需要的梯度记录，遍历验证集。
+ \item 按\textbf{样本数}汇总损失，应用提前停止规则，必要时保存最佳权重。
+ \item 继续下一轮前切回训练模式；结束后恢复所选检查点，再做最终测试。
+\end{enumerate}
+
+若三批分别有4、4、2个样本，批内平均损失分别为0.2、0.4、0.8，
+全体每样本平均损失应为
+\[
+ \frac{4\times0.2+4\times0.4+2\times0.8}{10}=0.4,
+\]
+不能直接把三个批平均再等权平均，得到约0.467。
+
+\begin{pitfall}[训练曲线与验证曲线要有可比口径]
+启用Dropout等噪声或数据增强时，训练阶段的预测本来就更难；
+正则化项也可能只计入训练目标。
+因此“验证损失低于训练损失”不必然是错误，二者的差也不能直接全部归因于过拟合。
+诊断时可在统一评估模式、相同损失定义下额外比较。
+\end{pitfall}
+
+\clearpage
+\section{一页速查与自测}
+\label{sec:train-summary}
+
+\begin{center}
+\small
+\renewcommand{\arraystretch}{1.35}
+\begin{tabularx}{\textwidth}{P{40mm}Y}
+\toprule
+遇到的问题 & 先检查什么\\
+\midrule
+epoch与step对不上 & 是否保留末批、累积梯度或重复采样。\\
+小批量损失上下波动 & 抽样噪声、批量大小、学习率；单次上升不等于训练失败。\\
+动量移动过头 & 学习率与动量系数，不把惯性当作收敛保证。\\
+Adam续训轨迹变了 & 是否同时恢复矩估计、步数和调度状态。\\
+早期层几乎不更新 & 梯度连接、梯度量级、初始化、激活与学习率。\\
+Dropout评估不稳定 & 是否关掉标准评估时的随机丢弃。\\
+停止后效果反而差 & 是否恢复最佳轮次，而不是保留最后一轮。\\
+批量汇总指标不准确 & 是否按样本数加权，尤其是最后一个小批量。\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\subsection{三个自测问题}
+\begin{enumerate}
+ \item 有103个样本，批量32，保留末批且每批更新一次。5轮共更新多少次？
+ \item Inverted Dropout的丢弃概率为0.25。某个激活值3被保留时，输出是多少？
+ \item 验证损失依次为0.8、0.6、0.61、0.59、0.60、0.62，按本章规则 $\delta=0,P=2$，何时停止并恢复哪一轮？
+\end{enumerate}
+\textbf{参考答案：}（1）$5\lceil103/32\rceil=20$次。
+（2）$3/(1-0.25)=4$。（3）第6轮停止，恢复第4轮。
+
+\subsection{进一步查阅}
+\begin{itemize}
+ \item PyTorch文档：\href{https://docs.pytorch.org/docs/stable/generated/torch.optim.Adam.html}{Adam}、
+ \href{https://docs.pytorch.org/docs/stable/nn.init.html}{初始化}、
+ \href{https://docs.pytorch.org/docs/stable/generated/torch.nn.Dropout.html}{Dropout}，用于核对常见公式和模式约定。
+ \item Keras文档：\href{https://keras.io/api/callbacks/early_stopping/}{EarlyStopping}，用于核对监控、耐心轮数与恢复最佳权重的配置含义。
+\end{itemize}

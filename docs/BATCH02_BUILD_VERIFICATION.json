@@ -1,0 +1,18 @@
+{
+  "batch02": {
+    "pages": 13,
+    "overfull": 0,
+    "underfull": 0,
+    "missing_characters": 0,
+    "undefined_references": 0,
+    "errors": 0,
+    "sha256": "ffaf637f7da73a7a9f7619eb53cb120bb4581856d2c203f338b7a8e7b350622f"
+  },
+  "source_images": {
+    "total": 287,
+    "detailed": 24,
+    "batch01": 12,
+    "batch02": 12,
+    "not_yet_detailed": 263
+  }
+}

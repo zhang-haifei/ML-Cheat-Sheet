@@ -1,0 +1,12 @@
+\begin{tikzpicture}[x=12mm,y=12mm]
+\foreach \id [count=\k from 0] in {7,2,9,1,10,4,3,8,6,5}{
+ \node[draw=Teal,fill=Pale,minimum width=10mm,minimum height=8mm] at (\k,0) {$\id$};
+}
+\draw[decorate,decoration={brace,mirror,amplitude=4pt},Teal] (-.45,-.5)--(3.45,-.5)
+ node[midway,below=5pt,lab]{第1批：4个样本};
+\draw[decorate,decoration={brace,mirror,amplitude=4pt},Teal] (3.55,-.5)--(7.45,-.5)
+ node[midway,below=5pt,lab]{第2批：4个样本};
+\draw[decorate,decoration={brace,mirror,amplitude=4pt},Amber] (7.55,-.5)--(9.45,-.5)
+ node[midway,below=5pt,lab,text=Amber]{第3批：2个};
+\node[lab] at (4.5,1) {一轮：打乱顺序后，将10个训练样本遍历一次};
+\end{tikzpicture}

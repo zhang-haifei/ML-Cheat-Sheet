@@ -1,0 +1,8 @@
+\begin{tikzpicture}[node distance=7mm and 10mm]
+\node[box,text width=34mm] (input) {输入二阶矩\\$E[a^2]$};
+\node[box,text width=42mm,right=of input] (linear) {线性求和后的二阶矩\\$\approx n_{\rm in}\sigma_w^2 E[a^2]$};
+\node[box,text width=34mm,right=of linear] (relu) {ReLU后约减半\\$E[(a')^2]$};
+\draw[flow] (input)--(linear);
+\draw[flow] (linear)--(relu);
+\node[lab,below=10mm of linear] {He初始化：令 $n_{\rm in}\sigma_w^2/2\approx1$，保持二阶矩的量级};
+\end{tikzpicture}

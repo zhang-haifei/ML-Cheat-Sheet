@@ -1,0 +1,32 @@
+\documentclass[a4paper,11pt,oneside,openany]{book}
+\usepackage{styles/handbook}
+\hypersetup{pdftitle={第二批验收样章：稳定训练}}
+\begin{document}
+\frontmatter
+\hypersetup{pageanchor=false}
+\begin{titlepage}
+\vspace*{16mm}
+{\sffamily\color{Teal}\large 机器学习与深度学习：图解速查手册\par}
+\vspace{15mm}
+{\sffamily\bfseries\color{Ink}\Huge 稳定训练\par}
+\vspace{6mm}
+{\sffamily\color{Ink}\LARGE 从批量选择到提前停止\par}
+\vspace{12mm}
+\noindent\textcolor{Teal}{\rule{\textwidth}{1.2pt}}
+\vspace{7mm}
+\begin{keyidea}[第二批验收样章]
+本批详细核查12张训练主题原图，以独立绘图和表格重新组织。
+接续第一批，解释小批量、动量、Adam、初始化、Dropout与提前停止。
+本文件仅包含第二批样章；全书仍在分批修订。
+\end{keyidea}
+\vfill
+原项目作者：张海飞、郭金珊、任露芹、李慧、朱靖、朱弘毅\par
+\vspace{4mm}
+2026年10月28日\par
+\end{titlepage}
+\hypersetup{pageanchor=true}
+\tableofcontents
+\mainmatter
+\setcounter{chapter}{1}
+\input{chapters/training-stability}
+\end{document}

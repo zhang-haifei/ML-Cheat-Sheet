@@ -1,0 +1,12 @@
+\begin{tikzpicture}[node distance=7mm and 9mm]
+\node[box,text width=18mm] (g) {当前梯度\\$\vct g_t$};
+\node[box,text width=37mm,right=of g,yshift=9mm] (m) {有符号梯度的平滑\\一阶矩 $\vct m_t$};
+\node[box,text width=37mm,right=of g,yshift=-9mm] (v) {梯度平方的平滑\\二阶原点矩 $\vct v_t$};
+\node[box,text width=29mm,right=of m,yshift=-9mm] (c) {偏差修正\\$\hat{\vct m}_t,\hat{\vct v}_t$};
+\node[box,text width=23mm,right=of c] (u) {逐坐标更新\\参数};
+\draw[flow] (g.east)--(m.west);
+\draw[flow] (g.east)--(v.west);
+\draw[flow] (m.east)--(c.west);
+\draw[flow] (v.east)--(c.west);
+\draw[flow] (c)--(u);
+\end{tikzpicture}
