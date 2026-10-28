@@ -1,0 +1,15 @@
+\begin{tikzpicture}[node distance=7mm and 6mm]
+\node[box,text width=17mm] (x) {$x$};
+\node[box,text width=25mm,right=of x] (z) {$z=w_1x+b_1$};
+\node[box,text width=25mm,right=of z] (h) {$h=\ReLU(z)$};
+\node[box,text width=26mm,right=of h] (s) {$s=w_2h+b_2$};
+\node[box,text width=18mm,right=of s] (l) {$\ell(s,y)$};
+\draw[flow] (x)--(z);
+\draw[flow] (z)--(h);
+\draw[flow] (h)--(s);
+\draw[flow] (s)--(l);
+\draw[flow,draw=Amber] (l.south) -- ++(0,-9mm) -| (s.south);
+\draw[flow,draw=Amber] (s.south) -- ++(0,-9mm) -| (h.south);
+\draw[flow,draw=Amber] (h.south) -- ++(0,-9mm) -| (z.south);
+\node[lab,text=Amber] at ($(h.south)+(0,-17mm)$) {反向计算：上游梯度 $\times$ 局部导数};
+\end{tikzpicture}

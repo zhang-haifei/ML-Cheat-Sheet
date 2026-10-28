@@ -1,0 +1,24 @@
+{
+  "batch01": {
+    "pages": 12,
+    "overfull": 0,
+    "underfull": 0,
+    "missing_characters": 0,
+    "undefined_references": 0,
+    "errors": 0,
+    "sha256": "7629af34602c6b6f74cd78dc2df7b7ef72d17726599cc81e22e329461ae685cf"
+  },
+  "main": {
+    "pages": 92,
+    "overfull": 0,
+    "underfull": 15,
+    "missing_characters": 0,
+    "undefined_references": 0,
+    "errors": 0,
+    "sha256": "c365e77ab76acd45ecfd3c5175f9971f3efaee1d33148889d2cbebf3455c3923"
+  },
+  "source_images": {
+    "total": 287,
+    "detailed": 12
+  }
+}

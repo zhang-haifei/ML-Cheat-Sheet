@@ -1,0 +1,14 @@
+\begin{tikzpicture}[node distance=6mm and 7mm]
+\node[box,text width=29mm] (data) {训练集\\$\{(\vct x_i,y_i)\}$};
+\node[box,text width=29mm,right=of data] (model) {网络 $f_\theta$\\前向计算};
+\node[box,text width=29mm,right=of model] (loss) {损失 $J(\theta)$\\衡量预测偏差};
+\node[box,text width=29mm,below=of loss] (grad) {反向传播\\计算梯度};
+\node[box,text width=29mm,left=of grad] (update) {优化器\\更新参数 $\theta$};
+\draw[flow] (data)--(model);
+\draw[flow] (model)--(loss);
+\draw[flow] (loss)--(grad);
+\draw[flow] (grad)--(update);
+\draw[flow] (update)--(model);
+\node[box,text width=29mm,left=of update,draw=Amber,fill=Amber!5] (val) {验证集\\选择训练方案};
+\draw[flow,draw=Amber,dashed] (model.south west)--(val.north east);
+\end{tikzpicture}
