@@ -1,0 +1,13 @@
+\begin{tikzpicture}[x=1mm,y=1mm]
+\draw[Teal,fill=Pale] (0,0) rectangle (39,48);
+\node[lab] at (19.5,53) {试验结果};
+\foreach \y/\out in {39/反反,29/正反,19/反正,9/正正}{\node at (19,\y) {\out};}
+\draw[->,Quiet] (67,0)--(130,0) node[right,lab] {$X$};
+\foreach \x/\v in {72/0,96/1,120/2}{\draw[Quiet] (\x,0)--(\x,3);\node[lab,below] at (\x,-1) {$\v$};}
+\draw[flow] (39,39) to[bend left=15] (72,3);
+\draw[flow] (39,29) to[bend left=15] (96,3);
+\draw[flow] (39,19) to[bend left=10] (96,3);
+\draw[flow] (39,9) to[bend left=10] (120,3);
+\node[lab] at (94,49) {$X=$两次抛硬币的正面数};
+\node[lab] at (94,39) {“正反”与“反正”都映射到1};
+\end{tikzpicture}

@@ -1,0 +1,11 @@
+\begin{tikzpicture}
+\begin{axis}[width=139mm,height=65mm,xmin=-1,xmax=1,ymin=-.3,ymax=1.4,
+ xlabel={$x$},ylabel={$y$},legend style={font=\footnotesize,at={(.5,1.03)},anchor=south,legend columns=3},
+ xtick={-1,0,1},ytick={0,.5,1}]
+\addplot[Quiet,dashed,thick] table[x=x,y=signal,col sep=comma]{figures/foundations/fits.csv};\addlegendentry{信号$x^2$}
+\addplot[Teal,thick] table[x=x,y=degree0,col sep=comma]{figures/foundations/fits.csv};\addlegendentry{常数}
+\addplot[Ink,very thick] table[x=x,y=degree2,col sep=comma]{figures/foundations/fits.csv};\addlegendentry{二次}
+\addplot[Amber,thick] table[x=x,y=degree8,col sep=comma]{figures/foundations/fits.csv};\addlegendentry{八次}
+\addplot[only marks,mark=*,mark size=2pt,black] table[x=x,y=y,col sep=comma]{figures/foundations/observations.csv};\addlegendentry{训练点}
+\end{axis}
+\end{tikzpicture}

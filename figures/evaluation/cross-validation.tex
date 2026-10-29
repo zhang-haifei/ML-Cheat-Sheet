@@ -1,0 +1,14 @@
+\begin{tikzpicture}[x=22mm,y=9mm]
+\foreach \j in {1,...,5}{\node[lab] at (\j,0) {子集\j};}
+\foreach \i in {1,...,5}{
+ \node[lab,anchor=east] at (.35,-\i) {第\i 折};
+ \foreach \j in {1,...,5}{
+  \ifnum\i=\j
+   \node[draw=Amber,fill=Amber!12,minimum width=20mm,minimum height=7mm,font=\small] at (\j,-\i) {验证};
+  \else
+   \node[draw=Teal,fill=Pale,minimum width=20mm,minimum height=7mm,font=\small] at (\j,-\i) {训练};
+  \fi
+ }
+}
+\node[lab] at (3,-6.2) {每折重新拟合预处理与模型；独立测试集不出现在这张表中};
+\end{tikzpicture}

@@ -1,0 +1,8 @@
+\begin{tikzpicture}
+\begin{axis}[width=122mm,height=50mm,xmin=0,xmax=3,ymin=0,ymax=1.05,
+ xlabel={距离 $d=\lVert x-z\rVert_2$},ylabel={$K(x,z)$},
+ legend style={font=\small,at={(.98,.98)},anchor=north east}]
+\addplot[Teal,thick,domain=0:3,samples=90]{exp(-.25*x*x)};\addlegendentry{$\gamma=0.25$}
+\addplot[Amber,thick,domain=0:3,samples=90]{exp(-x*x)};\addlegendentry{$\gamma=1$}
+\end{axis}
+\end{tikzpicture}

@@ -1,0 +1,11 @@
+\begin{tikzpicture}[node distance=15mm and 15mm]
+\node[box,text width=25mm] (src) {源序列};
+\node[box,text width=31mm,right=of src] (enc) {Encoder\\编码源信息};
+\node[box,text width=31mm,right=of enc] (memory) {源表示\\作为$K,V$};
+\node[box,text width=25mm,below=of src] (tgt) {目标前缀};
+\node[box,text width=31mm,right=of tgt] (dec) {Decoder\\因果自注意力\\交叉注意力};
+\node[box,text width=31mm,right=of dec] (out) {下一个Token\\的logits};
+\draw[flow] (src)--(enc);\draw[flow] (enc)--(memory);
+\draw[flow] (tgt)--(dec);\draw[flow] (dec)--(out);
+\draw[flow] (memory.south)--++(0,-6mm)-|(dec.north);
+\end{tikzpicture}

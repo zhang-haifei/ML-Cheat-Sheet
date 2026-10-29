@@ -1,0 +1,7 @@
+\begin{tikzpicture}[node distance=6mm and 9mm]
+\node[box,text width=32mm] (z) {原始得分（logits）\\$\vct z=(2,1,0)$};
+\node[box,text width=38mm,right=of z] (shift) {减去最大值后取指数\\$(1,e^{-1},e^{-2})$};
+\node[box,text width=39mm,right=of shift] (p) {除以总和\\$(0.665,0.245,0.090)$};
+\draw[flow] (z)--(shift);
+\draw[flow] (shift)--(p);
+\end{tikzpicture}

@@ -1,0 +1,13 @@
+\begin{tikzpicture}[x=26mm,y=12mm]
+\foreach \r/\name in {0/原值,1/Min--Max,2/标准化}{
+ \node[lab,anchor=east] at (-.35,-\r) {\name};
+ \draw[->,draw=Quiet] (-.1,-\r)--(3.45,-\r);}
+\foreach \j/\raw/\mm/\std in {0/10/0/{-1.225},1/20/{0.5}/0,2/30/1/{1.225},3/40/{1.5}/{2.449}}{
+ \foreach \r/\v in {0/\raw,1/\mm,2/\std}{
+  \ifnum\j=3\relax\def\cc{Amber}\else\def\cc{Teal}\fi
+  \fill[\cc] (\j,-\r) circle (2pt);
+  \node[font=\small,above,text=\cc] at (\j,-\r) {$\v$};}}
+\draw[decorate,decoration={brace,mirror,amplitude=4pt},Teal] (-.15,-2.35)--(2.15,-2.35);
+\node[lab] at (1,-2.85) {训练数据：拟合缩放参数};
+\node[lab,align=center,text=Amber] at (3,-2.8) {新样本\\沿用参数};
+\end{tikzpicture}

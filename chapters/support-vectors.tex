@@ -1,0 +1,82 @@
+\chapter{支持向量机：用间隔约束分类}
+\label{ch:svm}
+
+支持向量机（Support Vector Machine, SVM）在分类得分中同时考虑间隔与违例代价。
+先理解线性情形，再理解核函数如何改变相似性计算。
+
+\begin{keyidea}[得分不直接等于概率]
+线性得分$s=\vct w^\top\vct x+b$的符号给出二分类规则。
+间隔关注样本离决策边界的程度；若需要概率，应另按适当流程估计或校准。
+\end{keyidea}
+
+\section{硬间隔与支持向量}
+\label{sec:svm-margin}
+对可线性分开的数据，硬间隔形式最小化$\frac12\lVert\vct w\rVert^2$，
+约束$y_i(\vct w^\top\vct x_i+b)\geq1$，其中$y_i\in\{-1,1\}$。
+在这个规范化下，两条间隔边界为$s=\pm1$，总几何宽度为$2/\lVert\vct w\rVert$。
+
+\begin{figure}[H]
+\centering\input{figures/kernel/margin}
+\caption{人工例子$\vct w=(1,0)$、$b=0$，圆形为负类，三角为正类；圈出的点位于间隔边界。}
+\end{figure}
+\readfigure{决策边界$x_1=0$，间隔边界为$x_1=\pm1$，总宽度为2。
+在硬间隔解中，贴住间隔约束的点决定边界；对偶中系数$\alpha_i>0$的训练点称支持向量。}
+
+\quick{硬间隔要求可分且对异常记录敏感；不可分时不能机械强制所有约束。}
+
+\clearpage
+\section{软间隔：正确分类也可能付出代价}
+\label{sec:svm-soft}
+软间隔允许松弛变量$\xi_i\geq0$：
+\[
+ \min_{\vct w,b,\xi}\frac12\lVert\vct w\rVert^2+C\sum_i\xi_i,
+ \qquad y_is_i\geq1-\xi_i,\quad C>0.
+\]
+最小可行松弛为$\xi_i=\max(0,1-y_is_i)$，即Hinge损失。
+本式使用损失求和，软件或其他章节若改为平均，参数缩放需相应比较。
+
+\begin{center}
+\begin{tabularx}{\textwidth}{P{27mm}P{24mm}Y}
+\toprule
+正类样本得分$s$ & 最小$\xi$ & 解释\\
+\midrule
+1.2 & 0 & 正确且在正侧间隔边界之外。\\
+0.4 & 0.6 & 正确，但进入间隔内部。\\
+0 & 1 & 在决策边界上，类别取决于平票约定。\\
+$-0.4$ & 1.4 & 落到错误一侧。\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+$\xi=0$不只表示“恰在间隔边界”；$\xi>0$也不都表示误分类。
+$C$越大，单位违例的惩罚越强，模型通常更努力适应训练约束；这不保证泛化更好。
+支持向量也可能在间隔内部或被误分，不能仅按“离边界最近”一句话定义全部软间隔情形。
+
+\begin{pitfall}[尺度会改变几何含义]
+线性间隔和常见核函数都受输入尺度影响。标准化应在训练内拟合；
+类别不平衡还可能需要类权重与合适评估，而不是只调整$C$。
+\end{pitfall}
+
+\clearpage
+\section{核函数：在相似性上建立非线性边界}
+\label{sec:svm-kernel}
+核函数满足$K(x,z)=\langle\phi(x),\phi(z)\rangle$，
+允许在不显式构造全部$\phi$坐标的情况下计算相应内积。
+核SVM得分可写为$s(x)=\sum_i\alpha_i y_iK(x_i,x)+b$。
+常见RBF核为
+\[
+ K(x,z)=\exp[-\gamma\lVert x-z\rVert_2^2],\qquad\gamma>0.
+\]
+
+\begin{figure}[H]
+\centering\input{figures/kernel/rbf}
+\caption{RBF相似度随距离降低；较大$\gamma$使影响更局部。}
+\end{figure}
+\readfigure{相同点的核值为1。$x=(0,0)$、$z=(1,1)$、$\gamma=0.5$时，核值为$e^{-1}\approx0.368$。
+指数的负号不能省略。核方法也不保证任意数据与标签都能理想泛化。}
+
+$C$与$\gamma$通常需要联合验证。核矩阵与求解成本可能随样本数迅速增加，
+较大任务可比较线性方法、核近似等方案。核相似性、得分和概率各有含义，不能混用。
+
+\noindent\textbf{参考：}ISLR第二版第9章；scikit-learn Support Vector Machines文档。
+图和数值例子为本书独立构造。

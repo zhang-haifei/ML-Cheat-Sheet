@@ -1,0 +1,13 @@
+\begin{tikzpicture}
+\begin{semilogyaxis}[width=.9\textwidth,height=64mm,xmin=0,xmax=12,
+ ymin=1e-8,ymax=1000,xlabel={标量链的局部导数连乘次数 $L$},ylabel={导数乘积的绝对值},
+ grid=major,grid style={gray!15},tick label style={font=\small},
+ legend style={font=\small,at={(.5,-.24)},anchor=north,legend columns=3,draw=none}]
+\addplot[Teal,thick,mark=*,samples at={0,...,12}]{.25^x};
+\addlegendentry{$(1/4)^L$}
+\addplot[Quiet,dashed,thick,domain=0:12]{1};
+\addlegendentry{$1^L$}
+\addplot[Amber,thick,mark=square*,samples at={0,...,12}]{1.5^x};
+\addlegendentry{$1.5^L$}
+\end{semilogyaxis}
+\end{tikzpicture}

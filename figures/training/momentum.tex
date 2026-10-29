@@ -1,0 +1,12 @@
+\begin{tikzpicture}
+\begin{axis}[width=.91\textwidth,height=62mm,xmin=0,xmax=25,
+ xlabel={更新次数 $t$},ylabel={参数 $\theta_t$},
+ grid=major,grid style={gray!15},tick label style={font=\small},
+ legend style={font=\small,at={(.5,-.22)},anchor=north,legend columns=2,draw=none}]
+\addplot[Teal,thick] table[x=step,y=sgd,col sep=comma]{figures/training/momentum-trajectory.csv};
+\addlegendentry{普通梯度下降}
+\addplot[Amber,thick,mark=*,mark size=1pt] table[x=step,y=momentum,col sep=comma]{figures/training/momentum-trajectory.csv};
+\addlegendentry{动量 $\beta=0.8$}
+\addplot[Quiet,dashed,domain=0:25]{0};
+\end{axis}
+\end{tikzpicture}

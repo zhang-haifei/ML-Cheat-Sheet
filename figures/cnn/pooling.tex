@@ -1,0 +1,14 @@
+\begin{tikzpicture}[x=8mm,y=8mm]
+\foreach \r/\a/\b/\c/\d in {0/1/3/2/0,1/4/6/1/5,2/2/1/8/7,3/0/3/4/9}{\foreach \j/\v in {0/\a,1/\b,2/\c,3/\d}{
+ \draw[Teal!40,fill=Pale] (\j,-\r) rectangle ++(1,-1);\node at (\j+.5,-\r-.5) {$\v$};}}
+\draw[Amber,thick] (0,0) rectangle (2,-2);
+\node[lab] at (2,1) {输入4$\times$4};
+\draw[flow] (4.5,-2)--(6,-2);
+\foreach \r/\a/\b in {0/6/5,1/3/9}{\foreach \j/\v in {0/\a,1/\b}{
+ \draw[Teal!40,fill=Pale] (7+\j,-\r-1) rectangle ++(1,-1);\node at (7.5+\j,-\r-1.5) {$\v$};}}
+\node[lab] at (8,1) {最大池化};
+\foreach \r/\a/\b in {0/3.5/2,1/1.5/7}{\foreach \j/\v in {0/\a,1/\b}{
+ \draw[Teal!40,fill=Pale] (12+\j,-\r-1) rectangle ++(1,-1);\node at (12.5+\j,-\r-1.5) {$\v$};}}
+\node[lab] at (13,1) {平均池化};
+\node[lab] at (7,-5) {窗口2$\times$2，步幅2，无填充；两种池化是不同选择};
+\end{tikzpicture}

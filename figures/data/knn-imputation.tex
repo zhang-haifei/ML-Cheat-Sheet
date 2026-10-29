@@ -1,0 +1,15 @@
+\begin{tikzpicture}
+\begin{axis}[width=133mm,height=43mm,xmin=0,xmax=10,ymin=-.3,ymax=1.6,
+ xlabel={观测到的特征 $A$},ytick=\empty,axis y line=none,axis x line=bottom,
+ xtick={1,2,2.1,8,9},xticklabels={1,2,,8,9}]
+\addplot[only marks,mark=*,mark size=3pt,Teal] coordinates {(1,0)(2,0)(8,0)(9,0)};
+\addplot[only marks,mark=diamond*,mark size=4pt,Amber] coordinates {(2.1,.6)};
+\draw[flow,dashed] (axis cs:2.1,.6)--(axis cs:1,0);
+\draw[flow,dashed] (axis cs:2.1,.6)--(axis cs:2,0);
+\node[lab,above] at (axis cs:2.1,.8) {$A=2.1,\ B=?$};
+\node[lab,above left] at (axis cs:1,.05) {$B=10$};
+\node[lab,below right] at (axis cs:2,-.02) {$B=12$};
+\node[lab,above] at (axis cs:8,.05) {$B=80$};
+\node[lab,above] at (axis cs:9,.05) {$B=90$};
+\end{axis}
+\end{tikzpicture}

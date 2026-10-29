@@ -1,0 +1,8 @@
+\begin{tikzpicture}[node distance=8mm and 11mm]
+\node[box,text width=24mm] (input) {$X$\\$3\times4$};
+\node[box,text width=27mm,right=of input,yshift=11mm] (h1) {头1输出\\$3\times2$};
+\node[box,text width=27mm,right=of input,yshift=-11mm] (h2) {头2输出\\$3\times2$};
+\node[box,text width=25mm,right=of $(h1)!0.5!(h2)$] (join) {拼接\\$3\times4$};
+\node[box,text width=25mm,right=of join] (out) {$W_O$投影\\$3\times4$};
+\draw[flow] (input)--(h1);\draw[flow] (input)--(h2);\draw[flow] (h1)--(join);\draw[flow] (h2)--(join);\draw[flow] (join)--(out);
+\end{tikzpicture}

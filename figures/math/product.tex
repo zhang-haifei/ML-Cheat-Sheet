@@ -1,0 +1,8 @@
+\begin{tikzpicture}[node distance=8mm]
+\node[box,text width=30mm] (a) {$A_{2\times3}$\\2行，3个分量};
+\node[box,text width=30mm,right=of a] (b) {$B_{3\times2}$\\3个分量，2列};
+\node[box,text width=30mm,right=12mm of b] (c) {$C_{2\times2}$\\2行，2列};
+\node[font=\Large] at ($(a.east)!0.5!(b.west)$) {$\times$};
+\draw[flow] (b)--(c);
+\node[lab,below=10mm of b] {内部维度相同才能相乘；结果保留外部维度};
+\end{tikzpicture}

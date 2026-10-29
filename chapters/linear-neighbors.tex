@@ -1,0 +1,244 @@
+\chapter{线性模型与近邻：先建立可靠基线}
+\label{ch:linear}
+
+线性模型把输入特征组合为一个得分；近邻模型根据相似训练记录预测。
+二者都适合建立可解释的起点，但依赖不同假设。本章使用统一目标约定比较拟合、正则化和分类扩展。
+
+\begin{keyidea}[把模型与训练目标配对]
+连续数值可从平方损失线性回归开始；二分类概率可从逻辑回归开始。
+特征表示决定“线性”能够表达什么，正则化强度与近邻数则需要训练内验证。
+\end{keyidea}
+
+\section{线性回归与最小二乘}
+\label{sec:linear-ols}
+线性回归（Linear Regression）预测$\hat y=b+\vct w^\top\vct x$。
+普通最小二乘（Ordinary Least Squares, OLS）最小化残差平方和，
+也可以等价地最小化其正比例缩放$J=\frac1{2n}\sum_i(\hat y_i-y_i)^2$。
+
+\begin{figure}[H]
+\centering\input{figures/linear/ols}
+\caption{三个观测$(0,1),(1,2),(2,2)$的最小二乘直线；虚线为竖直残差。}
+\end{figure}
+\readfigure{拟合得到$w=1/2$、$b=7/6$。三个预测为$7/6,5/3,13/6$，
+按“预测减真实”计的残差为$1/6,-1/3,1/6$，平方和为$1/6$，训练MSE为$1/18$。}
+
+\subsection{线性指的是系数的进入方式}
+模型可以对$x^2$、对数或交互特征作线性组合，仍对系数线性。
+线性回归本身不要求输入特征服从正态；若要作某些经典置信区间推断，才需额外的误差假设。
+
+\quick{拟合关系不自动具有因果含义；外推到训练范围之外要结合领域结构判断。}
+
+\clearpage
+\section{怎样求参数：方程、分解与迭代}
+\label{sec:linear-solve}
+将截距作为一列1并记增广矩阵为$\widetilde X$，系数为$\vct\theta$。
+令平方目标梯度为0，得到正规方程（Normal Equations）
+\[
+ \widetilde X^\top\widetilde X\vct\theta=\widetilde X^\top\vct y.
+\]
+只有当列满秩时，才能写$\hat\theta=(\widetilde X^\top\widetilde X)^{-1}\widetilde X^\top\vct y$。
+不满秩时可能有多个最优系数；在样本上的拟合投影仍可确定。
+
+\begin{center}
+\begin{tabularx}{\textwidth}{P{35mm}Y}
+\toprule
+方法 & 实际考虑\\
+\midrule
+QR或SVD分解 & 通常比先形成正规方程再显式求逆更适合数值计算；SVD可处理秩亏。\\
+梯度方法 & 避免显式矩阵求逆，适合较大或稀疏问题；需考虑尺度、步长和收敛。\\
+闭式表达 & 有助于理解目标，但不是要求程序照着显式求逆执行。\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+正规方程不是“大数据时必定首选”或“绝不能用”的二元规则。
+计算成本与样本数、特征数、稀疏性、条件数及求解器有关。
+平方目标凸不代表任意步长的梯度下降都能收敛。
+
+\begin{pitfall}[相关列与数值稳定性]
+重复列或完整独热加截距可能造成秩亏；接近相关的列也可能使系数不稳定。
+正则化和稳定求解都可以帮助，但用途与假设需要分别理解。
+\end{pitfall}
+
+\clearpage
+\section{多项式回归：改变表示，不增加样本}
+\label{sec:linear-polynomial}
+多项式回归（Polynomial Regression）使用$\phi(x)=(x,x^2,\ldots,x^d)$，
+预测$\hat y=b+\sum_{j=1}^dw_jx^j$。对原输入可非线性，对系数仍线性。
+
+\begin{center}
+\begin{tabular}{lrrr}
+\toprule
+原输入$x$ & 截距列1 & $x$ & $x^2$\\
+\midrule
+0 & 1 & 0 & 0\\
+1 & 1 & 1 & 1\\
+2 & 1 & 2 & 4\\
+\bottomrule
+\end{tabular}
+\end{center}
+同样三条样本增加了表示列，没有新增独立观测。
+上一页的目标$[1,2,2]$可被$1+1.5x-0.5x^2$精确拟合，
+但只有三个点不能证明这个二次关系适用于新数据。
+
+\subsection{次数越高，越要检查数值与泛化}
+高次幂可能尺度差异很大，并造成病态问题。可结合适当缩放、稳定基函数和正则化。
+多变量展开还包含交互项，列数可能迅速增加。次数与表示步骤应在训练内选择，
+不能看完测试结果再决定展开方式。
+
+\quick{特征构造扩展了模型可表达的函数；它不是数据增强，也不是免费增加证据。}
+
+\clearpage
+\section{Ridge：连续收缩系数}
+\label{sec:linear-ridge}
+岭回归（Ridge Regression）在本章使用
+\[
+ J(\vct w,b)=\frac1{2n}\lVert X\vct w+b\vct1-\vct y\rVert_2^2
+ +\frac\lambda2\lVert\vct w\rVert_2^2,\quad\lambda\geq0.
+\]
+截距$b$不惩罚。特征已中心化、单独处理截距时，
+\[
+ (X^\top X+n\lambda I)\hat{\vct w}=X^\top\vct y.
+\]
+$\lambda>0$时，对全部斜率施加的L2惩罚使此系数矩阵正定，即使原矩阵秩亏。
+
+\begin{figure}[H]
+\centering\input{figures/linear/shrinkage}
+\caption{单系数教学目标$\frac12(w-z)^2$上，Ridge为$z/(1+\lambda)$；下页解释Lasso。}
+\end{figure}
+\readfigure{Ridge通常使系数向0收缩，但不能说“绝不等于0”：当$z=0$时仍为0。
+惩罚强度依赖目标中的$n$、$1/2$等缩放约定，比较软件参数前需对照完整公式。}
+
+尺度会改变同一系数惩罚所代表的限制，数值特征常在训练内标准化。
+相关特征的单个系数路径可以变化，不能把每个系数都必然单调趋零当作一般定理。
+
+\clearpage
+\section{Lasso：为什么能够产生零系数？}
+\label{sec:linear-lasso}
+Lasso使用$J=\frac1{2n}\lVert X\vct w+b\vct1-\vct y\rVert^2+\lambda\lVert\vct w\rVert_1$，
+截距不惩罚。L1惩罚在0处不可微，其几何与次梯度使零系数能够成为最优解。
+
+\begin{figure}[H]
+\centering\input{figures/linear/geometry}
+\caption{两个系数的L1与平方L2约束区域。这里只比较区域形状，未画任意相切等高线。}
+\end{figure}
+\readfigure{L1菱形的角在坐标轴上，一个系数为0；L2圆盘边界更平滑。
+这帮助理解稀疏性，但并不保证每个数据集都选择出真实变量。}
+
+对单系数目标$\frac12(w-z)^2+\lambda|w|$，精确解为软阈值
+\[
+ \hat w=\operatorname{sign}(z)\max(|z|-\lambda,0).
+\]
+当$z=0.3,\lambda=0.5$，Lasso系数为0，Ridge为0.2；
+当$z=2$时，两者分别为1.5与$4/3$。
+
+\begin{pitfall}[选中不等于因果；未选中不等于永远无用]
+相关特征可能互相替代，选择结果也可能随样本变化。
+Lasso在秩亏等情形下未必有唯一系数解。不能把L1也当成保证正规方程可逆的方法。
+\end{pitfall}
+
+\clearpage
+\section{Elastic Net：同时控制稀疏与收缩}
+\label{sec:linear-elastic}
+弹性网络（Elastic Net）结合两种惩罚。本章约定总强度$\lambda$和混合比例$\rho$：
+\[
+ J=\frac1{2n}\lVert X\vct w+b\vct1-\vct y\rVert^2
+ +\lambda\rho\lVert\vct w\rVert_1
+ +\frac{\lambda(1-\rho)}2\lVert\vct w\rVert_2^2,
+ \quad0\leq\rho\leq1.
+\]
+$\rho=1$得到Lasso，$\rho=0$得到本章约定的Ridge。
+不同软件对alpha、lambda、l1-ratio的命名与缩放可能不同，应比较公式。
+
+\begin{center}
+\begin{tabularx}{\textwidth}{P{26mm}P{45mm}Y}
+\toprule
+方法 & 典型效果 & 选择时考虑\\
+\midrule
+Ridge & 连续收缩，通常保留多数非零系数。 & 相关列与稳定预测。\\
+Lasso & 可以得到零系数。 & 稀疏表示，选择稳定性。\\
+Elastic Net & 结合L1与L2，可同时稀疏与收缩。 & 相关特征组与两个超参数的权衡。\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+“特征很多就必须先用Elastic Net”不是通用规则。
+应比较基线、特征结构、计算开销和验证表现。若$\lambda(1-\rho)>0$，
+系数目标具有严格的二次惩罚，有助于唯一性；截距仍需按数据与模型定义处理。
+
+\quick{正则化表达偏好，不会自动识别哪些特征是真实原因。}
+
+\clearpage
+\section{逻辑回归：线性得分对应分类概率}
+\label{sec:linear-logistic}
+二元逻辑回归（Logistic Regression）令
+$p=P(Y=1\mid\vct x)=\sigma(s)$，$s=b+\vct w^\top\vct x$，
+等价于$\log[p/(1-p)]=s$，即对数几率对特征线性。
+
+\begin{figure}[H]
+\centering\input{figures/linear/logistic}
+\caption{概率与类别之间还需要决策阈值$t$，默认0.5只是常见选择。}
+\end{figure}
+\readfigure{若$s=\log3$，则几率为3，概率为$3/4$。
+阈值0.5时预测1；阈值0.8时预测0。阈值改变决策，不改变已拟合概率函数。}
+
+以二元交叉熵拟合时，对单样本得分有$\partial\ell/\partial s=p-y$。
+批量参数梯度为$X^\top(\vct p-\vct y)/n$，再加所选正则项。
+对线性参数的逻辑损失为凸，但无正则且类别完全可分时，有限最优参数可能不存在。
+
+\begin{pitfall}[线性得分不表示对输入的概率线性]
+Sigmoid后的概率通常随输入非线性变化。
+普通线性回归直接输出实数，可能超出$[0,1]$；逻辑回归为概率建模提供相应结构。
+概率是否准确反映频率，还需校准与独立评估。
+\end{pitfall}
+
+\clearpage
+\section{多分类：Softmax与一对其余}
+\label{sec:linear-multiclass}
+多项逻辑回归（Multinomial Logistic Regression）为$K$个互斥类别计算得分$s_k$，
+令$p_k=\exp(s_k)/\sum_j\exp(s_j)$，用类别交叉熵联合拟合。
+所有得分加同一常数不会改变概率，因此参数识别通常需基准类或其他约束。
+
+\begin{center}
+\begin{tabularx}{\textwidth}{P{28mm}YY}
+\toprule
+方法 & 怎样训练 & 输出如何理解\\
+\midrule
+Softmax & 一个联合的多分类目标。 & 类别概率和为1，面向互斥类别。\\
+一对其余 OvR & 每类训练“此类/其余”的二元模型。 & 独立二元概率不必和为1；单标签预测需统一比较规则。\\
+多标签 & 每个标签独立判断是否存在。 & 允许多个标签同时为真，不应强行Softmax归一化。\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+得分$[0,\log2,\log3]$经Softmax变为$[1/6,1/3,1/2]$。
+三个OvR二元模型则可能同时输出$[0.7,0.6,0.2]$，它们并非一组已经归一化的互斥概率。
+有些实现会另外归一化，但须按实现说明解释，不能与联合Softmax混为一谈。
+
+\quick{先确定标签能否同时出现，再选择输出结构与损失。}
+
+\clearpage
+\section{$k$近邻：根据局部训练记录预测}
+\label{sec:linear-knn}
+$k$近邻（$k$-Nearest Neighbors, KNN）查询最相似的$k$条训练记录。
+分类可等权投票，回归可平均目标；也可按距离加权，需明确定义零距离的处理。
+
+\begin{figure}[H]
+\centering\input{figures/linear/knn}
+\caption{一维分类例子：训练位置0、1标签为0，3、5标签为1。}
+\end{figure}
+\readfigure{查询1.8到四点距离为1.8、0.8、1.2、3.2。
+三个近邻为1、3、0，票数2比1，预测0；若$k=1$也预测0，但依据只有最近点。}
+
+Minkowski距离为$d_p(\vct x,\vct z)=(\sum_j|x_j-z_j|^p)^{1/p}$，$p\geq1$。
+$p=1$为曼哈顿，$p=2$为欧氏，$p\to\infty$为最大分量差。
+尺度、相关列和无关特征都会影响“近”的含义，应根据任务设计表示。
+
+\begin{pitfall}[奇数$k$并不消除所有平票]
+二分类等权投票时奇数可避免两类票数相同；多分类、距离平局或加权规则仍可能平票。
+KNN依赖局部相似性假设，也可能受异常点与高维影响。
+大样本查询成本高，可考虑适合维度与精度需求的索引或近似检索。
+\end{pitfall}
+
+\noindent\textbf{参考：}ISLR第二版第3、4、6章；scikit-learn Linear Models与Nearest Neighbors文档。
+本章例子和图独立构造，公式缩放均按正文约定。

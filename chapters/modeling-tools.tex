@@ -1,0 +1,243 @@
+\chapter{建模工具：目标、约束与不确定性}
+\label{ch:tools}
+
+选定模型后，还需要明确学什么、怎样优化、如何解释不确定性。
+本章把容易混在一起的概念分开：候选函数集合、训练损失、总体风险、正则化与选择准则。
+
+\begin{keyidea}[三个层次]
+假设空间限制可选的函数，目标函数决定拟合时的偏好，优化算法决定如何寻找参数。
+这三个层次共同影响结果，不能只看某个损失的名称就判断模型是否凸、是否泛化良好。
+\end{keyidea}
+
+\section{假设空间、损失与风险}
+\label{sec:tools-risk}
+假设空间（Hypothesis Space）$\mathcal H$是允许选择的预测函数集合。
+例如$\mathcal H=\{x\mapsto b+wx:b,w\in\R\}$包含所有一元仿射函数。
+集合中的函数不必都与当前样本拟合良好；训练是在集合内作出选择。
+
+单样本损失$\ell(\hat y,y)$衡量一次预测的代价。
+总体风险和经验风险分别为
+\[
+ R(f)=\mathbb E_{(X,Y)}[\ell(f(X),Y)],\qquad
+ \widehat R_n(f)=\frac1n\sum_{i=1}^n\ell(f(\vct x_i),y_i).
+\]
+前者依赖目标新样本分布，后者在实际数据上求平均。训练集平均较小不保证总体风险较小。
+
+\begin{center}
+\begin{tabularx}{\textwidth}{P{33mm}Y}
+\toprule
+训练目标 & 含义\\
+\midrule
+经验风险最小化 & 在$\mathcal H$内使$\widehat R_n$较小。\\
+带正则化的目标 & $J(f)=\widehat R_n(f)+\lambda\Omega(f)$，$\lambda\geq0$。\\
+约束形式 & 在满足如$\lVert w\rVert\leq c$的集合内拟合。\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+$\Omega$是对模型的惩罚，不是预测方差的直接测量。
+$\lambda$控制惩罚强度，需要在开发数据内比较。
+最终评估指标可以与训练损失不同，例如用交叉熵训练、用召回率评估。
+
+\clearpage
+\section{常用损失速查}
+\label{sec:tools-losses}
+以下均先定义单样本损失；对相应数据集取平均，才得到平均损失或错误率。
+
+\begin{center}
+\begin{tabularx}{\textwidth}{P{29mm}P{62mm}Y}
+\toprule
+损失 & 定义 & 约定\\
+\midrule
+0--1 & $\mathbf1[\hat y\ne y]$ & 单标签二类或多类。\\
+平方 & $(\hat y-y)^2$ & 对大残差较敏感。\\
+绝对 & $|\hat y-y|$ & 在零残差处不可微。\\
+Hinge & $\max(0,1-ys)$ & $y\in\{-1,1\}$，$s$为实值得分。\\
+二元交叉熵 & $-y\log p-(1-y)\log(1-p)$ & $y\in\{0,1\}$。\\
+类别交叉熵 & $-\log p_y$ & $p_y$为真实类别概率。\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+对三个真实值$[1,2,3]$和预测$[1,1,5]$，残差为$[0,-1,2]$，
+MAE为1，MSE为$5/3$。平方与绝对损失表达不同的偏好。
+交叉熵使用自然对数；正确类别概率从0.8降到0.2时，损失从约0.223升到1.609。
+
+\subsection{多标签中的逐位错误与整组错误}
+有$n$个样本、每样本$K$个二元标签时，汉明损失为
+\[
+ L_{\mathrm H}=\frac1{nK}\sum_{i,k}\mathbf1[\hat y_{ik}\ne y_{ik}].
+\]
+例如真实标签$[1,0,1]$、预测$[1,1,1]$，汉明损失为$1/3$，
+要求整组完全匹配的子集0--1损失为1。
+
+\begin{pitfall}[零概率的数值处理]
+真实类别概率为0时，负对数损失趋于无穷。
+计算中常直接用logits与稳定的log-sum-exp实现；不要用错误的代数改写掩盖极端数值。
+\end{pitfall}
+
+\clearpage
+\section{凸性是相对具体变量而言的}
+\label{sec:tools-convex}
+定义域为凸集，且任意$x,z$及$\alpha\in[0,1]$满足
+\[
+ f(\alpha x+(1-\alpha)z)\leq\alpha f(x)+(1-\alpha)f(z),
+\]
+则$f$为凸函数（Convex Function）。反向不等式定义凹函数（Concave Function）。
+不同教材可能使用不同中文旧称，本书统一按上述英文与不等式对应。
+
+\begin{figure}[H]
+\centering\input{figures/tools/convex}
+\caption{弦与函数图像的位置关系。线性函数可以同时是凸函数和凹函数。}
+\end{figure}
+\readfigure{$x^2$的弦不低于曲线；$-x^2$的弦不高于曲线。
+对不同端点和内部权重使用严格不等式，得到严格凸或严格凹。
+二次可微的一元函数在区间上满足$f''\geq0$可判定凸性。}
+
+平方损失对预测值$\hat y$是凸的，但若$\hat y$是参数的非线性函数，
+训练目标对参数不一定凸。例如$J(\theta)=(\theta^2-1)^2$在$\theta=0$附近非凸。
+常规线性回归的平方目标对系数凸；一般神经网络的目标则通常非凸。
+
+\quick{判断凸性时，要同时说出函数、变量和定义域。}
+
+\clearpage
+\section{梯度为零，不保证已经最小}
+\label{sec:tools-minima}
+局部最小值只和附近点比较；全局最小值与整个定义域比较。
+在内部可微点，局部极小要求梯度为零，但梯度为零只是必要条件之一。
+
+\begin{figure}[H]
+\centering\input{figures/tools/stationary}
+\caption{$J(\theta)=(\theta^2-1)^2$：导数为$4\theta(\theta^2-1)$。}
+\end{figure}
+\readfigure{$\theta=-1,0,1$处的导数都为0，但0是局部极大值，$\pm1$是全局极小值。
+多维非凸函数还可能有鞍点，如$f(u,v)=u^2-v^2$的原点。}
+
+凸函数的任何局部最小值都是全局最小值；严格凸时若最小值存在则唯一。
+这不表示所有凸函数都能取得最小值，例如$e^x$在实数域内只趋近0而不达到。
+具体算法的收敛还依赖步长、光滑性和其他条件。
+
+\begin{pitfall}[优化目标与目标分布仍有距离]
+即使找到训练目标的全局最优，也不能单凭这一点证明泛化良好。
+反之，优化不足也可能造成欠拟合；诊断时应检查数据、模型和优化过程。
+\end{pitfall}
+
+\clearpage
+\section{Bootstrap：从经验分布中有放回重采样}
+\label{sec:tools-bootstrap}
+自助法（Bootstrap）常从$n$条观测中有放回抽取$n$次，
+重新计算统计量，用许多次结果近似其抽样变化。重采样的记录可能重复，也可能遗漏。
+
+\begin{figure}[H]
+\centering\input{figures/tools/bootstrap}
+\caption{原样本$[2,4,8,10]$，一次抽到索引$[1,1,3,4]$。保持每条记录的所有字段与标签同步。}
+\end{figure}
+\readfigure{这一次均值从6变成5.5；它不是新的独立采集样本。
+反复重采样可以研究均值等统计量的变动，也可用于Bagging训练多个模型。}
+
+一条原记录在$n$次抽取中一次都未被抽到的概率为$(1-1/n)^n$，
+当$n$很大时趋近$e^{-1}\approx0.368$。这解释了袋外记录的来源，
+不是每次恰好遗漏36.8\%记录的保证。
+
+\begin{pitfall}[重采样必须尊重数据结构]
+普通逐行Bootstrap依赖近似独立的观测设置。
+时间序列、同一对象的重复记录等可能需要分块或按组重采样。
+置信区间方法有不同假设与误差，不能把任意重采样结果自动当成可靠区间。
+\end{pitfall}
+
+\clearpage
+\section{AIC与BIC：在可比似然下权衡拟合与复杂度}
+\label{sec:tools-aic}
+设$\hat\ell$为最大化后的\textbf{对数似然}，$k$为估计参数个数，$n$为样本量，
+常用形式为
+\[
+ \mathrm{AIC}=2k-2\hat\ell,\qquad
+ \mathrm{BIC}=k\log n-2\hat\ell.
+\]
+两者都是在可比候选模型中越小越好。参数个数应按模型完整定义计算；
+例如高斯回归中，噪声方差若也估计，应计入相应参数数目。
+
+\begin{center}
+\begin{tabular}{lrrrr}
+\toprule
+$n=100$ & $k$ & $\hat\ell$ & AIC & BIC\\
+\midrule
+模型A & 3 & $-120$ & 246 & 253.816\\
+模型B & 5 & $-117$ & 244 & 257.026\\
+\bottomrule
+\end{tabular}
+\end{center}
+在这个例子中AIC选择B，BIC选择A；不同准则有不同目标和推导条件。
+
+\subsection{比较的前提不能省略}
+使用同一响应、同一批观测和可比的似然定义。
+不能直接用不同数据量或任意缩放的损失代替对数似然再比较。
+AIC的某些回归专用写法、$C_p$或小样本修正形式并非对所有模型通用。
+
+\begin{pitfall}[不是防止一切过拟合的保证]
+BIC的复杂度项在$n>e^2$时大于AIC对应项，但并不自动解决维数灾难、泄漏或分布偏移。
+这些准则不能代替独立评估，也不是越小的数值就等于越高的分类准确率。
+\end{pitfall}
+
+\clearpage
+\section{维数灾难：覆盖空间需要多少格子？}
+\label{sec:tools-dimension}
+维数灾难（Curse of Dimensionality）描述高维空间中覆盖、距离与统计估计变困难的现象。
+一个简单例子：每个坐标轴分成5份，$d$维单位立方体就有$5^d$个小格。
+
+\begin{center}
+\begin{tabular}{lrrrr}
+\toprule
+维度$d$ & 1 & 2 & 5 & 10\\
+\midrule
+格子数$5^d$ & 5 & 25 & 3125 & 9765625\\
+1000样本平均每格 & 200 & 40 & 0.32 & 0.0001024\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+即使每格平均一条也不能保证均匀覆盖；这个计数仅帮助理解稀疏性。
+若希望轴向比例为$r$的邻域覆盖固定概率质量，在独立均匀设置下体积为$r^d$，
+维度增加时会迅速变小。真实数据若集中在低维结构上，实际难度可能不同。
+
+\subsection{应对方法取决于结构}
+可以增加有效数据、利用领域约束、做训练内特征选择或降维，并采用合适的正则化。
+距离方法要特别注意无关列、尺度与表示。
+支持向量机和树等方法也受数据结构与样本量影响，不能笼统称为“不受维度限制”。
+
+\quick{高维不是自动失败；更多特征也不是自动得到更多有效信息。}
+
+\clearpage
+\section{贝叶斯误差：相对给定信息的最佳错误率}
+\label{sec:tools-bayes-error}
+在0--1损失下，知道真实条件概率时，选择概率最大的类别可以最小化条件错误率。
+二分类记$\eta(x)=P(Y=1\mid X=x)$，则
+\[
+ h^*(x)=\mathbf1[\eta(x)\geq0.5],\qquad
+ R^*=\mathbb E_X[\min\{\eta(X),1-\eta(X)\}].
+\]
+$R^*$称为该特征信息与分布下的贝叶斯错误率（Bayes Error Rate）。
+多分类的条件错误率相应为$1-\max_k P(Y=k\mid X=x)$。
+
+\begin{center}
+\begin{tabular}{lrrrr}
+\toprule
+输入情形 & 出现概率 & $\eta(x)$ & 最佳预测 & 条件错误率\\
+\midrule
+A & 0.5 & 0.9 & 1 & 0.1\\
+B & 0.5 & 0.6 & 1 & 0.4\\
+\bottomrule
+\end{tabular}
+\end{center}
+总体最佳错误率为$0.5\times0.1+0.5\times0.4=0.25$。
+这是已知构造分布的计算；真实任务通常不知道精确条件概率，不能直接计算真值。
+
+\begin{pitfall}[人类表现不是定义中的下界]
+人类可能使用不同特征、不同信息，也可能远未达到最优。
+人类错误率可以作为有条件的参照，不能自动等同或作为严格估计的贝叶斯误差。
+增加有效特征可能改变条件分布并降低最佳可达风险。
+\end{pitfall}
+
+\noindent\textbf{参考：}ISLR第二版（2021）第2、5、6章；
+Boyd与Vandenberghe，\textit{Convex Optimization}（2004），第3章。
+本章例子与图为独立构造，复算见第六批审校记录。

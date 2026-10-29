@@ -1,0 +1,16 @@
+\begin{tikzpicture}[x=30mm,y=11mm]
+\foreach \i in {1,2,3}{\node[unit] (i\i) at (0,\i) {$x_{\i}$};}
+\foreach \i in {1,2,3,4}{\node[unit] (h\i) at (1.5,\i-0.5) {};}
+\foreach \i in {1,2,3}{\node[unit] (g\i) at (3,\i) {};}
+\node[unit,fill=Teal!20] (o) at (4.5,2) {$\hat y$};
+\begin{scope}[on background layer]
+\foreach \i in {1,2,3}{\foreach \j in {1,2,3,4}{\draw[flow,thin,Teal!40] (i\i)--(h\j);}}
+\foreach \i in {1,2,3,4}{\foreach \j in {1,2,3}{\draw[flow,thin,Teal!40] (h\i)--(g\j);}}
+\foreach \i in {1,2,3}{\draw[flow,thin,Teal!40] (g\i)--(o);}
+\end{scope}
+\node[lab] at (0,-0.4) {输入层：3};
+\node[lab] at (1.5,-0.4) {隐藏层：4};
+\node[lab] at (3,-0.4) {隐藏层：3};
+\node[lab] at (4.5,-0.4) {输出层：1};
+\draw[flow] (0,4.4)--node[above,lab]{前向计算：输入到输出}(4.5,4.4);
+\end{tikzpicture}

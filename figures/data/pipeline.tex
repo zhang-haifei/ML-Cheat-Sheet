@@ -1,0 +1,14 @@
+\begin{tikzpicture}[node distance=7mm and 8mm]
+\node[box,text width=20mm] (num) {数值列};
+\node[box,text width=23mm,right=of num] (imp) {填补缺失};
+\node[box,text width=23mm,right=of imp] (scale) {缩放};
+\node[box,text width=20mm,below=12mm of num] (cat) {类别列};
+\node[box,text width=23mm,right=of cat] (fill) {缺失类别};
+\node[box,text width=23mm,right=of fill] (hot) {独热编码};
+\node[box,text width=20mm,at={($(scale)!0.5!(hot)+(3.25,0)$)}] (join) {拼接特征};
+\node[box,text width=20mm,right=of join] (model) {模型};
+\draw[flow] (num)--(imp);\draw[flow] (imp)--(scale);
+\draw[flow] (cat)--(fill);\draw[flow] (fill)--(hot);
+\draw[flow] (scale.east)-|(join.north);\draw[flow] (hot.east)-|(join.south);
+\draw[flow] (join)--(model);
+\end{tikzpicture}

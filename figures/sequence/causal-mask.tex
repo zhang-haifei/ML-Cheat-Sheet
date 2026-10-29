@@ -1,0 +1,9 @@
+\begin{tikzpicture}[x=17mm,y=11mm]
+\foreach \j in {1,2,3}{\node[lab] at (\j,0) {键\j};}
+\foreach \i in {1,2,3}{
+ \node[lab,anchor=east] at (.3,-\i) {查询\i};
+ \foreach \j in {1,2,3}{
+  \ifnum\j>\i\def\cc{gray!12}\def\val{0}\else\def\cc{Pale}\ifnum\i=1\def\val{1}\else\ifnum\i=2\def\val{1/2}\else\def\val{1/3}\fi\fi\fi
+  \node[draw=Teal!30,fill=\cc,minimum width=16mm,minimum height=10mm] at (\j,-\i) {$\val$};}}
+\node[lab] at (2,-4) {右上三角被遮罩；每行允许的权重和为1};
+\end{tikzpicture}

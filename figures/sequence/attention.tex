@@ -1,0 +1,7 @@
+\begin{tikzpicture}[node distance=8mm]
+\node[box,text width=25mm] (q) {查询$Q$\\寻找匹配};
+\node[box,text width=30mm,right=of q] (score) {$QK^\top/\sqrt{d_k}$\\与键比较};
+\node[box,text width=28mm,right=of score] (weight) {遮罩+Softmax\\每行权重};
+\node[box,text width=30mm,right=of weight] (value) {权重乘$V$\\汇总值向量};
+\draw[flow] (q)--(score);\draw[flow] (score)--(weight);\draw[flow] (weight)--(value);
+\end{tikzpicture}

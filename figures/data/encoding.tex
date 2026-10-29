@@ -1,0 +1,10 @@
+\begin{tikzpicture}[x=22mm,y=9mm]
+\node[lab] at (0,0) {原类别};
+\foreach \r/\c in {1/红,2/蓝,3/绿}{\node at (0,-\r) {\c};}
+\draw[flow] (.5,-2)--(1.2,-2);
+\foreach \j/\c in {2/红,3/蓝,4/绿}{\node[lab] at (\j,0) {\c};}
+\foreach \r in {1,2,3}{\foreach \j in {2,3,4}{
+ \pgfmathtruncatemacro{\v}{\j==\r+1?1:0}
+ \node[draw=Teal!30,fill=Pale,minimum width=20mm,minimum height=8mm] at (\j,-\r) {$\v$};}}
+\node[lab] at (2,-4) {三列分别回答“是不是该类别”};
+\end{tikzpicture}

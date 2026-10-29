@@ -1,0 +1,16 @@
+{
+  "target": "main",
+  "pages": 154,
+  "pdf_sha256": "81204d3ad348d4444f76accf4bfc6814c25dc943701a94bd02451c3398ff6d61",
+  "overfull": 0,
+  "underfull": 0,
+  "missing_characters": 0,
+  "undefined_references": 0,
+  "source_files": 103,
+  "original_files_still_referenced": 0,
+  "original_image_occurrences": 0,
+  "independent_figure_sources": 78,
+  "internal_links": 298,
+  "invalid_internal_links": 0,
+  "missing_inputs": []
+}
