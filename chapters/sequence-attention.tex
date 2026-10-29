@@ -1,7 +1,8 @@
 \chapter{序列与注意力：共享状态与动态汇总}
 \label{ch:sequence}
 
-序列模型需要处理位置之间的依赖。RNN按顺序更新状态，注意力根据当前表示计算位置之间的权重。
+得到长度 $T$、特征维度 $d$ 的向量序列后，还需要定义位置之间怎样传递或汇总信息。
+RNN按顺序更新状态，注意力根据当前表示计算位置之间的权重。
 本章沿着输入形状、计算路径与可见信息，建立RNN、门控结构和Transformer的基本联系。
 
 \begin{keyidea}[能看到什么，是模型定义的一部分]
@@ -55,12 +56,37 @@ GRU & 通常只有一个状态，用更新门与重置门组合旧状态和候�
 \end{center}
 
 一种GRU约定为$h_t=z_t\odot h_{t-1}+(1-z_t)\odot\widetilde h_t$，
-候选依赖输入与$r_t\odot h_{t-1}$。不同文献可对$z$采用互补命名，读实现时要对照公式。
+其中 $z_t$ 控制保留旧状态的比例；另一些文献对 $z$ 采用互补命名，需同时核对更新式。
+重置门 $r_t$ 则影响候选状态的生成，不等于更新门。
 LSTM的$i$与$f$一般独立，不要求两者之和为1。
 
 标量LSTM例子$c_{t-1}=2,f=0.9,i=0.2,\widetilde c=-0.5,o=0.8$，
 则$c_t=1.7$，$h_t=0.8\tanh1.7\approx0.748$。
 门控提供更适合保留状态的路径，但并不保证永远记住所有历史。
+
+\subsection{GRU重置门：乘法位置不能随意交换}
+\label{sec:seq-gru-reset}
+将输入仿射项记为 $a_t=W_xx_t+b_x$，两种候选计算约定分别为
+\[
+ \widetilde h_t^{\mathrm{pre}}=\tanh\!\bigl(a_t+W_h(r_t\odot h_{t-1})+b_h\bigr),
+\]
+\[
+ \widetilde h_t^{\mathrm{post}}=\tanh\!\bigl(a_t+r_t\odot(W_hh_{t-1}+b_h)\bigr).
+\]
+PyTorch的GRU采用后一种；这与先重置旧状态再乘矩阵的写法一般不等价。
+偏置是否也受重置门缩放，同样属于计算定义的一部分。
+
+\begin{figure}[htbp]
+\centering\input{figures/sequence/gru-reset}
+\caption{相同重置门与权重，交换操作顺序即可改变候选状态的输入。}
+\par\smallskip
+\readfigure{取 $W=\left[\begin{smallmatrix}1&1\\1&-1\end{smallmatrix}\right]$，
+$h=(0.5,0.5)^\top$，$r=(0.5,0.25)^\top$，输入项与偏置均为0。
+上路先得 $r\odot h=(0.25,0.125)^\top$，下路先得 $Wh=(1,0)^\top$，
+所以两路结果不同；再应用tanh也不能把它们变成相同向量。}
+\end{figure}
+
+\quick{移植门控网络时，核对门的含义、矩阵作用次序、偏置位置与状态形状，而不仅是层名。}
 
 \section{注意力：查询键，再汇总值}
 \label{sec:seq-attention}
@@ -161,10 +187,11 @@ $Y=Z+\mathrm{FFN}(\mathrm{LN}(Z))$。
 
 \begin{figure}[htbp]
 \centering\input{figures/sequence/encoder-decoder}
-\caption{条件生成示意：目标查询读取源序列的键和值，同时屏蔽目标未来位置。}
+\caption{条件生成示意：目标自注意力屏蔽目标未来位置，交叉注意力读取允许访问的源表示。}
 \par\smallskip
 \readfigure{交叉注意力中的键/值来自编码器源表示，查询来自解码器目标状态。
-源长度与目标长度可以不同，不能按逐位置一一配对理解。}
+源长度与目标长度可以不同，不能按逐位置一一配对理解。
+离线任务常允许读取完整源序列；流式任务必须另外限制尚未到达的源信息。}
 \end{figure}
 
 自回归训练通常将输入和目标错开一个位置：
@@ -217,4 +244,5 @@ LSTM输入门与遗忘门是否必须互补？\textbf{不必。}
 \noindent\textbf{参考：}Goodfellow等《Deep Learning》第10章；Hochreiter与Schmidhuber（1997）的LSTM；
 Cho等（2014）的门控结构；Vaswani等，\textit{Attention Is All You Need}（2017）。
 图、形状与数值例子独立构造。
+GRU重置位置参见\href{https://docs.pytorch.org/docs/stable/generated/torch.nn.GRU.html}{PyTorch GRU计算约定}。
 \par\endgroup

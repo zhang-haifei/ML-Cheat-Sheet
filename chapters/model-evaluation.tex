@@ -53,7 +53,7 @@ $K$折交叉验证（$K$-Fold Cross-Validation）在开发数据内轮流留出�
 \caption{五折示例：每个样本恰作一次折内验证，其余四次用于折内训练。}
 \label{fig:eval-cv}
 \par\smallskip
-\readfigure{每一行是一次独立拟合，橙色格仅用于该折验证。
+\readfigure{每一行均从头拟合，橙色格仅用于该折验证。
 把每个候选方案都按相同划分评估，再依据汇总指标选择方案。
 最后按选定方案用开发数据重新拟合，独立测试集继续留在流程之外。}
 \end{figure}

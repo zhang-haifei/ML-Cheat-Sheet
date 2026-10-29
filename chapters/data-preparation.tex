@@ -14,7 +14,8 @@
 \label{sec:data-matrix}
 样本矩阵（Design Matrix）$X\in\R^{n\times d}$ 的每行是一条样本，
 每列是一个输入特征。$x_{ij}$ 表示第 $i$ 个样本的第 $j$ 个特征。
-单目标监督学习的标签向量为 $y\in\R^n$；分类时其元素也可以是类别标签。
+单目标监督学习有长度为 $n$ 的目标向量 $\vct y$：
+数值回归中常写作 $\vct y\in\R^n$，分类时每项则是一个类别标签。
 
 \begin{figure}[htbp]
 \centering\input{figures/data/matrix}

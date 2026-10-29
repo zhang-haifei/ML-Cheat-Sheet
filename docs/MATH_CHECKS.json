@@ -116,7 +116,30 @@
       "gap_shape": [
         8,
         16
-      ]
+      ],
+      "normalization_axes": {
+        "bn_mean": [
+          4.0,
+          16.0
+        ],
+        "bn_variance": [
+          5.0,
+          20.0
+        ],
+        "ln_mean": [
+          7.0,
+          13.0
+        ],
+        "ln_variance": [
+          27.5,
+          51.5
+        ],
+        "unbiased_batch_variance": [
+          6.666666666666667,
+          26.666666666666668
+        ],
+        "other_sample_affects_bn_only": "PASS"
+      }
     },
     "verify_data.py": {
       "status": "PASS",
@@ -354,6 +377,11 @@
         "13/6"
       ],
       "residuals": [
+        "-1/6",
+        "1/3",
+        "-1/6"
+      ],
+      "prediction_errors": [
         "1/6",
         "-1/3",
         "1/6"
@@ -507,6 +535,11 @@
       "status": "PASS",
       "population_mean": 50.0,
       "complete_case_mean": 32.0,
+      "observed_group_probabilities": [
+        "4/5",
+        "1/5"
+      ],
+      "observed_distribution_mean": "32",
       "adjusted_mean": 50.0,
       "quartiles": [
         2.0,
@@ -709,7 +742,35 @@
         "256": 2.0
       },
       "permutation_equivariance": "PASS",
-      "future_value_invariance": "PASS"
+      "future_value_invariance": "PASS",
+      "zero_document_normalization": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "gru_reset": {
+        "before": [
+          0.375,
+          0.125
+        ],
+        "after": [
+          0.5,
+          0.0
+        ],
+        "candidate_before": [
+          0.35835739835078595,
+          0.12435300177159621
+        ],
+        "candidate_after": [
+          0.46211715726000974,
+          0.0
+        ],
+        "commutator_check": "PASS",
+        "diagonal_special_case": "PASS"
+      }
     },
     "verify_tools_math.py": {
       "status": "PASS",
@@ -754,6 +815,14 @@
       "finite_difference_gradient": [
         0.24999999999608666,
         0.0
+      ],
+      "residuals": [
+        1.0,
+        -0.5
+      ],
+      "prediction_errors": [
+        -1.0,
+        0.5
       ],
       "two_coin_mean": "1",
       "two_coin_variance": "1/2",
@@ -818,6 +887,16 @@
       ],
       "enumerated_correlated_variance": 2.3333333333333335,
       "gradient_boosting_before": "8/3",
+      "half_squared_negative_gradient": [
+        "-2",
+        "0",
+        "2"
+      ],
+      "full_squared_negative_gradient": [
+        "-4",
+        "0",
+        "4"
+      ],
       "gradient_boosting_after": "7/6",
       "adaboost_alpha": 0.5493061443340549,
       "adaboost_weights": [

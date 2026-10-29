@@ -11,6 +11,9 @@ def verify():
     slope=sum((x-mx)*(y-my) for x,y in zip(xs,ys))/sum((x-mx)**2 for x in xs)
     intercept=my-slope*mx
     preds=[intercept+slope*x for x in xs];errors=[p-y for p,y in zip(preds,ys)]
+    residuals=[y-p for y,p in zip(ys,preds)]
+    assert residuals==[F(-1,6),F(1,3),F(-1,6)]
+    assert all(e==-r for e,r in zip(errors,residuals))
     rss=sum(e*e for e in errors)
     assert slope==F(1,2) and intercept==F(7,6) and rss==F(1,6)
     assert sum(errors)==0 and sum(x*e for x,e in zip(xs,errors))==0
@@ -45,7 +48,8 @@ def verify():
     a=[1,4];b=[3,1];diff=[abs(x-y) for x,y in zip(a,b)]
     assert sum(diff)==5 and sum(d*d for d in diff)==13 and max(diff)==3
     return dict(status='PASS',ols_slope=str(slope),ols_intercept=str(intercept),
-                ols_predictions=[str(p) for p in preds],residuals=[str(e) for e in errors],
+                ols_predictions=[str(p) for p in preds],residuals=[str(e) for e in residuals],
+                prediction_errors=[str(e) for e in errors],
                 rss=str(rss),training_mse=str(rss/3),scalar_shrinkage=shrink,
                 logistic_probability=prob,logistic_derivative=derivative,softmax=softmax,
                 nearest_positions=[int(x) for x,_ in nearest],knn_prediction=0,

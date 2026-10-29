@@ -43,7 +43,7 @@
 \]
 例如$(3,-4)$的L1范数为7，L2范数为5；范数总是非负。
 矩阵的秩（Rank）是独立列或独立行的最大数目，不等于行数、列数的简单乘积。
-向量的线性张成空间（Span）是它们所有线性组合构成的集合，\textbf{不是夹角}。
+向量的线性张成空间（Span）是它们所有线性组合构成的集合。
 例如$(1,0)$和$(2,0)$只能张成横轴；$(1,0)$和$(0,1)$则张成整个$\R^2$。
 
 \begin{figure}[htbp]
@@ -114,8 +114,11 @@ $\frac1{2n}\lVert X\vct w-\vct y\rVert_2^2$ & $\frac1nX^\top(X\vct w-\vct y)$\\
 
 \subsection{一个形状与数值检查}
 $X=\left[\begin{smallmatrix}1&2\\3&4\end{smallmatrix}\right]$、
-$\vct w=(0.5,-0.25)^\top$、$\vct y=(1,0)^\top$，则残差为$(-1,0.5)^\top$，
-$J=0.3125$、$\nabla J=(0.25,0)^\top$。梯度与$\vct w$均为两维列向量。
+$\vct w=(0.5,-0.25)^\top$、$\vct y=(1,0)^\top$，则预测为$(0,0.5)^\top$，
+按本书约定，残差$\vct e=\vct y-X\vct w=(1,-0.5)^\top$。
+梯度式使用的$X\vct w-\vct y=-\vct e$方向相反；
+$J=0.3125$、$\nabla J=-X^\top\vct e/n=(0.25,0)^\top$。
+梯度与$\vct w$均为两维列向量。
 
 \begin{pitfall}[不可微与零梯度]
 $|x|$在0处不可微，可以使用次梯度；ReLU在0处也需实现约定。

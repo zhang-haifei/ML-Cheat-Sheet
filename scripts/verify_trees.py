@@ -38,6 +38,12 @@ def verify():
     enum_variance=sum(v*v for v in ensemble)/len(ensemble)
     assert math.isclose(float(enum_variance),5*(.2+.8/3))
     targets=list(map(F,[0,2,4]));before=[F(2)]*3;weak=[F(-2),F(1),F(1)]
+    step=F(1,1000)
+    def half_squared(y,p):return (p-y)**2/2
+    negative_gradient=[-(half_squared(y,p+step)-half_squared(y,p-step))/(2*step) for y,p in zip(targets,before)]
+    assert negative_gradient==list(map(F,[-2,0,2]))
+    full_squared_gradient=[-((p+step-y)**2-(p-step-y)**2)/(2*step) for y,p in zip(targets,before)]
+    assert full_squared_gradient==[2*g for g in negative_gradient]
     after=[p+F(1,2)*h for p,h in zip(before,weak)]
     mse_before=sum((p-y)**2 for p,y in zip(before,targets))/3
     mse_after=sum((p-y)**2 for p,y in zip(after,targets))/3
@@ -53,6 +59,8 @@ def verify():
                 naive_bayes_posterior=str(posterior),beta_posterior_mean=str(first_moment/normalizer),
                 mean_probability=str(sum(probabilities)/3),ensemble_variance=variance,
                 enumerated_correlated_variance=float(enum_variance),gradient_boosting_before=str(mse_before),
+                half_squared_negative_gradient=[str(g) for g in negative_gradient],
+                full_squared_negative_gradient=[str(g) for g in full_squared_gradient],
                 gradient_boosting_after=str(mse_after),adaboost_alpha=alpha,adaboost_weights=weights)
 
 

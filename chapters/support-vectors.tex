@@ -11,7 +11,7 @@
 
 \section{硬间隔与支持向量}
 \label{sec:svm-margin}
-对可线性分开的数据，硬间隔形式最小化$\frac12\lVert\vct w\rVert^2$，
+训练中两类均出现且数据线性可分时，硬间隔形式最小化$\frac12\lVert\vct w\rVert^2$，
 约束$y_i(\vct w^\top\vct x_i+b)\geq1$，其中$y_i\in\{-1,1\}$。
 在这个规范化下，两条间隔边界为$s=\pm1$，总几何宽度为$2/\lVert\vct w\rVert$。
 

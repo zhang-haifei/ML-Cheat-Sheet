@@ -190,8 +190,9 @@ $\sigma^2=1,\rho=0.2$时，10模型得0.28，100模型得0.208。
 \section{梯度提升：逐步拟合修正方向}
 \label{sec:tree-gradient-boosting}
 梯度提升（Gradient Boosting）构建加法模型$F_m=F_{m-1}+\nu h_m$。
-新模型拟合当前损失对预测值的负梯度方向；$\nu$是收缩步长。
-平方损失时，这个方向恰好是残差$y_i-F_{m-1}(x_i)$。
+新模型拟合当前损失对预测值的负梯度方向；$\nu>0$是收缩步长。
+使用$\ell(y,F)=\frac12(y-F)^2$时，这个方向恰好是残差$y_i-F_{m-1}(x_i)$；
+若省略$1/2$，负梯度为残差的2倍，需相应理解步长的尺度。
 
 \begin{figure}[htbp]
 \centering\input{figures/trees/boosting}

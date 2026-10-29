@@ -1,0 +1,24 @@
+\begin{tikzpicture}[x=7mm,y=7mm,font=\small]
+\foreach \offset/\kind in {0/BN,9/LN} {
+  \begin{scope}[xshift=\offset*7mm]
+    \node[font=\sffamily\bfseries,text=Ink] at (2,1.9) {\kind 的一个统计组};
+    \node[text=Quiet] at (1,1.1) {通道1};
+    \node[text=Quiet] at (3,1.1) {通道2};
+    \node[anchor=east,text=Quiet] at (-.2,.5) {样本1};
+    \node[anchor=east,text=Quiet] at (-.2,-.5) {样本2};
+    \foreach \row/\a/\b/\c/\d in {0/1/3/10/14,1/5/7/18/22} {
+      \foreach \col/\value in {0/\a,1/\b,2/\c,3/\d} {
+        \pgfmathtruncatemacro{\selected}{(\offset==0 && \col<2) || (\offset>0 && \row==0)}
+        \ifnum\selected=1
+          \fill[Teal!18] (\col,-\row) rectangle ++(1,1);
+        \fi
+        \draw[Quiet!45] (\col,-\row) rectangle ++(1,1);
+        \node at (\col+.5,-\row+.5) {\value};
+      }
+    }
+    \draw[Quiet,thick] (2,-1)--(2,1);
+  \end{scope}
+}
+\node[text=Teal] at (2,-1.7) {跨样本与空间，固定通道};
+\node[text=Teal] at (11,-1.7) {本例跨 $C,H,W$，固定样本};
+\end{tikzpicture}

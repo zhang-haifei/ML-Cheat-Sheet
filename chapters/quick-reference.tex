@@ -1,11 +1,13 @@
 \chapter{符号、方法比较与主题索引}
 \label{ch:reference}
 
-本附录是阅读入口。速查表只保留定位与关键判断；算法前提、公式约定和例子仍以相应正文为准。
+本附录提供符号、模型比较与主题入口。具体公式和例子以正文为准；
+使用接口时，核对标签、轴次序、归约、平滑与模式。
 
 \section{符号与口径}
 \label{sec:reference-notation}
 \begingroup
+\setlength{\LTpre}{3pt}\setlength{\LTpost}{4pt}
 \begin{xltabular}{\textwidth}{P{30mm}Y}
 \toprule
 记号 & 本书常见含义\\
@@ -39,6 +41,7 @@ $\log,\exp$ & 若无另注，$\log$是自然对数，$\exp z=e^z$。\\
 \section{监督模型：先做什么基线？}
 \label{sec:reference-supervised}
 \begingroup
+\setlength{\LTpre}{3pt}\setlength{\LTpost}{4pt}
 \begin{xltabular}{\textwidth}{P{30mm}P{52mm}Y}
 \toprule
 模型与入口 & 核心做法 & 需要验证的地方\\
@@ -49,7 +52,7 @@ $\log,\exp$ & 若无另注，$\log$是自然对数，$\exp z=e^z$。\\
 \hyperref[sec:linear-ols]{线性/多项式回归} & 以选定特征的线性组合预测数值。 & 残差、外推、特征尺度与复杂度；线性系数不自动是因果效应。\\
 \hyperref[sec:linear-ridge]{Ridge}、\hyperref[sec:linear-lasso]{Lasso} & 用L2/L1限制系数；Elastic Net结合两者。 & 损失缩放、标准化、正则强度与变量相关性。\\
 \hyperref[sec:linear-logistic]{逻辑回归} & 线性logit经Sigmoid给二分类概率。 & 线性边界、正则、校准与阈值；名字含“回归”但常用于分类。\\
-\hyperref[sec:linear-knn]{$K$近邻} & 按距离找邻居后投票或平均。 & 尺度、距离、维度、存储与查询开销。\\
+\hyperref[sec:linear-knn]{$k$近邻} & 按距离找邻居后投票或平均。 & 尺度、距离、维度、存储与查询开销。\\
 \hyperref[sec:tree-naive-bayes]{朴素贝叶斯} & 按类组合特征似然与先验。 & 条件独立假设、似然形式、平滑与概率校准。\\
 \hyperref[sec:tree-classification]{决策树} & 递归分割特征空间。 & 深度、叶节点样本量与稳定性；贪心切分不保证全局最优树。\\
 \hyperref[sec:svm-margin]{SVM} & 结合间隔、惩罚与可选核形成边界。 & $C$、核参数、尺度及数据规模；得分不是自动的校准概率。\\
@@ -64,6 +67,7 @@ $\log,\exp$ & 若无另注，$\log$是自然对数，$\exp z=e^z$。\\
 \section{无监督与神经架构：目标和结构相配}
 \label{sec:reference-architectures}
 \begingroup
+\setlength{\LTpre}{3pt}\setlength{\LTpost}{4pt}
 \begin{xltabular}{\textwidth}{P{30mm}P{52mm}Y}
 \toprule
 方法与入口 & 提供什么结构 & 关键边界\\
@@ -92,6 +96,7 @@ $\log,\exp$ & 若无另注，$\log$是自然对数，$\exp z=e^z$。\\
 以下页码可点击，指向当前整书版本。英文缩写与中文术语并列，便于不同资料间对照。
 
 \begingroup
+\setlength{\LTpre}{3pt}\setlength{\LTpost}{4pt}
 \small
 \begin{xltabular}{\textwidth}{P{52mm}Y r}
 \toprule
@@ -131,6 +136,7 @@ SVM、核 Kernel & \hyperref[sec:svm-kernel]{间隔与核相似度} & \pageref{s
 
 \section{主题入口：神经计算与数学}
 \begingroup
+\setlength{\LTpre}{3pt}\setlength{\LTpost}{4pt}
 \small
 \begin{xltabular}{\textwidth}{P{52mm}Y r}
 \toprule
@@ -155,6 +161,7 @@ RMSprop、AdamW & \hyperref[sec:numeric-decay]{自适应更新与权重衰减} &
 残差、BN/LN & \hyperref[sec:cnn-residual]{相加支路}、\hyperref[sec:cnn-normalization]{统计轴} & \pageref{sec:cnn-residual}\\
 TF-IDF、嵌入 Embedding & \hyperref[ch:text]{从符号到表示} & \pageref{ch:text}\\
 RNN、LSTM、GRU & \hyperref[sec:seq-rnn]{状态与门控} & \pageref{sec:seq-rnn}\\
+GRU重置约定 & \hyperref[sec:seq-gru-reset]{矩阵乘法前后与接口差异} & \pageref{sec:seq-gru-reset}\\
 Q/K/V、Attention & \hyperref[sec:seq-attention]{查询与加权汇总} & \pageref{sec:seq-attention}\\
 Causal/Padding Mask & \hyperref[sec:seq-mask]{可见信息约束} & \pageref{sec:seq-mask}\\
 Transformer、Teacher Forcing & \hyperref[sec:seq-transformer]{块结构与训练目标} & \pageref{sec:seq-transformer}\\
@@ -164,5 +171,3 @@ Transformer、Teacher Forcing & \hyperref[sec:seq-transformer]{块结构与训�
 
 \end{xltabular}
 \endgroup
-
-\quick{缩写相同不代表定义相同；遇到接口差异，检查标签编码、轴次序、归约、平滑与默认模式。}

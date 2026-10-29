@@ -1,10 +1,68 @@
 {
   "status": "PASS",
-  "comparison": "161-page working draft before continuous reflow",
-  "math_fragments_unchanged": true,
-  "numerical_and_figure_sources_unchanged": true,
+  "comparison": "113-page continuous draft before this scientific revision",
+  "baseline_local_commit": "0a36972d7c14203fcf7c16a1efe36af37806eb03",
+  "baseline_public_commit": "64bd5ef27cda5077e77dba0db94a0e9790a31180",
+  "baseline_pdf_sha256": "39f5c1180e4e2c0d6d04e0ab1957c12461a3c339c84ccc61a68afe2f6388f18b",
   "chapter_files_checked": 31,
-  "figure_captions_in_pdf": 85,
+  "unchanged_chapter_sources": [
+    "chapters/collinearity.tex",
+    "chapters/density-clustering.tex",
+    "chapters/distribution-function.tex",
+    "chapters/multilabel-evaluation.tex",
+    "chapters/neural-foundations.tex",
+    "chapters/nonlinear-representation.tex",
+    "chapters/out-of-bag.tex",
+    "chapters/perceptron.tex",
+    "chapters/platt-calibration.tex",
+    "chapters/references.tex",
+    "chapters/sampling-precision.tex",
+    "chapters/title.tex",
+    "chapters/training-numerics.tex",
+    "chapters/training-stability.tex"
+  ],
+  "changed_chapter_sources": [
+    "chapters/classical-algorithms.tex",
+    "chapters/convolutional-networks.tex",
+    "chapters/data-preparation.tex",
+    "chapters/data-reliability.tex",
+    "chapters/learning-foundations.tex",
+    "chapters/linear-neighbors.tex",
+    "chapters/math-reference.tex",
+    "chapters/model-diagnostics.tex",
+    "chapters/model-evaluation.tex",
+    "chapters/modeling-tools.tex",
+    "chapters/quick-reference.tex",
+    "chapters/reading-guide.tex",
+    "chapters/sequence-attention.tex",
+    "chapters/support-vectors.tex",
+    "chapters/text-representations.tex",
+    "chapters/transfer-learning.tex",
+    "chapters/unsupervised.tex"
+  ],
+  "math_preservation_scope": "Untouched chapter files are byte-identical. Mathematical changes in revised chapters are deliberate scientific corrections or additions, reviewed in REVIEW_NOTES.md and numerical checks; no claim that all book formulas are unchanged.",
+  "existing_figure_sources": 85,
+  "unchanged_existing_figure_sources": 84,
+  "modified_existing_figure_sources": [
+    "figures/foundations/capacity.tex"
+  ],
+  "new_figure_sources": [
+    "figures/cnn/normalization-axes.tex",
+    "figures/sequence/gru-reset.tex"
+  ],
+  "csv_sources_checked": 4,
+  "csv_sources_unchanged": true,
+  "modified_numerical_checks": [
+    "scripts/verify_cnn.py",
+    "scripts/verify_linear.py",
+    "scripts/verify_reliability.py",
+    "scripts/verify_sequence.py",
+    "scripts/verify_tools_math.py",
+    "scripts/verify_trees.py"
+  ],
+  "numerical_groups_passed": 15,
+  "figure_captions_in_pdf": 87,
+  "distinct_figure_caption_numbers": 87,
   "font_size_pt": 11,
   "line_spread": 1.12
 }
