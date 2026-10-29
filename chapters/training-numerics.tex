@@ -23,7 +23,7 @@ Softplus平滑接近ReLU。图示比较函数，不直接代表模型效果排�
 \midrule
 tanh & $\tanh z$，输出在$(-1,1)$。 & $1-\tanh^2z$；两端仍饱和。\\
 Leaky ReLU & $z\geq0$取$z$，否则$az$，$0<a<1$。 & 两侧导数1与$a$；原点输出0且通常不可微。\\
-ELU & $z\geq0$取$z$，否则$\alpha(e^z-1)$。 & 负侧导数$\alpha e^z$仍可很小；$\alpha=1$时原点可微。\\
+ELU，$\alpha>0$ & $z\geq0$取$z$，否则$\alpha(e^z-1)$。 & 负侧导数$\alpha e^z$仍可很小；$\alpha=1$时原点可微。\\
 Softplus & $\log(1+e^z)$。 & 导数为Sigmoid；负端也会饱和。\\
 \bottomrule
 \end{tabularx}
@@ -69,7 +69,7 @@ Hinge通常用$y\in\{-1,1\}$与得分$s$，随$ys$增加而不增，不是随$s$
  \vct v_t=\beta\vct v_{t-1}+(1-\beta)\vct g_t^2,\qquad
  \vct w_t=\vct w_{t-1}-\eta\frac{\vct g_t}{\sqrt{\vct v_t}+\epsilon}.
 \]
-$\vct g_t$在$\vct w_{t-1}$处计算。它累积梯度\textbf{平方}的指数滑动平均，仍需设置学习率与其他超参数。
+取$\vct v_0=0$，$0\leq\beta<1$、$\eta,\epsilon>0$；$\vct g_t$在$\vct w_{t-1}$处计算。它累积梯度\textbf{平方}的指数滑动平均，仍需设置学习率与其他超参数。
 这里没有Adam式的一阶动量和偏差修正；实现可能另有中心化、动量等选项。
 
 标量例子$v_0=0,w_0=1,\beta=0.9,\eta=0.1$，仅为手算忽略$\epsilon$，
