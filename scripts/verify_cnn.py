@@ -40,12 +40,31 @@ def verify():
     activations=np.arange(8*16*16*16).reshape(8,16,16,16)
     gap=activations.mean(axis=(2,3));assert gap.shape==(8,16)
     assert gap[0,0]==np.arange(256).mean()
+    # One NCHW tensor, two different reduction groups; neither reduces all axes.
+    tensor=np.array([[[[1.,3.]],[[10.,14.]]],[[[5.,7.]],[[18.,22.]]]])
+    bn_axes=(0,2,3);ln_axes=(1,2,3)
+    bn_mean=tensor.mean(axis=bn_axes);bn_var=tensor.var(axis=bn_axes)
+    ln_mean=tensor.mean(axis=ln_axes);ln_var=tensor.var(axis=ln_axes)
+    assert np.array_equal(bn_mean,[4,16]) and np.array_equal(bn_var,[5,20])
+    assert np.array_equal(ln_mean,[7,13]) and np.array_equal(ln_var,[27.5,51.5])
+    def normalize(values,axes):
+        return (values-values.mean(axis=axes,keepdims=True))/np.sqrt(values.var(axis=axes,keepdims=True)+epsilon)
+    changed=tensor.copy();changed[1,0]+=100
+    assert not np.allclose(normalize(tensor,bn_axes)[0],normalize(changed,bn_axes)[0])
+    assert np.array_equal(normalize(tensor,ln_axes)[0],normalize(changed,ln_axes)[0])
+    assert np.allclose(normalize(tensor+np.array([2.,-7.])[None,:,None,None],bn_axes),normalize(tensor,bn_axes))
+    group_size=tensor.shape[0]*tensor.shape[2]*tensor.shape[3]
+    unbiased=tensor.var(axis=bn_axes,ddof=1)
+    assert np.allclose(unbiased,bn_var*group_size/(group_size-1))
     return dict(status='PASS',convolution=out.tolist(),shared_kernel_gradient=analytic.tolist(),
                 max_gradient_difference=float(abs(analytic-numerical).max()),
                 max_pool=maxima.tolist(),average_pool=averages.tolist(),shape_cases=shape_cases,
                 receptive_fields=fields,parameters=dict(shared_small=5,unshared_small=45,dense_small=153,
                 conv=conv_params,head=head_params,total=conv_params+head_params),
-                tensor_elements=8*3*32*32,bn_example=normalized.tolist(),gap_shape=list(gap.shape))
+                tensor_elements=8*3*32*32,bn_example=normalized.tolist(),gap_shape=list(gap.shape),
+                normalization_axes=dict(bn_mean=bn_mean.tolist(),bn_variance=bn_var.tolist(),
+                ln_mean=ln_mean.tolist(),ln_variance=ln_var.tolist(),
+                unbiased_batch_variance=unbiased.tolist(),other_sample_affects_bn_only='PASS'))
 
 
 if __name__=='__main__':print(json.dumps(verify(),ensure_ascii=False,indent=2))

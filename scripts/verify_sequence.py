@@ -18,6 +18,10 @@ def verify():
     tfidf = counts * idf
     normalized = tfidf / np.linalg.norm(tfidf, axis=1, keepdims=True)
     assert np.allclose(normalized[0], [2/math.sqrt(5), 0, 1/math.sqrt(5), 0])
+    zero_document=np.zeros((1,4))
+    norm=np.linalg.norm(zero_document,axis=1,keepdims=True)
+    zero_normalized=np.divide(zero_document,norm,out=np.zeros_like(zero_document),where=norm!=0)
+    assert np.isfinite(zero_normalized).all() and not zero_normalized.any()
     embedding = np.arange(12).reshape(4, 3)
     assert np.array_equal(embedding[[1, 2, 3]], [[3, 4, 5], [6, 7, 8], [9, 10, 11]])
 
@@ -38,6 +42,19 @@ def verify():
     cell = .9*2 + .2*(-.5)
     hidden = .8*math.tanh(cell)
     assert abs(cell-1.7) < 1e-14 and round(hidden, 3) == .748
+
+    # Resetting coordinates and mixing coordinates generally do not commute.
+    gru_w=np.array([[1.,1.],[1.,-1.]])
+    gru_h=np.array([.5,.5]);gru_r=np.array([.5,.25])
+    reset_before=gru_w@(gru_r*gru_h)
+    reset_after=gru_r*(gru_w@gru_h)
+    assert np.array_equal(reset_before,[.375,.125])
+    assert np.array_equal(reset_after,[.5,0])
+    commutator=gru_w@np.diag(gru_r)-np.diag(gru_r)@gru_w
+    assert np.array_equal(reset_before-reset_after,commutator@gru_h)
+    assert not np.allclose(np.tanh(reset_before),np.tanh(reset_after))
+    diagonal_w=np.diag([2.,-3.])
+    assert np.array_equal(diagonal_w@(gru_r*gru_h),gru_r*(diagonal_w@gru_h))
 
     q = np.array([[math.log(3)]])
     k = np.array([[0.], [1.]])
@@ -84,7 +101,11 @@ def verify():
                 attention_output=output.tolist(), attention_q_gradient=float(dq[0, 0]),
                 attention_gradient_difference=abs(float(dq[0, 0])-numerical),
                 causal_weights=causal.tolist(), memory_MiB=memory,
-                permutation_equivariance='PASS', future_value_invariance='PASS')
+                permutation_equivariance='PASS', future_value_invariance='PASS',
+                zero_document_normalization=zero_normalized.tolist(),
+                gru_reset=dict(before=reset_before.tolist(),after=reset_after.tolist(),
+                candidate_before=np.tanh(reset_before).tolist(),candidate_after=np.tanh(reset_after).tolist(),
+                commutator_check='PASS',diagonal_special_case='PASS'))
 
 
 if __name__ == '__main__':

@@ -3,6 +3,7 @@
 
 文本要先转成模型能处理的表示。词袋、TF-IDF与嵌入向量保留的信息不同，
 并非一个必然比另一个更高级。先用简单基线理解任务，再决定是否需要序列与上下文模型。
+本章先建立数值表示，下一章再讨论不同位置之间怎样交换信息。
 
 \begin{keyidea}[符号编号没有大小距离含义]
 Token ID是查表索引，不表示语义的高低远近。词典、分词规则与模型输入必须一致；
@@ -62,6 +63,9 @@ TF-IDF组合词频与逆文档频率。本例使用原始计数$tf$、自然对�
 其中$N=3$，$df$按出现该词的\textbf{文档数}计，不是总次数。
 “猫”和“看”的$idf=1+\log(4/3)\approx1.288$，另外两项为$1+\log2\approx1.693$。
 若再作L2归一化，D1变为$[2/\sqrt5,0,1/\sqrt5,0]$。
+输入上述计数矩阵时，平滑、原始计数与L2归一化口径对应常见\texttt{TfidfTransformer}设置；
+这里不假定默认分词器会按单个汉字切分。
+若一篇新文档没有任何词落在固定词典内，它会形成全零向量，不能直接除以0来归一化。
 
 不同实现有不同TF、平滑与归一化约定，应报告完整设置。
 常见词权重降低不代表它没有语义价值，稀有词权重高也不证明它具有预测或因果作用。
@@ -85,7 +89,7 @@ Word2Vec通过局部上下文预测等目标学习词向量，典型形式包括
 \midrule
 词袋/TF-IDF & 对应固定词典列。 & 简单、稀疏；通常忽略顺序。\\
 静态词嵌入 & 查同一行向量。 & 稠密；多义词共享初始表示。\\
-上下文表示 & 经序列/注意力层后可随上下文变化。 & 需要位置、遮罩及更复杂训练。\\
+上下文表示 & 经序列/注意力层后可随上下文变化。 & 依结构处理次序与可见范围；训练和使用成本通常更高。\\
 \bottomrule
 \end{tabularx}
 \end{center}
@@ -96,5 +100,6 @@ Word2Vec通过局部上下文预测等目标学习词向量，典型形式包括
 \begingroup\small
 \noindent\textbf{参考：}Manning等，\textit{Introduction to Information Retrieval}（2008）第6章；
 Mikolov等（2013）的Word2Vec工作；scikit-learn Text feature extraction文档。
+具体TF-IDF口径见\href{https://scikit-learn.org/stable/modules/feature_extraction.html#tfidf-term-weighting}{词频加权与归一化说明}。
 本章表格与流程图独立设计。
 \par\endgroup

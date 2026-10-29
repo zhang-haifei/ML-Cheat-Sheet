@@ -13,6 +13,11 @@ def verify():
     complete=sum(n*x for n,x in zip(retained,values))/sum(retained)
     adjusted=sum(F(n,sum(totals))*x for n,x in zip(totals,values))
     assert retained==[40,10] and population==50 and complete==32 and adjusted==50
+    joint_observed=[F(n,sum(totals))*p for n,p in zip(totals,rates)]
+    observed_group=[p/sum(joint_observed) for p in joint_observed]
+    assert observed_group==[F(4,5),F(1,5)]
+    observed_mean=sum(p*v for p,v in zip(observed_group,values))
+    assert observed_mean==complete
     sample=np.array([1,2,2,3,100])
     q1,q3=np.quantile(sample,[.25,.75],method='linear')
     assert q1==2 and q3==3
@@ -51,6 +56,8 @@ def verify():
     logits=np.zeros(3);independent_sigmoid=1/(1+np.exp(-logits));softmax=np.exp(logits)/np.exp(logits).sum()
     assert independent_sigmoid.sum()==1.5 and np.isclose(softmax.sum(),1)
     return dict(status='PASS',population_mean=float(population),complete_case_mean=float(complete),
+                observed_group_probabilities=[str(p) for p in observed_group],
+                observed_distribution_mean=str(observed_mean),
                 adjusted_mean=float(adjusted),quartiles=[float(q1),float(q3)],fences=fences,
                 outlier_mean=float(sample.mean()),outlier_median=float(np.median(sample)),
                 clipped_mean=float(np.clip(sample,None,5).mean()),binary_variances=variances,

@@ -1,0 +1,13 @@
+\begin{tikzpicture}[node distance=8mm and 8mm]
+\node[box,text width=21mm] (h1) {$h$\\$(0.5,0.5)^\top$};
+\node[box,text width=27mm,right=of h1] (r1) {先逐元素重置\\$r\odot h$};
+\node[box,text width=22mm,right=of r1] (w1) {再乘矩阵\\$W(r\odot h)$};
+\node[box,text width=25mm,right=of w1] (a1) {线性结果\\$(0.375,0.125)^\top$};
+\node[box,text width=21mm,below=15mm of h1] (h2) {$h$\\$(0.5,0.5)^\top$};
+\node[box,text width=27mm,right=of h2] (w2) {先乘矩阵\\$Wh$};
+\node[box,text width=22mm,right=of w2] (r2) {再逐元素重置\\$r\odot(Wh)$};
+\node[box,text width=25mm,right=of r2] (a2) {线性结果\\$(0.5,0)^\top$};
+\draw[flow] (h1)--(r1);\draw[flow] (r1)--(w1);\draw[flow] (w1)--(a1);
+\draw[flow] (h2)--(w2);\draw[flow] (w2)--(r2);\draw[flow] (r2)--(a2);
+\node[lab,anchor=west] at ([yshift=6mm]h1.north west) {对比重置位置：省略输入项与偏置，尚未应用 tanh};
+\end{tikzpicture}

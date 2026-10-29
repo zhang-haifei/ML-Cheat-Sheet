@@ -1,8 +1,8 @@
 {
   "method": "Last body-text bounding box within y=68..774pt, excluding chapter ends and sparse title pages; this is a whitespace screening aid, not ink-area density.",
-  "mean_regular_bottom_gap_mm": 12.9,
-  "median_regular_bottom_gap_mm": 10.9,
-  "pdf_pages": 113,
+  "mean_regular_bottom_gap_mm": 12.4,
+  "median_regular_bottom_gap_mm": 10.4,
+  "pdf_pages": 114,
   "chapter_starts": [
     {
       "pdf_page": 8,
@@ -61,27 +61,27 @@
       "title": "卷积网络：共享局部计算"
     },
     {
-      "pdf_page": 94,
+      "pdf_page": 95,
       "title": "文本表示：从符号到模型输入"
     },
     {
-      "pdf_page": 96,
+      "pdf_page": 97,
       "title": "序列与注意力：共享状态与动态汇总"
     },
     {
-      "pdf_page": 101,
+      "pdf_page": 103,
       "title": "迁移学习：复用表示，再验证目标任务"
     },
     {
-      "pdf_page": 102,
+      "pdf_page": 104,
       "title": "数学速查：为模型计算服务"
     },
     {
-      "pdf_page": 108,
+      "pdf_page": 110,
       "title": "符号、方法比较与主题索引"
     },
     {
-      "pdf_page": 112,
+      "pdf_page": 113,
       "title": "参考资料"
     }
   ],
@@ -99,16 +99,16 @@
     75,
     84,
     88,
-    93,
-    95,
-    100,
-    101,
-    107,
-    111,
-    113
+    94,
+    96,
+    102,
+    103,
+    109,
+    112,
+    114
   ],
-  "regular_pages": 86,
-  "mean_regular_bottom_used_fraction": 0.949,
+  "regular_pages": 87,
+  "mean_regular_bottom_used_fraction": 0.95,
   "regular_bottom_gap_over_35mm": [
     {
       "pdf_page": 26,
@@ -149,8 +149,8 @@
       "printed": "i",
       "chapter_end": false,
       "regular": false,
-      "bottom_used_fraction": 0.717,
-      "bottom_gap_mm": 70.4
+      "bottom_used_fraction": 0.738,
+      "bottom_gap_mm": 65.2
     },
     {
       "pdf_page": 3,
@@ -309,24 +309,24 @@
       "printed": "15",
       "chapter_end": false,
       "regular": true,
-      "bottom_used_fraction": 0.979,
-      "bottom_gap_mm": 5.3
+      "bottom_used_fraction": 0.994,
+      "bottom_gap_mm": 1.5
     },
     {
       "pdf_page": 23,
       "printed": "16",
       "chapter_end": false,
       "regular": true,
-      "bottom_used_fraction": 0.928,
-      "bottom_gap_mm": 17.8
+      "bottom_used_fraction": 0.959,
+      "bottom_gap_mm": 10.3
     },
     {
       "pdf_page": 24,
       "printed": "17",
       "chapter_end": false,
       "regular": true,
-      "bottom_used_fraction": 0.903,
-      "bottom_gap_mm": 24.2
+      "bottom_used_fraction": 1.002,
+      "bottom_gap_mm": 0.0
     },
     {
       "pdf_page": 25,
@@ -485,8 +485,8 @@
       "printed": "37",
       "chapter_end": false,
       "regular": true,
-      "bottom_used_fraction": 0.96,
-      "bottom_gap_mm": 9.9
+      "bottom_used_fraction": 0.982,
+      "bottom_gap_mm": 4.5
     },
     {
       "pdf_page": 45,
@@ -589,24 +589,24 @@
       "printed": "50",
       "chapter_end": false,
       "regular": true,
-      "bottom_used_fraction": 1.003,
-      "bottom_gap_mm": 0.0
+      "bottom_used_fraction": 0.956,
+      "bottom_gap_mm": 10.9
     },
     {
       "pdf_page": 58,
       "printed": "51",
       "chapter_end": false,
       "regular": true,
-      "bottom_used_fraction": 1.002,
-      "bottom_gap_mm": 0.0
+      "bottom_used_fraction": 0.991,
+      "bottom_gap_mm": 2.3
     },
     {
       "pdf_page": 59,
       "printed": "52",
       "chapter_end": true,
       "regular": false,
-      "bottom_used_fraction": 0.118,
-      "bottom_gap_mm": 219.6
+      "bottom_used_fraction": 0.209,
+      "bottom_gap_mm": 196.9
     },
     {
       "pdf_page": 60,
@@ -869,172 +869,180 @@
       "printed": "85",
       "chapter_end": false,
       "regular": true,
-      "bottom_used_fraction": 0.978,
-      "bottom_gap_mm": 5.5
+      "bottom_used_fraction": 0.999,
+      "bottom_gap_mm": 0.3
     },
     {
       "pdf_page": 93,
       "printed": "86",
-      "chapter_end": true,
-      "regular": false,
-      "bottom_used_fraction": 0.876,
-      "bottom_gap_mm": 30.8
+      "chapter_end": false,
+      "regular": true,
+      "bottom_used_fraction": 0.965,
+      "bottom_gap_mm": 8.6
     },
     {
       "pdf_page": 94,
       "printed": "87",
-      "chapter_end": false,
-      "regular": true,
-      "bottom_used_fraction": 0.976,
-      "bottom_gap_mm": 6.0
+      "chapter_end": true,
+      "regular": false,
+      "bottom_used_fraction": 0.25,
+      "bottom_gap_mm": 186.9
     },
     {
       "pdf_page": 95,
       "printed": "88",
-      "chapter_end": true,
-      "regular": false,
-      "bottom_used_fraction": 0.656,
-      "bottom_gap_mm": 85.8
+      "chapter_end": false,
+      "regular": true,
+      "bottom_used_fraction": 0.997,
+      "bottom_gap_mm": 0.6
     },
     {
       "pdf_page": 96,
       "printed": "89",
-      "chapter_end": false,
-      "regular": true,
-      "bottom_used_fraction": 1.0,
-      "bottom_gap_mm": 0.0
+      "chapter_end": true,
+      "regular": false,
+      "bottom_used_fraction": 0.738,
+      "bottom_gap_mm": 65.3
     },
     {
       "pdf_page": 97,
       "printed": "90",
       "chapter_end": false,
       "regular": true,
-      "bottom_used_fraction": 0.92,
-      "bottom_gap_mm": 19.8
+      "bottom_used_fraction": 1.0,
+      "bottom_gap_mm": 0.0
     },
     {
       "pdf_page": 98,
       "printed": "91",
       "chapter_end": false,
       "regular": true,
-      "bottom_used_fraction": 0.977,
-      "bottom_gap_mm": 5.7
+      "bottom_used_fraction": 0.97,
+      "bottom_gap_mm": 7.5
     },
     {
       "pdf_page": 99,
       "printed": "92",
       "chapter_end": false,
       "regular": true,
-      "bottom_used_fraction": 0.986,
-      "bottom_gap_mm": 3.4
+      "bottom_used_fraction": 0.967,
+      "bottom_gap_mm": 8.3
     },
     {
       "pdf_page": 100,
       "printed": "93",
-      "chapter_end": true,
-      "regular": false,
-      "bottom_used_fraction": 0.479,
-      "bottom_gap_mm": 129.7
+      "chapter_end": false,
+      "regular": true,
+      "bottom_used_fraction": 0.926,
+      "bottom_gap_mm": 18.4
     },
     {
       "pdf_page": 101,
       "printed": "94",
-      "chapter_end": true,
-      "regular": false,
-      "bottom_used_fraction": 0.838,
-      "bottom_gap_mm": 40.4
+      "chapter_end": false,
+      "regular": true,
+      "bottom_used_fraction": 0.967,
+      "bottom_gap_mm": 8.3
     },
     {
       "pdf_page": 102,
       "printed": "95",
-      "chapter_end": false,
-      "regular": true,
-      "bottom_used_fraction": 0.953,
-      "bottom_gap_mm": 11.7
+      "chapter_end": true,
+      "regular": false,
+      "bottom_used_fraction": 0.159,
+      "bottom_gap_mm": 209.5
     },
     {
       "pdf_page": 103,
       "printed": "96",
-      "chapter_end": false,
-      "regular": true,
-      "bottom_used_fraction": 0.989,
-      "bottom_gap_mm": 2.7
+      "chapter_end": true,
+      "regular": false,
+      "bottom_used_fraction": 0.886,
+      "bottom_gap_mm": 28.5
     },
     {
       "pdf_page": 104,
       "printed": "97",
       "chapter_end": false,
       "regular": true,
-      "bottom_used_fraction": 0.911,
-      "bottom_gap_mm": 22.2
+      "bottom_used_fraction": 0.953,
+      "bottom_gap_mm": 11.7
     },
     {
       "pdf_page": 105,
       "printed": "98",
       "chapter_end": false,
       "regular": true,
-      "bottom_used_fraction": 0.985,
-      "bottom_gap_mm": 3.8
+      "bottom_used_fraction": 0.989,
+      "bottom_gap_mm": 2.7
     },
     {
       "pdf_page": 106,
       "printed": "99",
       "chapter_end": false,
       "regular": true,
-      "bottom_used_fraction": 0.903,
-      "bottom_gap_mm": 24.2
+      "bottom_used_fraction": 0.932,
+      "bottom_gap_mm": 16.9
     },
     {
       "pdf_page": 107,
       "printed": "100",
-      "chapter_end": true,
-      "regular": false,
-      "bottom_used_fraction": 0.988,
-      "bottom_gap_mm": 3.1
+      "chapter_end": false,
+      "regular": true,
+      "bottom_used_fraction": 0.985,
+      "bottom_gap_mm": 3.8
     },
     {
       "pdf_page": 108,
       "printed": "101",
       "chapter_end": false,
       "regular": true,
-      "bottom_used_fraction": 0.962,
-      "bottom_gap_mm": 9.6
+      "bottom_used_fraction": 0.903,
+      "bottom_gap_mm": 24.2
     },
     {
       "pdf_page": 109,
       "printed": "102",
-      "chapter_end": false,
-      "regular": true,
-      "bottom_used_fraction": 0.973,
-      "bottom_gap_mm": 6.7
+      "chapter_end": true,
+      "regular": false,
+      "bottom_used_fraction": 0.988,
+      "bottom_gap_mm": 3.1
     },
     {
       "pdf_page": 110,
       "printed": "103",
       "chapter_end": false,
       "regular": true,
-      "bottom_used_fraction": 0.968,
-      "bottom_gap_mm": 8.0
+      "bottom_used_fraction": 0.953,
+      "bottom_gap_mm": 11.7
     },
     {
       "pdf_page": 111,
       "printed": "104",
-      "chapter_end": true,
-      "regular": false,
-      "bottom_used_fraction": 0.086,
-      "bottom_gap_mm": 227.7
+      "chapter_end": false,
+      "regular": true,
+      "bottom_used_fraction": 0.973,
+      "bottom_gap_mm": 6.8
     },
     {
       "pdf_page": 112,
       "printed": "105",
+      "chapter_end": true,
+      "regular": false,
+      "bottom_used_fraction": 0.977,
+      "bottom_gap_mm": 5.7
+    },
+    {
+      "pdf_page": 113,
+      "printed": "106",
       "chapter_end": false,
       "regular": true,
       "bottom_used_fraction": 1.003,
       "bottom_gap_mm": 0.0
     },
     {
-      "pdf_page": 113,
-      "printed": "106",
+      "pdf_page": 114,
+      "printed": "107",
       "chapter_end": true,
       "regular": false,
       "bottom_used_fraction": 0.511,
@@ -1047,5 +1055,11 @@
     "mean_regular_bottom_used_fraction": 0.613,
     "mean_regular_bottom_gap_mm": 96.5,
     "median_regular_bottom_gap_mm": 99.2
+  },
+  "previous_continuous_draft_summary": {
+    "pdf_pages": 113,
+    "regular_pages": 86,
+    "mean_regular_bottom_gap_mm": 12.9,
+    "median_regular_bottom_gap_mm": 10.9
   }
 }
