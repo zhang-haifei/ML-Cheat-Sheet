@@ -19,16 +19,16 @@
 训练轮次（Epoch）通常表示将整个训练集遍历一次。
 \textbf{一个epoch通常包含很多步，不能把两者混为同一个计数。}
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering
 \input{figures/training/minibatches}
 \caption{训练集有10个样本，批量大小为4，不丢弃最后一批时，一轮包含3个批量。数字是样本编号。}
 \label{fig:train-batches}
-\end{figure}
-
+\par\smallskip
 \readfigure{本轮先打乱样本顺序，再依次取出4、4、2个样本。
 若每个批量更新一次参数，完整一轮就更新3次。
 下一轮可重新打乱顺序，避免固定顺序持续影响更新。}
+\end{figure}
 
 设训练样本数为 $n$，批量大小为 $B$，在\textbf{单份数据遍历、每批更新一次、保留末批}的设置下，
 每轮更新次数为
@@ -44,7 +44,6 @@
 批量大小也没有通用的最佳值，应结合显存、吞吐量和验证效果选择。
 \end{pitfall}
 
-\clearpage
 \section{小批量SGD：用部分数据估计梯度}
 \label{sec:train-sgd}
 
@@ -91,7 +90,6 @@ $4$ & $-4$ & $0.4$\\
 
 \quick{比较批量大小时，要同时关注更新次数、处理的样本数与实际耗时，不能只比较epoch数。}
 
-\clearpage
 \section{动量：给更新方向加上记忆}
 \label{sec:train-momentum}
 
@@ -106,16 +104,16 @@ $4$ & $-4$ & $0.4$\\
 持续同向的梯度会累积；相互抵消的梯度对历史方向的贡献较弱。
 另一些资料把当前梯度乘上 $1-\beta$，对应的学习率解释也会变化，比较公式时须先核对约定。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering
 \input{figures/training/momentum}
 \caption{对 $J(\theta)=\theta^2/2$ 的真实递推轨迹：$\theta_0=3$、学习率0.1、动量初值0。}
 \label{fig:train-momentum}
-\end{figure}
-
+\par\smallskip
 \readfigure{两种方法第一步都到2.7。第二步，普通梯度下降到2.43；
 动量累积值为 $0.8\times3+2.7=5.1$，参数到2.19。
 橙线更早接近0，也越过0并振荡；动量可以加快某些方向上的移动，但也可能造成过冲。}
+\end{figure}
 
 \begin{pitfall}
 不能把“带动量”理解为一定跳出局部极小值，或一定比普通SGD更快。
@@ -125,7 +123,6 @@ $4$ & $-4$ & $0.4$\\
 
 \quick{先明确动量的定义，再调整学习率与 $\beta$。梯度历史本身也是优化器状态，不属于网络权重。}
 
-\clearpage
 \section{RMSprop与Adam：按坐标调整更新}
 \label{sec:train-adam}
 
@@ -133,16 +130,16 @@ $4$ & $-4$ & $0.4$\\
 RMSprop用梯度平方的指数滑动平均估计近期量级，再按坐标缩放更新。
 Adam（Adaptive Moment Estimation，自适应矩估计）同时平滑有符号梯度和梯度平方。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering
 \input{figures/training/adam-flow}
 \caption{Adam的两条统计分支。平方和开方均为逐元素运算，二阶原点矩不是中心方差。}
 \label{fig:train-adam}
-\end{figure}
-
+\par\smallskip
 \readfigure{上方分支保留方向信息，下方分支反映梯度的平方量级。
 两者先修正零初始化带来的早期缩小效应，再组合成参数更新。
 分母通常使近期梯度平方较大的坐标相对少走一些。}
+\end{figure}
 
 对无权重衰减的基本Adam，令 $\vct m_0=\vct v_0=0$，$t=1,2,\ldots$：
 \begin{align}
@@ -163,7 +160,6 @@ Adam的“自适应”不代表不需要调参，也不保证泛化优于SGD。
 AdamW还改变了权重衰减的处理方式，不能只凭名字把它与基本Adam完全等同。
 \end{keyidea}
 
-\clearpage
 \section{手算Adam的两步更新}
 \label{sec:train-adam-example}
 
@@ -199,7 +195,6 @@ Adam不是每一步都沿当前负梯度方向更新，这也解释了为什么�
 若只是做最终预测，则不需要这些优化器状态。
 \end{pitfall}
 
-\clearpage
 \section{梯度消失：链条越长，乘积可能越小}
 \label{sec:train-vanishing}
 
@@ -207,16 +202,16 @@ Adam不是每一步都沿当前负梯度方向更新，这也解释了为什么�
 若一条标量计算链上每个局部导数都是 $q$，长度为 $L$ 时，总导数是 $q^L$。
 这给出了梯度消失（Vanishing Gradient）的一个最简单例子。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering
 \input{figures/training/gradient-chain}
 \caption{标量链的导数连乘示例。纵轴为对数刻度；该图不代表任意实际网络的梯度曲线。}
 \label{fig:train-vanishing}
-\end{figure}
-
+\par\smallskip
 \readfigure{当每一项只有 $1/4$ 时，乘10次约为 $9.54\times10^{-7}$；
 乘积很快变小。每项为1时量级不变；每项为1.5时则越来越大，提示梯度爆炸的另一种可能。
 纵轴每下降一个十进数量级，数值就缩小10倍。}
+\end{figure}
 
 真实网络的反传还包含\textbf{权重矩阵、激活导数、不同路径的求和}，
 不是只把激活导数相乘。图中保留的是链式法则的直觉，不能从Sigmoid导数不超过 $1/4$
@@ -234,7 +229,6 @@ ReLU正半轴的局部导数为1，并不保证整个网络梯度稳定；权重
 
 \quick{训练不动时，同时检查梯度是否存在、数值是否有限、量级是否合理，以及优化器是否实际执行更新。}
 
-\clearpage
 \section{初始化：打破对称，并控制传播量级}
 \label{sec:train-initialization}
 
@@ -260,17 +254,17 @@ He正态 & $N(0,\sigma_w^2),\ \sigma_w^2=2/n_{\rm in}$ & 用于ReLU的常见fan-
 \end{tabularx}
 \end{center}
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering
 \input{figures/training/initialization}
 \caption{He初始化的量级直觉：在独立、零均值权重等近似条件下，补偿ReLU对二阶矩的缩减。}
 \label{fig:train-initialization}
-\end{figure}
-
+\par\smallskip
 \readfigure{若 $z=\sum_j w_ja_j$，在相应独立性和均值假设下，
 $E[z^2]\approx n_{\rm in}\sigma_w^2 E[a^2]$。
 若 $z$ 的分布关于0对称，ReLU把二阶矩约减半，于是令 $\sigma_w^2=2/n_{\rm in}$
 可使经过一层后的二阶矩大致保持量级。ReLU输出均值一般不为0，所以这里使用二阶矩，而不把它无条件称作中心方差。}
+\end{figure}
 
 例如 $n_{\rm in}=100$、$n_{\rm out}=50$ 时，Xavier均匀的界限为 $a=0.2$；
 He正态的\textbf{方差}为0.02，\textbf{标准差}约为0.141421。
@@ -282,7 +276,6 @@ Xavier可与不同激活的增益配合；He也有fan-out等变体。
 初始化控制起始量级，不能保证整段训练始终稳定。
 \end{pitfall}
 
-\clearpage
 \section{Dropout：训练时加噪声，评估时关掉}
 \label{sec:train-dropout}
 
@@ -296,16 +289,16 @@ Xavier可与不同激活的增益配合；He也有fan-out等变体。
 \end{equation}
 普通逐元素Dropout对各位置独立采样掩码。屏蔽改变当前计算，不会永久删除参数或改变层的宽度。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering
 \input{figures/training/dropout}
 \caption{一个具体掩码的效果。训练时保留值放大 $1/q$ 倍；标准评估时使用恒等映射。}
 \label{fig:train-dropout}
-\end{figure}
-
+\par\smallskip
 \readfigure{本例保留第1、3个激活，屏蔽第2、4个，保留值乘2。
 这是一次随机采样，不表示每次一定恰好保留一半。
 评估时不再随机屏蔽，也不再重复做训练时的 $1/q$ 缩放。}
+\end{figure}
 
 对固定输入激活，$E[m_j]=q$，因此
 \[
@@ -322,7 +315,6 @@ Xavier可与不同激活的增益配合；He也有fan-out等变体。
 若在训练时提前关闭，则没有执行预期的正则化。
 \end{pitfall}
 
-\clearpage
 \section{提前停止：保存最优记录，再耐心等待}
 \label{sec:train-early-stopping}
 
@@ -330,15 +322,15 @@ Xavier可与不同激活的增益配合；He也有fan-out等变体。
 验证指标可能波动，所以通常不会仅因某一轮上升就立刻停止。
 应事先规定监控指标、改进阈值、耐心轮数和最大轮数，并保存最佳检查点。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering
 \input{figures/training/early-stopping}
 \caption{人为设定的损失序列，用于说明规则：监控验证损失，阈值为0，patience为2。不是实验测量结果。}
 \label{fig:train-early}
-\end{figure}
-
+\par\smallskip
 \readfigure{第4轮验证损失从0.50升到0.52，暂记一次未改进；第5轮降到0.49，
 刷新最佳记录并把等待计数归零。第6、7轮连续未改进，到第7轮停止，最后恢复第5轮的权重。}
+\end{figure}
 
 本例明确采用：验证损失 $V_t<V_{\rm best}-\delta$ 才算改进；
 否则计数加1。连续未改进次数达到 $P$ 就停止。
@@ -365,7 +357,6 @@ patience、阈值和监控指标仍需选择，反复尝试也可能过拟合验
 最终测试集留到方案确定后评估，不用它决定停止时刻。
 \end{keyidea}
 
-\clearpage
 \section{把这些组件放回训练流程}
 \label{sec:train-workflow}
 
@@ -414,17 +405,19 @@ Dropout & 随机掩码与 $1/q$ 缩放 & 恒等传递\\
 诊断时可在统一评估模式、相同损失定义下额外比较。
 \end{pitfall}
 
-\clearpage
-\section{一页速查与自测}
+\section{速查与自测}
 \label{sec:train-summary}
 
-\begin{center}
+\begingroup
 \small
-\renewcommand{\arraystretch}{1.35}
-\begin{tabularx}{\textwidth}{P{40mm}Y}
+\renewcommand{\arraystretch}{1.2}
+\begin{xltabular}{\textwidth}{P{40mm}Y}
 \toprule
 遇到的问题 & 先检查什么\\
 \midrule
+\endhead
+\bottomrule
+\endfoot
 epoch与step对不上 & 是否保留末批、累积梯度或重复采样。\\
 小批量损失上下波动 & 抽样噪声、批量大小、学习率；单次上升不等于训练失败。\\
 动量移动过头 & 学习率与动量系数，不把惯性当作收敛保证。\\
@@ -433,12 +426,13 @@ Adam续训轨迹变了 & 是否同时恢复矩估计、步数和调度状态。\
 Dropout评估不稳定 & 是否关掉标准评估时的随机丢弃。\\
 停止后效果反而差 & 是否恢复最佳轮次，而不是保留最后一轮。\\
 批量汇总指标不准确 & 是否按样本数加权，尤其是最后一个小批量。\\
-\bottomrule
-\end{tabularx}
-\end{center}
+
+\end{xltabular}
+\endgroup
 
 \subsection{三个自测问题}
 \begin{enumerate}
+\setlength{\itemsep}{1pt}\setlength{\parsep}{0pt}
  \item 有103个样本，批量32，保留末批且每批更新一次。5轮共更新多少次？
  \item Inverted Dropout的丢弃概率为0.25。某个激活值3被保留时，输出是多少？
  \item 验证损失依次为0.8、0.6、0.61、0.59、0.60、0.62，按本章规则 $\delta=0,P=2$，何时停止并恢复哪一轮？
@@ -446,10 +440,10 @@ Dropout评估不稳定 & 是否关掉标准评估时的随机丢弃。\\
 \textbf{参考答案：}（1）$5\lceil103/32\rceil=20$次。
 （2）$3/(1-0.25)=4$。（3）第6轮停止，恢复第4轮。
 
-\subsection{进一步查阅}
-\begin{itemize}
- \item PyTorch文档：\href{https://docs.pytorch.org/docs/stable/generated/torch.optim.Adam.html}{Adam}、
+\par\begingroup\small
+\noindent\textbf{进一步查阅：}
+PyTorch文档：\href{https://docs.pytorch.org/docs/stable/generated/torch.optim.Adam.html}{Adam}、
  \href{https://docs.pytorch.org/docs/stable/nn.init.html}{初始化}、
  \href{https://docs.pytorch.org/docs/stable/generated/torch.nn.Dropout.html}{Dropout}，用于核对常见公式和模式约定。
- \item Keras文档：\href{https://keras.io/api/callbacks/early_stopping/}{EarlyStopping}，用于核对监控、耐心轮数与恢复最佳权重的配置含义。
-\end{itemize}
+Keras文档：\href{https://keras.io/api/callbacks/early_stopping/}{EarlyStopping}，用于核对监控、耐心轮数与恢复最佳权重的配置含义。
+\par\endgroup

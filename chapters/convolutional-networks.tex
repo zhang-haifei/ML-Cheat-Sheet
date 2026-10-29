@@ -16,32 +16,33 @@
 图像批量常用NCHW或NHWC布局；字母顺序决定轴的含义，不能只看数组有几维。
 本章统一用$B,C,H,W$表示批量、通道、高、宽。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/cnn/layout}
 \caption{8张32$\times$32的RGB图像，按通道在前布局存储。每个通道不是一条独立样本。}
-\end{figure}
+\par\smallskip
 \readfigure{共有$8\times3\times32\times32=24576$个数值。
 卷积通常在每张图像上独立进行，跨输入通道加权求和，不把批量轴当空间轴滑动。}
+\end{figure}
 
 标量、向量、矩阵分别可以作为0阶、1阶、2阶数组；这里的“阶/轴数”不要与矩阵秩或特征数混用。
 改变轴顺序需要相应置换，单纯reshape通常不能代替布局转换。
 
 \quick{每层都记录输入、输出的轴顺序与形状，比仅画一个三维方块更容易检查实现。}
 
-\clearpage
 \section{一次卷积怎样得到一个数？}
 \label{sec:cnn-convolution}
 常见深度学习库称为“卷积”的操作实际按不翻转核的互相关（Cross-correlation）实现。
 单通道、步幅1、无填充时，$Y_{ij}=b+\sum_{u,v}K_{uv}X_{i+u,j+v}$。
 数学上的离散卷积常还包含核翻转，读公式时需声明约定。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/cnn/convolution}
 \caption{4$\times$4输入、2$\times$2核，偏置0；每次移动一格，得到3$\times$3输出。}
-\end{figure}
+\par\smallskip
 \readfigure{核左上位置乘1、右下位置乘$-1$，其余乘0。
 在输入左上2$\times$2块计算得0；向右一格得到$2-3=-1$。
 输出每个位置都复用同一组四个权重。}
+\end{figure}
 
 核权重通常由损失与反向传播学习，不能一概说每个核固定是边缘检测器。
 叠加非线性使多层网络能表达更复杂关系；若只叠加线性或仿射层而没有非线性，
@@ -52,7 +53,6 @@
 数值也不必在原像素范围内。
 \end{pitfall}
 
-\clearpage
 \section{通道与参数共享：参数数怎样算？}
 \label{sec:cnn-parameters}
 普通非分组二维卷积中，每个输出通道都有覆盖所有输入通道的核：
@@ -82,7 +82,6 @@ $k_h\times k_w$核、每输出通道一个偏置时，参数数为
 
 \quick{通道汇总、空间滑动和批量独立，是三种不同的轴操作。}
 
-\clearpage
 \section{步幅、填充与输出大小}
 \label{sec:cnn-shape}
 对某一空间轴，输入长度$L$、两侧各填充$p$、核大小$k$、步幅$s$、膨胀率$d$，
@@ -114,18 +113,18 @@ Stride跳过部分位置，Dilation拉开核采样点间隔；二者对输出大
 使用文字模式时，应查接口的填充与非对称边界约定。
 \end{pitfall}
 
-\clearpage
 \section{池化与理论感受野}
 \label{sec:cnn-pooling}
 池化（Pooling）按局部窗口汇总数值，常见最大池化和平均池化通常没有可学习权重。
 它们可减少空间大小，但也可能丢失位置或细节信息。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/cnn/pooling}
 \caption{两个独立的2$\times$2池化例子；最大与平均不是要依次串联的两步。}
-\end{figure}
+\par\smallskip
 \readfigure{左上块$[1,3;4,6]$最大值为6，均值为3.5。
 最大池化的反向梯度流向取得最大值的位置；出现相等最大值时需按实现约定处理。}
+\end{figure}
 
 一个输出所能依赖的输入区域称感受野（Receptive Field）。
 令初始跨度$r_0=1$、相邻位置间距$j_0=1$，则
@@ -137,18 +136,18 @@ Stride跳过部分位置，Dilation拉开核采样点间隔；二者对输出大
 
 \quick{共享卷积常带来平移等变倾向；步幅、填充和边界会影响它，池化也不保证任意平移不变。}
 
-\clearpage
 \section{残差连接：为变换加一条直接路径}
 \label{sec:cnn-residual}
 残差块（Residual Block）把一个变换$F(x)$与输入相加：$y=x+F(x)$。
 当$F(x)=0$时，可以直接实现恒等映射；这为深层网络的信息与梯度提供另一条路径。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/cnn/residual}
 \caption{最简残差结构示意，未规定卷积、归一化和激活的具体顺序。}
-\end{figure}
+\par\smallskip
 \readfigure{两条支路的输出形状必须能逐元素相加。
 若通道数或空间大小变化，可用相应投影/下采样支路$P(x)$，成为$y=P(x)+F(x)$。}
+\end{figure}
 
 在形状一致、可微设置中，局部Jacobian为$I+\partial F/\partial x$。
 这说明直接路径的存在，但不意味着梯度永不消失或训练必定成功。
@@ -160,7 +159,6 @@ Stride跳过部分位置，Dilation拉开核采样点间隔；二者对输出大
 不要因为图中都是两条箭头汇合，就把两种操作视作同一个运算。
 \end{pitfall}
 
-\clearpage
 \section{归一化层：统计量在哪些轴上计算？}
 \label{sec:cnn-normalization}
 Batch Normalization（BN）训练时按约定轴计算均值与方差，再进行可学习的缩放与平移：
@@ -188,7 +186,6 @@ Layer Normalization & 单条记录约定的特征轴。 & 通常训练/推理都
 
 \quick{训练/推理模式与是否记录梯度是不同开关；归一化也不会自动把分布变成正态。}
 
-\clearpage
 \section{数据增强：保持任务语义的变化}
 \label{sec:cnn-augmentation}
 数据增强（Data Augmentation）在训练中构造合理变换，让模型学习任务所允许的变化。
@@ -215,18 +212,18 @@ Layer Normalization & 单条记录约定的特征轴。 & 通常训练/推理都
 CNN对旋转、尺度和任意位置变化的鲁棒性不是自动得到的保证。
 \end{pitfall}
 
-\clearpage
 \section{一个完整小网络：形状与参数对照}
 \label{sec:cnn-example}
 下面是用于说明计算的小型10类图像分类器，不代表对任何任务的最佳架构。
 卷积采用3核、步幅1、填充1，池化采用2核、步幅2。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/cnn/architecture}
 \caption{蛇形箭头按顺序连接，批量轴8始终保留；最后输出尚未归一化的logits。}
-\end{figure}
+\par\smallskip
 \readfigure{卷积有448个参数；线性头16输入、10输出，含偏置共170个参数。
 ReLU、池化和全局平均池化无可学习参数，本例总计618个参数。}
+\end{figure}
 
 全局平均池化（Global Average Pooling）对每通道的空间位置取平均，
 把$8\times16\times16\times16$变为$8\times16$，不对批量或通道轴求平均。
@@ -237,6 +234,8 @@ ReLU、池化和全局平均池化无可学习参数，本例总计618个参数�
 张量4轴是否代表四维特征空间的四个特征？\textbf{不是，必须看每轴含义。}
 残差相加是否与通道拼接相同？\textbf{不同。}
 
+\begingroup\small
 \noindent\textbf{参考：}Goodfellow等，\textit{Deep Learning}（2016）第9章；
 He等，\textit{Deep Residual Learning for Image Recognition}（2016）；PyTorch Conv2d、Pooling与Normalization文档。
 图和例子为独立构造。
+\par\endgroup

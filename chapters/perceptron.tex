@@ -1,19 +1,19 @@
-\clearpage
 \section{感知机：从分错的样本修正线性边界}
 \label{sec:linear-perceptron}
 感知机（Perceptron）使用得分$s=\vct w^\top\vct x+b$区分两个类别，
 标签约定为$y\in\{-1,+1\}$。边界为$s=0$；这里预测时$s\geq0$判$+1$。
 它直接学习分类边界，不输出已经校准的概率。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/linear/perceptron}
 \caption{四个可分点。虚线是第一次更新后的边界，实线是第二次更新后的边界。}
-\end{figure}
+\par\smallskip
 \readfigure{依次读取$(2,1),+1$与$(1,-1),-1$。
 从$\vct w=(0,0),b=0$开始，步长1，第一次更新为$(2,1),1$；
 第二条得分为2，符号错误，更新后为$(1,2),0$。此时四点都严格分对。}
+\end{figure}
 
-本页采用在线规则：当$y_i(\vct w^\top\vct x_i+b)\leq0$时更新
+本节采用在线规则：当$y_i(\vct w^\top\vct x_i+b)\leq0$时更新
 \[
  \vct w\leftarrow\vct w+\eta y_i\vct x_i,\qquad
  b\leftarrow b+\eta y_i,\quad\eta>0;
@@ -32,4 +32,6 @@
 逻辑回归使用平滑的逻辑损失，SVM使用间隔与惩罚；三者不能只因边界线性就混为同一算法。
 
 
+\begingroup\small
 \noindent\textbf{继续阅读：}Shalev-Shwartz与Ben-David，\textit{Understanding Machine Learning}（2014），第9章。
+\par\endgroup

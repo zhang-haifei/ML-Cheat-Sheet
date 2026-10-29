@@ -1,15 +1,16 @@
 \section{DBSCAN：通过核心点扩展密度连接}
 \label{sec:unsup-dbscan}
 DBSCAN是基于密度的聚类，不预先指定簇数。
-给定距离阈值$\varepsilon$与最少邻域点数$m$，本页约定邻域包含点自身：
+给定距离阈值$\varepsilon$与最少邻域点数$m$，本节约定邻域包含点自身：
 $N_\varepsilon(x)=\{x_j:d(x,x_j)\leq\varepsilon\}$。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/diagnostics/dbscan}
 \caption{一维例子，$\varepsilon=0.26,m=4$。点的类型由邻域计数决定。}
-\end{figure}
+\par\smallskip
 \readfigure{0.3的邻域为$\{0.1,0.2,0.3,0.55\}$，因此是核心点；
 0.55仅有两个邻域点，是靠近核心点的边界点；1.5既非核心，也不邻接任何核心，是噪声。}
+\end{figure}
 
 \begin{center}
 \begin{tabularx}{\textwidth}{P{28mm}Y}
@@ -30,19 +31,19 @@ $N_\varepsilon(x)=\{x_j:d(x,x_j)\leq\varepsilon\}$。
 不同密度的簇未必能用同一阈值识别；高维距离也会变得困难。
 “形状灵活”不等于对数据没有结构假设。
 
-\clearpage
 \section{层次聚类：链接方式决定合并距离}
 \label{sec:unsup-hierarchy}
 凝聚式层次聚类（Agglomerative Clustering）从每点一簇开始，
 每次合并距离最近的两个簇。树状图（Dendrogram）的高度表示合并距离，
 切割高度可产生不同簇数。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/diagnostics/hierarchy}
 \caption{同样四点0、1、4、6，链接方式不同，最后合并高度不同。}
-\end{figure}
+\par\smallskip
 \readfigure{先在距离1处合并0与1，再在距离2处合并4与6。
 随后两簇的单链接距离为3，全链接距离为6；平均链接为4.5。簇内点未移动。}
+\end{figure}
 
 单链接取跨簇点对的最小距离，容易形成链；全链接取最大距离；
 平均链接取跨簇点对距离的平均。
@@ -50,5 +51,6 @@ Ward方法则以组内平方和增加为准则，常用于欧氏设置，不能�
 
 \quick{聚类都需要选表示、尺度、距离与规则。比较结果时说明簇数、噪声处理和用途，不能只按图形好看判断。}
 
+\begingroup\small
 \noindent\textbf{参考：}Ester等，DBSCAN（1996）；ISLR第二版第12章；scikit-learn Clustering文档。
-
+\par\endgroup

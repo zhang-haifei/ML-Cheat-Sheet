@@ -15,12 +15,13 @@
 叶子可给出多数类别或根据训练记录估计的类别比例。
 下面用八条样本说明一次二元切分。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/trees/classification}
 \caption{根节点正负各4条；左叶3条，右叶5条。条件按输入特征判断。}
-\end{figure}
+\par\smallskip
 \readfigure{真实标签为$[1,1,1,0,0,0,0,1]$、输入$x_1=0,\ldots,7$时，
 阈值2.5产生图中计数。右叶仍有一个正样本，所以叶子不一定纯，也不一定全部预测正确。}
+\end{figure}
 
 分类节点的Gini不纯度为$G=1-\sum_kp_k^2$；熵为$H=-\sum_kp_k\log_2p_k$，约定$0\log0=0$。
 切分后按子节点样本数加权。此例父Gini为0.5，子节点加权Gini为
@@ -28,20 +29,20 @@ $\frac38\times0+\frac58\times[1-(1/5)^2-(4/5)^2]=0.2$，下降0.3。
 
 \quick{训练时用标签评价候选切分；预测时沿已确定规则走树，不需要新样本的标签。}
 
-\clearpage
 \section{回归树：叶子输出常数}
 \label{sec:tree-regression}
 平方损失回归树在区域$R_m$输出训练目标均值$c_m$，
 可写成$\hat f(\vct x)=\sum_mc_m\mathbf1[\vct x\in R_m]$。
 每次尝试特征和阈值，使左右子区域内的残差平方和较小。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/trees/regression}
 \caption{四条记录$(0,1),(1,1),(2,5),(3,7)$，在$x=1.5$切分成两个叶子。}
-\end{figure}
+\par\smallskip
 \readfigure{左叶预测1，右叶预测6，平方误差和为0+1+1=2。
 不切分时输出总体均值3.5，平方误差和为27。
 单次切分降低训练误差，不等于已经证明泛化改善。}
+\end{figure}
 
 叶子均值是在固定区域下平方误差的最优常数；若改为绝对误差，最优常数相应为中位数。
 常规轴向切分使预测呈分段常数，通常不能像线性趋势那样向训练目标范围之外外推。
@@ -51,7 +52,6 @@ $\frac38\times0+\frac58\times[1-(1/5)^2-(4/5)^2]=0.2$，下降0.3。
 它不保证给定深度下找到所有可能树中的最优结构，样本的小变化也可能改变切分。
 \end{pitfall}
 
-\clearpage
 \section{树的复杂度与实现边界}
 \label{sec:tree-control}
 树越深、叶子越小，通常越能适应训练样本细节。
@@ -76,7 +76,6 @@ CART & 分类常用Gini，回归常用平方误差 & 二元树；可有不同损
 
 \quick{树可以表达特征交互；不能笼统说树忽略特征之间的所有关联。}
 
-\clearpage
 \section{朴素贝叶斯：给定类别后作独立近似}
 \label{sec:tree-naive-bayes}
 朴素贝叶斯（Naive Bayes）用类先验$P(Y=c)$及各特征的类条件分布，作近似
@@ -105,7 +104,6 @@ CART & 分类常用Gini，回归常用平方误差 & 二元树；可有不同损
 分类仍可能有效，但输出概率容易过度自信，需要独立检查。
 \end{pitfall}
 
-\clearpage
 \section{概率模型的估计与数值实现}
 \label{sec:tree-probability-estimation}
 不同朴素贝叶斯版本对输入作不同假设。
@@ -134,19 +132,19 @@ MAP为$2/3$，后验均值为$3/5$。均匀先验没有让均值也自动等于M
 
 \quick{参数估计的不确定性、模型的预测概率和最终决策规则，是相连但不同的对象。}
 
-\clearpage
 \section{Bagging与随机森林：让平均更有价值}
 \label{sec:tree-bagging}
 Bagging（Bootstrap Aggregating）在多份有放回重采样数据上拟合模型，再平均或投票。
 随机森林（Random Forest）进一步在\textbf{每个节点的切分}中随机考虑特征子集，
 常结合Bootstrap，以减少树之间相似的错误。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/trees/bagging}
 \caption{并列训练与组合示意；仅画三个模型以说明流程。}
-\end{figure}
+\par\smallskip
 \readfigure{回归可平均预测。分类可硬投票或平均类别概率后决策，具体要看算法实现。
 三模型正类概率0.49、0.49、0.99，硬投票预测0，但概率均值约0.657会预测1。}
+\end{figure}
 
 若$B$个模型预测方差都为$\sigma^2$、两两相关系数为$\rho$，其均值方差为
 \[
@@ -160,7 +158,6 @@ $\sigma^2=1,\rho=0.2$时，10模型得0.28，100模型得0.208。
 
 \input{chapters/out-of-bag}
 
-\clearpage
 \section{特征重要性：量的是哪种贡献？}
 \label{sec:tree-importance}
 树的不纯度重要性（Mean Decrease in Impurity, MDI）累计某特征参与切分时带来的加权不纯度下降。
@@ -190,20 +187,20 @@ $\sigma^2=1,\rho=0.2$时，10模型得0.28，100模型得0.208。
 这不等于两者都无信息；高重要性也不证明因果作用。
 \end{pitfall}
 
-\clearpage
 \section{梯度提升：逐步拟合修正方向}
 \label{sec:tree-gradient-boosting}
 梯度提升（Gradient Boosting）构建加法模型$F_m=F_{m-1}+\nu h_m$。
 新模型拟合当前损失对预测值的负梯度方向；$\nu$是收缩步长。
 平方损失时，这个方向恰好是残差$y_i-F_{m-1}(x_i)$。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/trees/boosting}
 \caption{每轮依赖当前预测。一般损失的修正目标不一定是普通数值残差。}
-\end{figure}
+\par\smallskip
 \readfigure{目标$[0,2,4]$，初始常数预测为2。
 残差$[-2,0,2]$若由一个树桩拟合成$[-2,1,1]$，取$\nu=0.5$，
 新预测为$[1,2.5,2.5]$，训练MSE从$8/3$下降为$7/6$。}
+\end{figure}
 
 Boosting不都通过“给错样本加权”实现；梯度提升也不是只拟合前一棵树的错误，
 而是针对\textbf{当前全部组合}的损失更新。树深、学习率、轮数、采样与正则化共同影响结果。
@@ -211,7 +208,6 @@ XGBoost、LightGBM等是相关的树提升实现，细节和默认行为应查�
 
 \quick{训练损失下降是一个过程信号；轮数与停止仍应根据合适的验证表现选择。}
 
-\clearpage
 \section{AdaBoost：一个完整的二分类权重步骤}
 \label{sec:tree-adaboost}
 经典离散二分类AdaBoost使用$y_i,h_m(x_i)\in\{-1,1\}$及归一化样本权重$D_m(i)$。
@@ -225,19 +221,19 @@ XGBoost、LightGBM等是相关的树提升实现，细节和默认行为应查�
 \]
 $Z_m$使权重和为1；边界、停止与平票需约定。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/trees/adaboost}
 \caption{四个样本初始均为1/4，仅第4个被当前弱模型分错。}
-\end{figure}
+\par\smallskip
 \readfigure{$e=1/4$、$\alpha=\frac12\log3\approx0.549$。
 更新归一化后，错样本权重为1/2，另外三个各为1/6；
 这是相对权重变化，不是重新采集了更多错样本。}
+\end{figure}
 
 若$e=0$，应采用相应提前停止/有限数值处理；不能直接除零。
 若$e\geq1/2$，没有上述正权重弱优势，需按算法策略停止或处理，而非机械继续。
 噪声标签和离群记录可能被反复强调，轮数也需验证。
 
-\clearpage
 \section{投票、Boosting与Stacking怎样选择？}
 \label{sec:tree-compare}
 集成不是保证每个模型都正确，而是利用预测之间的差异及组合结构。
@@ -266,5 +262,7 @@ Stacking中，基础模型在某样本上的输入给第二层的预测，通常
 贝叶斯后验上是否还要再乘先验？\textbf{不需要。}
 特征重要性是否等于因果作用？\textbf{不等于。}
 
+\begingroup\small
 \noindent\textbf{参考：}ISLR第二版第4、8章；scikit-learn的Decision Trees、Naive Bayes、Ensembles和Permutation importance文档。
 数字、流程图和权重图均独立构造。
+\par\endgroup
