@@ -1,0 +1,9 @@
+\begin{tikzpicture}[node distance=7mm and 8mm]
+\node[box,text width=24mm] (x) {输入\\$x_1,\ldots,x_d$};
+\node[box,text width=42mm,right=of x] (sum) {加权求和并加偏置\\$z=\sum_j w_jx_j+b$};
+\node[box,text width=25mm,right=of sum] (act) {激活\\$a=\phi(z)$};
+\node[right=of act,lab] (out) {输出 $a$};
+\draw[flow] (x)--(sum);
+\draw[flow] (sum)--(act);
+\draw[flow] (act)--(out);
+\end{tikzpicture}

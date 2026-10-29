@@ -1,0 +1,11 @@
+\begin{tikzpicture}
+\begin{axis}[width=124mm,height=55mm,xmin=-.2,xmax=2.3,ymin=.7,ymax=2.5,
+ xlabel={$x$},ylabel={$y$},xtick={0,1,2},ytick={1,2},axis lines=left]
+\addplot[Teal,thick,domain=-.1:2.2]{7/6+.5*x};
+\addplot[only marks,mark=*,Amber,mark size=3pt] coordinates {(0,1)(1,2)(2,2)};
+\draw[Quiet,dashed] (axis cs:0,1)--(axis cs:0,1.1666667);
+\draw[Quiet,dashed] (axis cs:1,2)--(axis cs:1,1.6666667);
+\draw[Quiet,dashed] (axis cs:2,2)--(axis cs:2,2.1666667);
+\node[lab] at (axis cs:.65,2.3) {$\hat y=7/6+x/2$};
+\end{axis}
+\end{tikzpicture}

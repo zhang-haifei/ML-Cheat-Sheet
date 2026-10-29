@@ -1,0 +1,15 @@
+\begin{tikzpicture}
+\begin{axis}[width=.91\textwidth,height=64mm,xmin=1,xmax=7,ymin=.2,ymax=.88,
+ xlabel={训练轮次（epoch）},ylabel={每样本平均损失},xtick={1,...,7},
+ grid=major,grid style={gray!15},tick label style={font=\small},
+ legend style={font=\small,at={(.5,-.24)},anchor=north,legend columns=2,draw=none}]
+\addplot[Teal,thick,mark=*] coordinates {(1,.75)(2,.55)(3,.45)(4,.39)(5,.34)(6,.30)(7,.28)};
+\addlegendentry{训练损失}
+\addplot[Amber,thick,mark=square*] coordinates {(1,.80)(2,.60)(3,.50)(4,.52)(5,.49)(6,.51)(7,.53)};
+\addlegendentry{验证损失}
+\draw[dashed,Quiet] (axis cs:5,.2)--(axis cs:5,.82);
+\node[font=\small,text=Quiet,anchor=south east] at (axis cs:5,.82){保存最佳：第5轮};
+\draw[dashed,Amber] (axis cs:7,.2)--(axis cs:7,.71);
+\node[font=\small,text=Amber,anchor=south east] at (axis cs:7,.71){停止：第7轮};
+\end{axis}
+\end{tikzpicture}

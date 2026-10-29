@@ -1,0 +1,7 @@
+\begin{tikzpicture}[node distance=7mm]
+\node[box,text width=24mm] (b) {$B=8$\\批量样本};
+\node[box,text width=24mm,right=of b] (c) {$C=3$\\颜色通道};
+\node[box,text width=24mm,right=of c] (h) {$H=32$\\高度};
+\node[box,text width=24mm,right=of h] (w) {$W=32$\\宽度};
+\node[lab,below=10mm of $(c)!0.5!(h)$] {NCHW布局示例：$X\in\R^{8\times3\times32\times32}$};
+\end{tikzpicture}

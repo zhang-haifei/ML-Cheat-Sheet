@@ -1,0 +1,9 @@
+\begin{tikzpicture}[node distance=7mm and 8mm]
+\node[box,text width=28mm] (a) {激活值\\$(2,4,6,8)$};
+\node[box,text width=35mm,right=of a] (mask) {随机保留掩码\\$(1,0,1,0)$};
+\node[box,text width=35mm,right=of mask] (scale) {逐元素相乘，再除$q$\\$(4,0,12,0)$};
+\draw[flow] (a)--(mask);
+\draw[flow] (mask)--(scale);
+\node[lab,below=7mm of mask] {训练时：本例丢弃概率 $p=0.5$，保留概率 $q=0.5$};
+\node[box,text width=56mm,below=17mm of mask] (eval) {评估时：原样传递 $(2,4,6,8)$};
+\end{tikzpicture}

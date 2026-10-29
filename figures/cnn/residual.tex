@@ -1,0 +1,8 @@
+\begin{tikzpicture}[node distance=12mm]
+\node[box,text width=21mm] (x) {输入$x$};
+\node[box,text width=36mm,right=of x] (f) {若干变换\\$F(x)$};
+\node[circle,draw=Teal,fill=Pale,minimum size=9mm,right=of f] (add) {$+$};
+\node[box,text width=30mm,right=of add] (y) {$y=x+F(x)$};
+\draw[flow] (x)--(f);\draw[flow] (f)--(add);\draw[flow] (add)--(y);
+\draw[flow] (x.north)--++(0,12mm)-|node[pos=.3,above,lab]{恒等支路}(add.north);
+\end{tikzpicture}

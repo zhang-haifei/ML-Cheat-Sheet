@@ -1,0 +1,14 @@
+\begin{tikzpicture}[x=13mm,y=13mm]
+\begin{scope}
+\draw[->,Quiet] (-1.5,0)--(1.8,0) node[right,lab] {$w_1$};
+\draw[->,Quiet] (0,-1.4)--(0,1.7) node[above,lab] {$w_2$};
+\filldraw[fill=Pale,draw=Teal,thick] (1,0)--(0,1)--(-1,0)--(0,-1)--cycle;
+\node[lab] at (0,-2) {$|w_1|+|w_2|\leq1$};
+\end{scope}
+\begin{scope}[xshift=76mm]
+\draw[->,Quiet] (-1.5,0)--(1.8,0) node[right,lab] {$w_1$};
+\draw[->,Quiet] (0,-1.4)--(0,1.7) node[above,lab] {$w_2$};
+\filldraw[fill=Pale,draw=Teal,thick] (0,0) circle (1);
+\node[lab] at (0,-2) {$w_1^2+w_2^2\leq1$};
+\end{scope}
+\end{tikzpicture}

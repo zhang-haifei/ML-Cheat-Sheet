@@ -1,0 +1,10 @@
+\begin{tikzpicture}[x=21mm,y=11mm]
+\draw[->,Quiet] (-.3,0)--(5.5,0) node[right,lab] {$x$};
+\foreach \v in {0,1}{\fill[Teal] (\v,0) circle (3pt);}
+\foreach \v in {4,5}{\fill[Amber] (\v,0) circle (3pt);}
+\foreach \v in {0,1,4,5}{\node[lab,below] at (\v,-.1) {$\v$};}
+\node[lab,above] at (0,1.4) {初始0};\node[lab,above] at (5,1.4) {初始5};
+\draw[flow] (0,1.2)--(.5,.5);\draw[flow] (5,1.2)--(4.5,.5);
+\node[lab,above] at (.7,.5) {新中心0.5};\node[lab,above] at (4.3,.5) {新中心4.5};
+\node[lab] at (2.5,-1.1) {分配后，分别对簇内位置取均值};
+\end{tikzpicture}

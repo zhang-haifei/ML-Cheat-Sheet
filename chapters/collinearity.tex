@@ -1,0 +1,34 @@
+\clearpage
+\section{VIF：相关特征怎样放大系数方差？}
+\label{sec:linear-vif}
+多重共线性（Multicollinearity）指特征列之间存在较强线性关系。
+即使预测相近，单个系数也可能对样本扰动敏感。方差膨胀因子
+（Variance Inflation Factor, VIF）衡量经典OLS条件下这种\textbf{系数方差}的放大。
+
+将第$j$列特征对其余特征和截距作辅助线性回归，记训练决定系数为$R_j^2$，则
+\[
+ \mathrm{VIF}_j=\frac1{1-R_j^2}.
+\]
+设含截距的设计矩阵列满秩，条件误差协方差为$\sigma^2 I$，令
+$S_j=\sum_i(x_{ij}-\bar x_j)^2$，则
+\[
+ \operatorname{Var}(\hat w_j\mid X)=\frac{\sigma^2}{S_j}\,\mathrm{VIF}_j.
+\]
+比较基准保持$S_j$与误差方差相同；这里放大的是方差，标准误按$\sqrt{\mathrm{VIF}_j}$放大。
+
+\begin{figure}[H]
+\centering\input{figures/linear/vif}
+\caption{辅助回归越接近完全解释该列，VIF越大；图上的0.5对应VIF=2。}
+\end{figure}
+\readfigure{取中心化特征$x_1=(-1,-1,1,1)^\top$、$x_2=(-1,0,0,1)^\top$。
+内积为2、平方和为4与2，所以$R_1^2=2^2/(4\times2)=1/2$，VIF=2。
+因此$\operatorname{Var}(\hat w_1\mid X)=\sigma^2/2$，而相同平方和的正交基准为$\sigma^2/4$。}
+
+\begin{pitfall}[高VIF不等于“这个特征应立即删除”]
+VIF不是系数数值的乘数，不直接衡量预测价值，更不识别因果关系。
+保留、合并或正则化特征取决于解释还是预测的目标，应检查验证表现和领域含义。
+5或10等经验界线不是普适科学定律；岭回归系数的方差也不能直接套用本页OLS公式。
+\end{pitfall}
+
+完全共线使$R_j^2=1$，此时普通系数可能无法唯一识别。
+数值求解的条件数还受尺度影响；改变单位可改变系数方差，但在非退化情形下不改变相应VIF。

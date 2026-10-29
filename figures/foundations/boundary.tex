@@ -1,0 +1,12 @@
+\begin{tikzpicture}
+\begin{axis}[width=115mm,height=57mm,xmin=0,xmax=4,ymin=0,ymax=4,
+ xlabel={$x_1$},ylabel={$x_2$},xtick={0,2,4},ytick={0,2,4},axis lines=left]
+\path[fill=Pale] (axis cs:0,4)--(axis cs:4,0)--(axis cs:4,4)--cycle;
+\addplot[thick,Teal,domain=0:4] {4-x};
+\addplot[only marks,mark=o,Teal,mark size=3pt] coordinates {(.5,.8)(1,1)(2,.5)(2.2,2.5)};
+\addplot[only marks,mark=triangle*,Amber,mark size=3pt] coordinates {(1,3.6)(2.8,2)(3.5,2.7)};
+\node[lab] at (axis cs:2.9,3.6) {$\hat y=1$};
+\node[lab] at (axis cs:1.1,.25) {$\hat y=0$};
+\node[lab,rotate=-31] at (axis cs:1.1,3.2) {$x_1+x_2=4$};
+\end{axis}
+\end{tikzpicture}

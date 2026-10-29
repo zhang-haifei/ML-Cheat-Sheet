@@ -1,0 +1,7 @@
+\begin{tikzpicture}[node distance=8mm]
+\node[box,text width=25mm] (text) {文本\\我爱猫};
+\node[box,text width=30mm,right=of text] (tok) {Token序列\\我 / 爱 / 猫};
+\node[box,text width=23mm,right=of tok] (ids) {ID序列\\1 / 2 / 3};
+\node[box,text width=30mm,right=of ids] (emb) {嵌入查表\\$3\times d$};
+\draw[flow] (text)--(tok);\draw[flow] (tok)--(ids);\draw[flow] (ids)--(emb);
+\end{tikzpicture}

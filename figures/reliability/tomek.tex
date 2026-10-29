@@ -1,0 +1,10 @@
+\begin{tikzpicture}[x=1cm,y=1cm]
+\node[box] (a) at (0,0) {$0:A$};\node[box] (b) at (2.6,0) {$1:A$};
+\node[box,draw=Amber] (c) at (5.2,0) {$1.1:B$};\node[box,draw=Amber] (d) at (8.2,0) {$3:B$};
+\node[box,draw=Amber] (e) at (11,0) {$3.2:B$};
+\draw[flow,Quiet] (a)--(b);
+\draw[{Stealth[length=2mm]}-{Stealth[length=2mm]},Teal,very thick] (b)--(c);
+\draw[{Stealth[length=2mm]}-{Stealth[length=2mm]},Quiet,thick] (d)--(e);
+\node[lab,above] at (3.9,.6) {异类，距离0.1：Tomek链接};
+\node[lab,below] at (9.6,-.6) {同类，虽互近但不符合条件};
+\end{tikzpicture}

@@ -1,0 +1,9 @@
+\begin{tikzpicture}[node distance=9mm and 8mm]
+\node[box,text width=26mm] (data) {已有样本\\输入与目标};
+\node[box,text width=27mm,right=of data] (fit) {学习算法\\拟合规则};
+\node[box,text width=26mm,right=of fit] (model) {已拟合模型\\固定参数};
+\node[box,text width=26mm,right=of model] (pred) {新输入\\得到预测};
+\draw[flow] (data)--(fit);\draw[flow] (fit)--(model);\draw[flow] (model)--(pred);
+\node[lab,below=9mm of fit] {拟合：利用经验改变模型};
+\node[lab,below=9mm of pred] {预测：应用已有规则};
+\end{tikzpicture}

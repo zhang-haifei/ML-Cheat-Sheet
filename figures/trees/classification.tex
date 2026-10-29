@@ -1,0 +1,7 @@
+\begin{tikzpicture}[node distance=16mm and 12mm]
+\node[box,text width=45mm] (root) {$x_1\leq2.5$？\\正4 / 负4};
+\node[box,text width=35mm,below left=of root] (left) {正3 / 负0\\预测正类};
+\node[box,text width=35mm,below right=of root] (right) {正1 / 负4\\预测负类};
+\draw[flow] (root)--node[left,lab]{是}(left);
+\draw[flow] (root)--node[right,lab]{否}(right);
+\end{tikzpicture}

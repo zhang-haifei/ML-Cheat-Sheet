@@ -1,0 +1,36 @@
+\clearpage
+\section{标准误与一致性：更多样本能减少什么？}
+\label{sec:math-standard-error}
+标准差（Standard Deviation, SD）描述观测或随机变量自身的离散程度；
+标准误（Standard Error, SE）描述\textbf{估计量在重复抽样中的}离散程度。
+对独立同分布、均值$\mu$、有限方差$\sigma^2$的$n$个观测，
+\[
+ \mathbb E\bar X=\mu,\qquad
+ \operatorname{Var}(\bar X)=\frac{\sigma^2}{n},\qquad
+ \mathrm{SE}(\bar X)=\frac{\sigma}{\sqrt n}.
+\]
+$\sigma$未知时常用$s/\sqrt n$估计，$s^2=\sum_i(x_i-\bar x)^2/(n-1)$。
+例如$[2,4,4,6]$的均值为4，$s^2=8/3$，$s\approx1.633$，均值的估计标准误约0.816。
+
+\begin{figure}[H]
+\centering\input{figures/math/standard-error}
+\caption{假设独立观测服从$N(4,4)$，则样本均值精确服从$N(4,4/n)$。曲线是不同样本量下均值的抽样密度。}
+\end{figure}
+\readfigure{$n=1,4,16$时均值的标准误为2、1、0.5。
+分布收窄的是估计均值，不是单个新观测；样本量乘4，标准误才减半。}
+
+\subsection{一致性不是“预测误差最终变成0”}
+估计量$\hat\theta_n$依概率趋近真实参数$\theta$，称为一致：
+对任意$\varepsilon>0$，$P(|\hat\theta_n-\theta|>\varepsilon)\to0$。
+在上述条件下，切比雪夫不等式给出
+\[
+ P(|\bar X-\mu|>\varepsilon)\leq\frac{\sigma^2}{n\varepsilon^2}\longrightarrow0.
+\]
+所以样本均值一致。总体非退化时，只用第一个观测$X_1$估计$\mu$虽然无偏，却不会随$n$增加而稳定；
+反之，$n\bar X/(n+1)$有限样本下通常有偏，仍可一致。
+
+\begin{pitfall}[减少估计误差有条件]
+相关或重复记录不能直接按独立样本数套用$1/\sqrt n$；分布变化也不由增加同类数据自动解决。
+即使模型参数估计一致，单个新目标仍可能含不可约噪声，预测误差不必趋于0。
+标准误本身也不是完整置信区间；区间构造需要分布或近似条件。
+\end{pitfall}

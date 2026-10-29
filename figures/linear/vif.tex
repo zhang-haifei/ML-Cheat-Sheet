@@ -1,0 +1,10 @@
+\begin{tikzpicture}
+\begin{axis}[width=125mm,height=42mm,xmin=0,xmax=.95,ymin=1,ymax=20,
+ ymode=log,log basis y=10,
+ xlabel={辅助回归$R_j^2$},ylabel={VIF（对数轴）},xtick={0,.5,.8,.9},ytick={1,2,5,10,20},yticklabels={1,2,5,10,20}]
+\addplot[Teal,thick,domain=0:.95,samples=121] {1/(1-x)};
+\draw[Amber,dashed] (axis cs:.5,1)--(axis cs:.5,2)--(axis cs:0,2);
+\addplot[only marks,mark=*,Amber] coordinates {(.5,2)};
+\node[lab,anchor=west] at (axis cs:.14,5) {$R_j^2=0.5$，VIF=2};
+\end{axis}
+\end{tikzpicture}

@@ -1,0 +1,154 @@
+\chapter{训练细节：稳定计算与正则化}
+\label{ch:numerics}
+
+同一数学公式可以有稳定与不稳定的计算写法；同一个“正则化”名称也可能对应不同更新。
+本章补充常见激活、logits损失、按坐标更新、权重衰减和梯度裁剪的边界。
+
+\section{激活变体：看函数，也看导数}
+\label{sec:numeric-activation}
+除Sigmoid与ReLU外，常见激活各有形状和计算特点，不能仅凭“有负值”判断能否解决梯度问题。
+
+\begin{figure}[H]
+\centering\input{figures/numerics/activations}
+\caption{函数值的独立绘图。Leaky ReLU示例斜率为0.1；它不是所有实现的默认值。}
+\end{figure}
+\readfigure{tanh在两端趋于$\pm1$；Leaky ReLU保留负半轴斜率；ELU负半轴趋于$-\alpha$；
+Softplus平滑接近ReLU。图示比较函数，不直接代表模型效果排名。}
+
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{P{25mm}P{56mm}Y}
+\toprule
+激活 & 定义或性质 & 导数与边界\\
+\midrule
+tanh & $\tanh z$，输出在$(-1,1)$。 & $1-\tanh^2z$；两端仍饱和。\\
+Leaky ReLU & $z\geq0$取$z$，否则$az$，$0<a<1$。 & 两侧导数1与$a$；原点输出0且通常不可微。\\
+ELU & $z\geq0$取$z$，否则$\alpha(e^z-1)$。 & 负侧导数$\alpha e^z$仍可很小；$\alpha=1$时原点可微。\\
+Softplus & $\log(1+e^z)$。 & 导数为Sigmoid；负端也会饱和。\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+ELU或tanh不保证激活均值恰好为0；Leaky ReLU也不保证完整网络梯度永远非零。
+激活、初始化、归一化与优化需一起考虑。
+
+\clearpage
+\section{从logits稳定计算交叉熵}
+\label{sec:numeric-logits}
+对有限logits $z_1,\ldots,z_K$，令$a=\max_k z_k$，则
+\[
+ \mathrm{LSE}(\vct z)=a+\log\sum_k e^{z_k-a},\qquad
+ \ell_{\mathrm{CE}}=\mathrm{LSE}(\vct z)-z_y.
+\]
+交叉熵需要负号，$y$是本例真实类别索引；更一般的目标分布$t_k$用$-\sum_k t_k\log p_k$。
+交叉熵与只含预测分布的熵不是同一个概念。
+
+\begin{figure}[H]
+\centering\input{figures/numerics/margin-loss}
+\caption{二分类有符号间隔下的损失比较；Hinge到达间隔1后为0，Logistic平滑下降。}
+\end{figure}
+\readfigure{对$\vct z=(1000,1001,999)$，若目标为第1类，
+稳定损失为$1+\log(1+e^{-1}+e^{-2})\approx1.408$。
+无需先计算会溢出的$e^{1001}$，也无需先生成可能舍入为0的目标概率。}
+
+二分类用$y\in\{0,1\}$、logit $s$时，稳定BCE可写为
+\[
+ \ell=\max(s,0)-ys+\log(1+e^{-|s|}).
+\]
+例如$s=1000,y=0$时损失约1000，而不是对舍入到1的概率直接求$\log0$。
+合并logits损失接口与概率接口要区分，避免重复Sigmoid/Softmax。
+
+减最大值避免指数上溢，某些很小的指数项仍可能下溢为0；不能声称完全消除所有浮点问题。
+Hinge通常用$y\in\{-1,1\}$与得分$s$，随$ys$增加而不增，不是随$s$增加对两类都下降。
+
+\clearpage
+\section{RMSprop、L2与解耦权重衰减}
+\label{sec:numeric-decay}
+一种非中心化RMSprop约定为逐坐标计算
+\[
+ \vct v_t=\beta\vct v_{t-1}+(1-\beta)\vct g_t^2,\qquad
+ \vct w_t=\vct w_{t-1}-\eta\frac{\vct g_t}{\sqrt{\vct v_t}+\epsilon}.
+\]
+$\vct g_t$在$\vct w_{t-1}$处计算。它累积梯度\textbf{平方}的指数滑动平均，仍需设置学习率与其他超参数。
+这里没有Adam式的一阶动量和偏差修正；实现可能另有中心化、动量等选项。
+
+标量例子$v_0=0,w_0=1,\beta=0.9,\eta=0.1$，仅为手算忽略$\epsilon$，
+梯度依次为$2,-1$，得$v_1=0.4,v_2=0.46$，$w_1\approx0.684,w_2\approx0.831$。
+
+L2惩罚$\lambda\lVert\vct w\rVert_2^2/2$增加梯度$\lambda\vct w$。
+在无动量的普通SGD下，更新可改写为
+\[
+ \vct w^+=(1-\eta\lambda)\vct w-\eta\vct g.
+\]
+但若逐坐标缩放梯度，则加入L2梯度与直接衰减参数一般不同。
+
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{P{34mm}Y}
+\toprule
+更新约定 & 固定缩放矩阵$D$的示意与数值\\
+\midrule
+把L2梯度一起缩放 & $w^+=w-\eta D(g+\lambda w)=(0.970,1.996)$。\\
+解耦衰减 & $w^+=(1-\eta\lambda)w-\eta Dg=(0.970,1.978)$。\\
+\bottomrule
+\end{tabularx}
+\end{center}
+本例$w=(1,2),g=(0.2,0.2),D=\operatorname{diag}(1,0.1),\eta=\lambda=0.1$。
+Adam中加入L2梯度还会影响矩估计历史，差异不只这一步；AdamW采用解耦衰减思想。
+偏置、归一化参数等是否衰减需明确参数组，不能不看实现就断言全部相同。
+
+\clearpage
+\section{裁剪梯度：限制范数，不修复全部不稳定}
+\label{sec:numeric-clipping}
+给定阈值$c>0$，全局L2范数裁剪把选定参数的梯度连接成一个向量，
+当$\lVert g\rVert_2>c$时令$g'=cg/\lVert g\rVert_2$，否则保持不变。
+
+\begin{figure}[H]
+\centering\input{figures/numerics/clipping}
+\caption{阈值2。圆弧表示L2范数为2的边界；逐坐标裁剪不保持相同方向。}
+\end{figure}
+\readfigure{$g=(3,4)$的范数为5，全局裁剪后为$(1.2,1.6)$，范数为2且方向不变。
+逐坐标限制在$[-2,2]$则得到$(2,2)$，范数为$2\sqrt2$，含义不同。}
+
+裁剪发生在反向传播之后、优化器更新之前。
+如果使用梯度累积，应明确对哪一次有效梯度裁剪；使用缩放梯度的混合精度流程时，
+通常先取消损失缩放，再按真实梯度量级裁剪。
+
+\begin{pitfall}[梯度有界不等于参数更新一定有界为$\eta c$]
+对普通SGD可直接联系梯度与更新；动量、自适应缩放、权重衰减都会改变最终更新。
+裁剪不能恢复消失梯度，不能把NaN变成有效信息，也不保证损失每步下降。
+突然出现大梯度时，还应检查数据、损失尺度与实现。
+\end{pitfall}
+
+\clearpage
+\section{把不同正则化方式放回训练流程}
+\label{sec:numeric-regularization}
+正则化通过约束、惩罚、随机化或停止规则影响学习，不是给模型增加同一种“防过拟合按钮”。
+
+\begin{center}
+\begin{tabularx}{\textwidth}{P{27mm}P{58mm}Y}
+\toprule
+方法 & 影响什么 & 使用时注意\\
+\midrule
+L2/权重衰减 & 目标梯度或参数更新。 & 归一化与优化器约定。\\
+Dropout & 训练中的随机激活掩码。 & 推理模式及缩放方式。\\
+数据增强 & 训练输入与有效样本变化。 & 标签语义与同源划分。\\
+提前停止 & 选择保存的训练时刻。 & 验证规则与恢复状态。\\
+Bagging & 重采样后训练多个基模型。 & 多模型开销与相关性。\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+Dropout的不同掩码复用同一组参数；通常不会像Bagging那样，
+为每个子网络单独存一套独立拟合的权重。
+每步只采样某些掩码，不表示永久只有固定一部分子网络参与训练。
+
+Bagging的重采样可在给定训练集时独立抽取，但基模型都依赖同一数据来源，
+它们面对新样本的预测误差通常相关。参数分开存储不等于总体预测统计独立。
+普通Dropout的确定性推理也通常不等于对全部非线性子网络预测的精确平均。
+
+\quick{明确方法改变的是数据、目标、梯度、参数还是选择规则，再设计验证比较；不要把几个方法机械叠加就当作质量保证。}
+
+\noindent\textbf{参考：}Goodfellow等《Deep Learning》第6--8章；Loshchilov与Hutter，\textit{Decoupled Weight Decay Regularization}（2019）；
+PyTorch损失、RMSprop、AdamW与梯度裁剪文档。所有图表与算例独立构造。
+

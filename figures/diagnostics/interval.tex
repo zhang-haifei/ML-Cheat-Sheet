@@ -1,0 +1,10 @@
+\begin{tikzpicture}
+\begin{axis}[width=128mm,height=39mm,xmin=.6,xmax=1,ymin=0,ymax=1,
+ xlabel={总体准确率的估计与Wilson近似区间},ytick=\empty,xtick={.6,.7,.8,.9,1},axis y line=none,axis x line=bottom]
+\draw[Teal,very thick] (axis cs:.7222,.45)--(axis cs:.8749,.45);
+\draw[Teal,thick] (axis cs:.7222,.35)--(axis cs:.7222,.55);
+\draw[Teal,thick] (axis cs:.8749,.35)--(axis cs:.8749,.55);
+\addplot[only marks,Teal,mark=*,mark size=3pt] coordinates {(.81,.45)};
+\node[lab,above] at (axis cs:.81,.55) {81/100，约$[0.722,0.875]$};
+\end{axis}
+\end{tikzpicture}

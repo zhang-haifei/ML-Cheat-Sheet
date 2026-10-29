@@ -1,0 +1,8 @@
+\begin{tikzpicture}
+\begin{axis}[width=119mm,height=45mm,ymin=0,ymax=1.05,xmin=.5,xmax=2.5,
+ xtick={1,2},xticklabels={第一主成分,第二主成分},ytick={0,.1,.5,.9,1},
+ ylabel={解释方差比例},ybar,bar width=18mm,nodes near coords,
+ point meta=explicit symbolic]
+\addplot[fill=Teal!65,draw=Teal] coordinates {(1,.9)[90\%](2,.1)[10\%]};
+\end{axis}
+\end{tikzpicture}

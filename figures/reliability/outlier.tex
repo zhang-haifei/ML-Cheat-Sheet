@@ -1,0 +1,7 @@
+\begin{tikzpicture}[node distance=7mm]
+\node[box] (a) {1};\node[box,right=of a] (b) {2};\node[box,right=of b] (c) {2};
+\node[box,right=of c] (d) {3};\node[box,right=of d,draw=Amber,fill=Amber!8] (e) {100};
+\node[box,right=16mm of e,text width=40mm] (summary) {均值：21.6\\中位数：2};
+\draw[flow] (e)--(summary);
+\node[lab,below=9mm of c,text width=68mm,align=center] {100很极端，但是否错误仍需查来源；\\统计标记不能替代业务核查。};
+\end{tikzpicture}

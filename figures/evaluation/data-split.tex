@@ -1,0 +1,11 @@
+\begin{tikzpicture}[node distance=8mm and 9mm]
+\node[box,text width=26mm] (train) {训练集\\拟合参数};
+\node[box,text width=30mm,right=of train] (val) {验证集\\比较候选方案};
+\node[box,text width=31mm,right=of val] (freeze) {确定完整方案\\必要时重新拟合};
+\node[box,text width=25mm,right=of freeze,draw=Amber,fill=Amber!5] (test) {测试集\\最终评估};
+\draw[flow] (train)--(val);
+\draw[flow] (val)--(freeze);
+\draw[flow] (freeze)--(test);
+\draw[flow] (val.south) -- ++(0,-9mm) -| (train.south);
+\node[lab,below=13mm of val] {验证可以指导方案调整，测试结果不进入这个选择循环};
+\end{tikzpicture}

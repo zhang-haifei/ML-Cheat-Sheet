@@ -1,0 +1,7 @@
+\begin{tikzpicture}[node distance=8mm]
+\node[box,text width=27mm] (x) {输入$\vct x$};
+\node[box,text width=34mm,right=of x] (s) {$s=b+\vct w^\top\vct x$\\实值得分};
+\node[box,text width=30mm,right=of s] (p) {$p=\sigma(s)$\\预测概率};
+\node[box,text width=26mm,right=of p] (y) {$p\geq t$？\\预测类别};
+\draw[flow] (x)--(s);\draw[flow] (s)--(p);\draw[flow] (p)--(y);
+\end{tikzpicture}

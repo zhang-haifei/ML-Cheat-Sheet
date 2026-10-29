@@ -1,0 +1,11 @@
+\begin{tikzpicture}
+\begin{axis}[width=124mm,height=52mm,xmin=-.3,xmax=3.4,ymin=0,ymax=8,
+ xlabel={$x$},ylabel={$y$},xtick={0,1,1.5,2,3},ytick={1,5,6,7},axis lines=left]
+\addplot[Teal,thick] coordinates {(-.2,1)(1.5,1)};
+\addplot[Teal,thick] coordinates {(1.5,6)(3.2,6)};
+\addplot[Quiet,dashed] coordinates {(1.5,0)(1.5,8)};
+\addplot[only marks,mark=*,Amber,mark size=3pt] coordinates {(0,1)(1,1)(2,5)(3,7)};
+\node[lab] at (axis cs:.5,2) {叶均值1};
+\node[lab] at (axis cs:2.5,4) {叶均值6};
+\end{axis}
+\end{tikzpicture}

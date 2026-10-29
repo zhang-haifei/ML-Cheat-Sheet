@@ -1,0 +1,15 @@
+\begin{tikzpicture}
+\begin{axis}[name=disc,width=72mm,height=43mm,xmin=-.3,xmax=1.3,ymin=-.05,ymax=1.12,
+ xlabel={$t$},ylabel={$F_X(t)$},xtick={0,1},ytick={0,.75,1},axis lines=left]
+\addplot[Teal,thick] coordinates {(-.3,0) (0,0)};
+\addplot[Teal,thick] coordinates {(0,.75) (1,.75)};
+\addplot[Teal,thick] coordinates {(1,1) (1.3,1)};
+\addplot[only marks,mark=*,Teal,mark size=2pt] coordinates {(0,.75) (1,1)};
+\addplot[only marks,mark=o,mark options={fill=white},Teal,mark size=2pt] coordinates {(0,0) (1,.75)};
+\end{axis}
+\begin{axis}[at={(disc.east)},anchor=west,xshift=13mm,width=72mm,height=43mm,
+ xmin=-.15,xmax=.7,ymin=-.05,ymax=1.12,xlabel={$t$},xtick={0,.5},ytick={0,1},axis lines=left]
+\addplot[Teal,thick] coordinates {(-.15,0) (0,0) (.5,1) (.7,1)};
+\addplot[only marks,mark=*,Teal,mark size=2pt] coordinates {(0,0) (.5,1)};
+\end{axis}
+\end{tikzpicture}

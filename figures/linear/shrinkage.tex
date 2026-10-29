@@ -1,0 +1,9 @@
+\begin{tikzpicture}
+\begin{axis}[width=128mm,height=55mm,xmin=-2.5,xmax=2.5,ymin=-2.5,ymax=2.5,
+ xlabel={无惩罚最优值 $z$},ylabel={惩罚后系数 $\hat w$},
+ legend style={font=\small,at={(.02,.98)},anchor=north west},axis lines=left]
+\addplot[Quiet,dashed,domain=-2.5:2.5]{x};\addlegendentry{无惩罚}
+\addplot[Teal,thick,domain=-2.5:2.5]{x/1.5};\addlegendentry{Ridge，$\lambda=0.5$}
+\addplot[Amber,thick] coordinates {(-2.5,-2)(-.5,0)(.5,0)(2.5,2)};\addlegendentry{Lasso，$\lambda=0.5$}
+\end{axis}
+\end{tikzpicture}

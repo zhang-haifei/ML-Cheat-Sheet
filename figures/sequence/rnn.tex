@@ -1,0 +1,10 @@
+\begin{tikzpicture}[node distance=12mm]
+\node[box,text width=17mm] (h0) {$h_0$};
+\node[box,text width=24mm,right=of h0] (h1) {RNN单元\\$h_1$};
+\node[box,text width=24mm,right=of h1] (h2) {RNN单元\\$h_2$};
+\node[box,text width=24mm,right=of h2] (h3) {RNN单元\\$h_3$};
+\draw[flow] (h0)--(h1);\draw[flow] (h1)--(h2);\draw[flow] (h2)--(h3);
+\node[lab,below=10mm of h1] (x1) {$x_1$};\node[lab,below=10mm of h2] (x2) {$x_2$};\node[lab,below=10mm of h3] (x3) {$x_3$};
+\draw[flow] (x1)--(h1);\draw[flow] (x2)--(h2);\draw[flow] (x3)--(h3);
+\node[lab,above=10mm of h2] {三个位置使用同一组权重，不是三个独立模型};
+\end{tikzpicture}

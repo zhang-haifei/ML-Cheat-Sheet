@@ -1,0 +1,306 @@
+\chapter{学习与泛化：先把问题定义清楚}
+\label{ch:learning}
+
+机器学习（Machine Learning）利用数据中的经验改善任务表现。
+开始建模前，至少要说清楚三件事：完成什么任务、有哪些可用经验、怎样判断表现。
+“会拟合数据”只是其中一环，最终还要看模型面对合适的新数据是否有用。
+
+\begin{keyidea}[贯穿全书的四个问题]
+要预测什么？预测时能获得什么？希望在哪种新数据上有效？哪些错误代价更大？
+模型类型、数据处理、训练目标和评估指标，都需要围绕这些问题选择。
+\end{keyidea}
+
+\section{从经验到规则，再把规则用于新输入}
+\label{sec:learn-workflow}
+例如根据设备运行记录预测下一天是否故障：任务是故障分类，经验是历史记录与后续故障标签，
+表现可以用漏报率、误报率或相应成本衡量。只报训练准确率不足以说明这个任务已经做好。
+
+\begin{figure}[H]
+\centering\input{figures/foundations/workflow}
+\caption{监督学习中的拟合与预测。新输入应满足任务中约定的信息可用性。}
+\end{figure}
+\readfigure{学习算法从样本得到一个模型；已拟合模型再把新输入映射为预测。
+拟合不是逐条记住答案的同义词，预测也不保证每次正确。
+模型表现是否随更多经验改善，需要用合适的评估流程检验。}
+
+\subsection{预测关系不自动等于因果关系}
+记录中的某个特征与故障相关，可以帮助预测，但不表示主动改变它一定能减少故障。
+采集方式、共同原因和选择偏差都可能形成相关性。因果问题需要额外假设或实验设计。
+
+\quick{先写下任务、信息与评估规则，再开始选算法。}
+
+\clearpage
+\section{监督、无监督；分类、回归}
+\label{sec:learn-tasks}
+监督学习（Supervised Learning）有用于学习的输入—目标对应关系。
+无监督学习（Unsupervised Learning）不依赖这种任务标签，常用于寻找结构、压缩或描述分布。
+
+\begin{center}
+\begin{tabularx}{\textwidth}{P{28mm}P{40mm}Y}
+\toprule
+问题 & 目标形式 & 例子\\
+\midrule
+分类 Classification & 离散类别 & 是否故障、图像属于哪种动物。\\
+回归 Regression & 数值 & 明日温度、房屋价格。\\
+聚类 Clustering & 无给定类别标签，寻找分组 & 按购买行为探索客户群。\\
+降维 Dimensionality reduction & 构造较少的表示坐标 & 用低维表示压缩或可视化特征。\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+分类标签即使用数字0、1、2表示，仍然是类别。
+回归值可以是连续测量，也可以是数值计数；关键是预测目标的含义与损失。
+逻辑回归虽然名为“回归”，常用于分类概率建模。
+
+\begin{pitfall}[没有标签不代表没有评估]
+聚类结果仍需根据稳定性、结构与实际用途检验，不能只看图上是否分得好看。
+无监督步骤如果参与后续监督任务，也应服从相应的数据划分与拟合边界。
+无监督学习并不天然优于或劣于监督学习，两者回答的问题不同。
+\end{pitfall}
+\quick{分类和回归按目标区分；监督和无监督按学习信号区分。}
+
+\clearpage
+\section{决策边界划分预测区域}
+\label{sec:learn-boundary}
+分类器的决策边界（Decision Boundary）是预测类别发生变化的位置。
+考虑得分$s=x_1+x_2-4$，采用$s\geq0$预测1，否则预测0；边界是$x_1+x_2=4$。
+
+\begin{figure}[H]
+\centering\input{figures/foundations/boundary}
+\caption{圆点真实标签为0，三角真实标签为1；背景及直线表示模型的预测规则。}
+\end{figure}
+\readfigure{直线上方预测1，下方预测0。有一个圆点落在上方，因此会被误分。
+边界说明模型怎样预测，散点说明观测标签，两者不必完全一致。}
+
+如果得分先经过Sigmoid得到概率$p=\sigma(s)$，以$p\geq0.5$分类仍得到同一边界。
+改变概率阈值会改变边界的位置。非线性特征或模型可以产生弯曲边界，
+但边界更曲折不直接证明预测更好。
+
+\begin{pitfall}[类别、得分、概率是不同对象]
+得分可取任意实数；概率应在$[0,1]$内；类别由决策规则产生。
+得分经函数变到$[0,1]$不等于已经证明概率校准良好。
+\end{pitfall}
+
+\clearpage
+\section{模型容量与泛化能力分别回答什么？}
+\label{sec:learn-capacity}
+模型容量（Capacity）描述候选函数集合的表达能力。
+例如所有常数函数包含在一次多项式中，一次多项式又包含在至多二次多项式中。
+
+\begin{figure}[H]
+\centering\input{figures/foundations/capacity}
+\caption{候选函数集合的包含关系示例。方框面积不表示任何数值容量指标。}
+\end{figure}
+\readfigure{外层集合可以表达内层集合的函数，也能表达更多形状。
+若使用同一训练损失、没有额外限制并找到全局最优，扩大候选集合不会提高最优训练损失。
+这不保证实际优化一定找到最优，更不保证新数据表现改善。}
+
+泛化（Generalization）关注从已见数据学到的规则在目标新数据上的表现。
+它取决于数据量、任务结构、噪声、模型和训练方式，也受训练与使用分布差异影响。
+参数多寡可提供一些线索，但不是跨模型通用的容量或泛化度量。
+
+\quick{容量问“能够表达什么”；泛化问“学到的规则在目标新数据上表现如何”。}
+
+\clearpage
+\section{参数模型与非参数模型}
+\label{sec:learn-parametric}
+固定输入维度时，参数模型（Parametric Model）用固定有限维参数描述模型族。
+非参数模型（Nonparametric Model）的复杂度可以随数据量增长；这个名称不表示没有参数。
+
+\begin{center}
+\begin{tabularx}{\textwidth}{P{32mm}P{47mm}Y}
+\toprule
+例子 & 怎样表示 & 主要边界\\
+\midrule
+线性回归 & $d$个系数与一个截距。 & 固定$d$时，样本增加不会新增系数。\\
+固定结构神经网络 & 固定数量的权重与偏置。 & 是参数模型；函数可以高度非线性。\\
+$k$近邻预测 & 保存训练样本并查询邻居。 & 需要保存的信息通常随训练量增长；$k$是超参数。\\
+可增长的树 & 根据数据形成切分与叶子。 & 复杂度受深度、叶数等限制；具体约束需声明。\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+参数是拟合时学习的量，如回归系数；超参数（Hyperparameter）控制模型或训练流程，
+如近邻数、树深和正则化强度，常通过开发数据内验证选择。
+
+\begin{pitfall}[不能从名称推出分布假设]
+参数模型不等于“数据必须正态”，非参数模型也不等于“没有任何假设”。
+距离、平滑性、局部结构等仍是重要假设，必须结合具体模型判断。
+\end{pitfall}
+
+\clearpage
+\section{欠拟合与过拟合：看训练，也看新数据}
+\label{sec:learn-fit}
+欠拟合（Underfitting）指模型或训练流程未充分学到有用结构。
+过拟合（Overfitting）指对训练样本中的偶然变化适应过多，影响新数据表现。
+用同一组九条带固定扰动的样本，比较三种最小二乘多项式拟合。
+
+\begin{figure}[H]
+\centering\input{figures/foundations/fits}
+\caption{人工构造的$y=x^2+\varepsilon$示例。曲线在同一训练集拟合；虚线是已知生成信号。}
+\end{figure}
+\readfigure{常数无法描述弯曲趋势；二次函数接近信号；八次函数穿过训练点但产生额外起伏。
+这些判断在本例有已知信号支撑。真实任务通常不知道信号，需依靠独立验证。}
+
+\begin{center}
+\small
+\begin{tabular}{lrr}
+\toprule
+拟合次数 & 训练MSE & 网格上对真实信号的MSE\\
+\midrule
+0 & 0.13933 & 0.09707\\
+2 & 0.00639 & 0.00018\\
+8 & $<10^{-20}$ & 0.02308\\
+\bottomrule
+\end{tabular}
+\end{center}
+数值保留五位小数；网格误差只比较201个等距位置的无噪声信号，
+不是从真实人群采集的测试分数。
+
+\clearpage
+\section{偏差与方差：固定输入，改变训练集}
+\label{sec:learn-biasvariance}
+回归中固定输入$x$，令$f(x)=\mathbb E[Y\mid X=x]$。
+从相同机制重新采集训练集$D$并拟合，得到不同预测$\hat f_D(x)$。
+期望$\mathbb E_D$表示对这些训练集及所考虑的训练随机性取平均。
+\[
+ \bar f(x)=\mathbb E_D[\hat f_D(x)],\qquad
+ \operatorname{Bias}(x)=\bar f(x)-f(x),
+\]
+\[
+ \operatorname{Var}(x)=\mathbb E_D[(\hat f_D(x)-\bar f(x))^2].
+\]
+偏差描述平均预测偏离条件均值的程度，方差描述不同拟合之间预测的波动。
+它们都不是单个训练样本的残差。
+
+\begin{figure}[H]
+\centering\input{figures/foundations/bias-variance}
+\caption{固定$x$处，三种训练结果等概率出现的离散教学例子。}
+\end{figure}
+\readfigure{预测均值为2，偏差为$2-2.5=-0.5$，偏差平方为0.25。
+方差为$[(1-2)^2+0+(3-2)^2]/3=2/3$。偏差可以有正负，偏差平方非负。}
+
+\begin{pitfall}[一个数据集的残差不能直接给出这些量]
+真实条件均值通常未知，也没有无限多个独立训练集。
+重采样实验可以帮助研究稳定性，但不能把其输出自动当作真实偏差和方差。
+\end{pitfall}
+
+\clearpage
+\section{平方误差怎样分成三部分？}
+\label{sec:learn-decomposition}
+设新响应$Y=f(x)+\varepsilon$满足
+$\mathbb E[\varepsilon\mid x]=0$、$\operatorname{Var}(\varepsilon\mid x)=\sigma^2(x)$，
+且新响应噪声与训练集独立。固定$x$，有
+\[
+ \mathbb E_{D,Y\mid x}[(Y-\hat f_D(x))^2]
+ =\operatorname{Bias}(x)^2+\operatorname{Var}(x)+\sigma^2(x).
+\]
+
+\begin{center}
+\begin{tabularx}{\textwidth}{P{30mm}Y}
+\toprule
+部分 & 在这个设置下的含义\\
+\midrule
+偏差平方 & 平均预测与条件均值的差异。\\
+预测方差 & 不同训练集、训练随机性造成的预测波动。\\
+条件噪声方差 & 给定现有特征$x$，响应仍有的不确定性。\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\subsection{只需看交叉项为什么为零}
+写成$Y-\hat f_D=\varepsilon+(f-\bar f)+(\bar f-\hat f_D)$。
+平方展开后，$\mathbb E\varepsilon=0$、$\mathbb E_D(\bar f-\hat f_D)=0$，
+以及新噪声与训练集的独立性，使交叉项期望为零；其余三项就是上式。
+
+接着上一页，令新噪声以相同概率取$-0.5$或$0.5$，则噪声方差为0.25。
+预期平方误差为$0.25+2/3+0.25=7/6\approx1.167$。
+对三个预测与两个新响应的六种组合直接计算，也得到相同结果。
+
+\begin{pitfall}[条件与损失不能省略]
+这是固定输入处、独立新响应的平方损失分解，不能原样套到0--1错误率。
+噪声是相对给定特征而言的；增加有效信息可能降低条件不确定性。
+变量相关本身不等于噪声来源。
+\end{pitfall}
+
+\clearpage
+\section{用现象诊断问题，不背固定曲线}
+\label{sec:learn-diagnosis}
+经典偏差—方差权衡提供一种解释：放宽模型限制时，偏差可能降低而方差可能增大。
+但这不是所有算法、数据量和训练方式下的单调定律，验证误差也不保证呈单一U形。
+
+\begin{center}
+\begin{tabularx}{\textwidth}{P{37mm}Y}
+\toprule
+观察到的现象 & 先检查什么\\
+\midrule
+训练与验证都较差 & 数据/目标是否一致，特征是否有信息，优化是否充分，限制是否过强。\\
+训练好、验证明显差 & 泄漏与划分是否正确，样本量与代表性，模型约束，选择流程是否过多调试。\\
+训练与验证接近 & 接近不代表都好；要与简单基线、目标需求比较。\\
+上线表现突然恶化 & 输入、标签、采集流程或人群是否变化，是否存在时间或群组差异。\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+正则化、限制树深、早停、更多合适数据等都可能改善泛化。
+增加复杂度也可能改善欠拟合，但应先排查编码错误、训练未收敛等实现问题。
+数据量增加并不保证错误标签或分布错位自行消失。
+
+\quick{把诊断变成可比较的实验：固定划分、一次改变清楚的因素，再看验证结果。}
+
+\clearpage
+\section{第一类、第二类错误要先声明原假设}
+\label{sec:learn-testing-errors}
+假设检验中先设原假设$H_0$和备择假设$H_1$。
+第一类错误（Type I Error）是在$H_0$为真时拒绝它；
+第二类错误（Type II Error）是在$H_0$为假时未拒绝它。
+
+\begin{center}
+\begin{tabularx}{\textwidth}{P{45mm}YY}
+\toprule
+真实情况 & 拒绝$H_0$ & 未拒绝$H_0$\\
+\midrule
+$H_0$为真 & 第一类错误 & 无此类错误\\
+$H_0$为假 & 无此类错误 & 第二类错误\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+若把$H_0$设为“没有故障”，并把拒绝$H_0$作为“检出故障”，
+第一类错误对应假阳性，第二类错误对应假阴性。
+这项对应依赖原假设和正类定义，不能跳过声明。
+第一类错误概率记为$\alpha$，第二类错误概率记为$\beta$，检验功效为$1-\beta$。
+
+\begin{pitfall}[未拒绝不等于证明为真]
+没有足够证据拒绝$H_0$，可能是效应弱或样本不足。
+$p$值也不是“原假设为真的概率”。预测模型的错误率与统计检验的错误概率，
+需要按各自任务分别定义。
+\end{pitfall}
+
+\clearpage
+\section{简单模型优先，是有条件的选择原则}
+\label{sec:learn-occam-nfl}
+奥卡姆剃刀（Occam's Razor）鼓励在解释能力和证据相近时，避免不必要的复杂性。
+在实际建模中，可以同时比较验证表现、维护成本、解释要求和运行代价，
+不能只凭训练集拟合好坏就宣布简单模型总是更优。
+
+\subsection{没有免费午餐强调假设的重要性}
+没有免费午餐（No Free Lunch）定理有具体的任务空间、平均方式和损失等条件。
+在有限输入、所有标签函数等可能的设置下，未观察位置的标签无法仅凭已有标签推断；
+对所有这些任务平均，并不能获得普遍占优的预测规则。
+实际任务通常具有结构，模型正是利用这种结构与先验假设工作。
+
+\begin{keyidea}[两句话可以同时成立]
+没有一个方法在所有可能任务上普遍最好；某个方法在明确的一类实际任务上可能非常有效。
+因此应从任务结构提出候选模型，再用适当数据比较，而不是随机选择或放弃比较。
+\end{keyidea}
+
+\subsection{自测与回看}
+训练误差为零，是否证明泛化良好？\textbf{不能。}
+固定结构神经网络是否一定属于非参数模型？\textbf{不是。}
+偏差是否就是一次预测的残差？\textbf{不是。}
+第二类错误是否是假阳性？\textbf{在常见“无病”为原假设的对应中，是假阴性。}
+
+\smallskip
+\noindent\textbf{参考：}James等，\textit{An Introduction to Statistical Learning}，
+第二版，2021，第2章；本章数值例子、图和计算文件均为独立构造。

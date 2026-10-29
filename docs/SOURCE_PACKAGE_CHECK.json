@@ -1,0 +1,27 @@
+{
+  "status": "PASS",
+  "pages": 161,
+  "page_text_identical": true,
+  "numerical_checks": 15,
+  "numerical_verification_scripts_unchanged": true,
+  "numerical_validation": "15组已在此前独立源码包执行通过；本次仅更换论文链接与更新说明，相关核验脚本逐字节相同。",
+  "build_script_archive_mode": "100755",
+  "isolated_build_audit": {
+    "target": "main",
+    "pages": 161,
+    "pdf_sha256": "740505f25feec3abe8b36167f11b67f015dc68173b9acacde2b7f98cd7da3d02",
+    "overfull": 0,
+    "underfull": 0,
+    "missing_characters": 0,
+    "undefined_references": 0,
+    "source_files": 117,
+    "original_files_still_referenced": 0,
+    "original_image_occurrences": 0,
+    "independent_figure_sources": 85,
+    "internal_links": 319,
+    "invalid_internal_links": 0,
+    "external_uri_links": 32,
+    "missing_inputs": []
+  },
+  "source_only_package": true
+}

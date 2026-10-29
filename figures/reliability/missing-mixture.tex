@@ -1,0 +1,9 @@
+\begin{tikzpicture}[x=1cm,y=1cm]
+\node[lab,left] at (0,.5) {总体100人};
+\fill[Teal] (0,0) rectangle (5,1);\fill[Amber] (5,0) rectangle (10,1);
+\node[white] at (2.5,.5) {A：50人，$X=20$};\node[white] at (7.5,.5) {B：50人，$X=80$};
+\node[lab,left] at (0,-1.3) {完整记录50人};
+\fill[Teal] (0,-1.8) rectangle (8,-.8);\fill[Amber] (8,-1.8) rectangle (10,-.8);
+\node[white] at (4,-1.3) {A：40人};\node[white] at (9,-1.3) {B：10人};
+\node[lab,below] at (5,-2.1) {每条横条各自归一化：保留率不同改变组别构成。};
+\end{tikzpicture}

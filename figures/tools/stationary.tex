@@ -1,0 +1,10 @@
+\begin{tikzpicture}
+\begin{axis}[width=131mm,height=50mm,xmin=-1.5,xmax=1.5,ymin=-.15,ymax=1.8,
+ xlabel={$\theta$},ylabel={$J(\theta)$},xtick={-1,0,1},ytick={0,1},axis lines=left]
+\addplot[Teal,thick,domain=-1.4:1.4,samples=150]{(x*x-1)^2};
+\addplot[only marks,mark=*,Amber,mark size=3pt] coordinates {(-1,0)(0,1)(1,0)};
+\node[lab,above] at (axis cs:0,1.1) {局部极大：梯度同样为0};
+\node[lab,above right] at (axis cs:-1,.1) {全局极小};
+\node[lab,above left] at (axis cs:1,.1) {全局极小};
+\end{axis}
+\end{tikzpicture}

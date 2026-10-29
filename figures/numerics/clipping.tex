@@ -1,0 +1,10 @@
+\begin{tikzpicture}
+\begin{axis}[width=95mm,height=72mm,xmin=0,xmax=3.5,ymin=0,ymax=4.6,
+ xlabel={$g_1$},ylabel={$g_2$},xtick={0,1.2,2,3},ytick={0,1.6,2,4},axis equal image]
+\addplot[Quiet,dashed,domain=0:2,samples=60]{sqrt(max(0,4-x*x))};
+\draw[flow,Amber,very thick] (axis cs:0,0)--(axis cs:3,4) node[above,lab] {$g=(3,4)$};
+\draw[flow,Teal,very thick] (axis cs:0,0)--(axis cs:1.2,1.6) node[right,lab] {全局范数裁剪};
+\addplot[only marks,mark=square*,Ink] coordinates {(2,2)};
+\node[lab,right] at (axis cs:2,2) {逐坐标裁剪};
+\end{axis}
+\end{tikzpicture}

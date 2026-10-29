@@ -1,0 +1,19 @@
+\begin{tikzpicture}[x=8mm,y=8mm]
+\foreach \r/\a/\b/\c/\d in {0/1/2/0/1,1/0/1/3/2,2/2/0/1/1,3/1/2/1/0}{
+ \foreach \j/\v in {0/\a,1/\b,2/\c,3/\d}{
+  \ifnum\r<2\ifnum\j<2\def\cc{Pale}\else\def\cc{white}\fi\else\def\cc{white}\fi
+  \draw[Teal!40,fill=\cc] (\j,-\r) rectangle ++(1,-1);
+  \node at (\j+.5,-\r-.5) {$\v$};}}
+\node[lab] at (2,1) {输入$X$};
+\foreach \r/\a/\b in {0/1/0,1/0/-1}{\foreach \j/\v in {0/\a,1/\b}{
+ \draw[Teal,fill=Pale] (6+\j,-\r-1) rectangle ++(1,-1);
+ \node at (6.5+\j,-\r-1.5) {$\v$};}}
+\node[lab] at (7,1) {共享核$K$};
+\draw[flow] (8.5,-2)--(10,-2);
+\foreach \r/\a/\b/\c in {0/0/-1/-2,1/0/0/2,2/0/-1/1}{\foreach \j/\v in {0/\a,1/\b,2/\c}{
+ \draw[Teal!40,fill=Pale] (11+\j,-\r-.5) rectangle ++(1,-1);
+ \node at (11.5+\j,-\r-1) {$\v$};}}
+\node[lab] at (12.5,1) {输出$Y$};
+\draw[Amber,thick] (11,-.5) rectangle ++(1,-1);
+\node[lab] at (7,-5) {左上角：$1\times1+2\times0+0\times0+1\times(-1)=0$};
+\end{tikzpicture}

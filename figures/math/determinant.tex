@@ -1,0 +1,8 @@
+\begin{tikzpicture}[x=18mm,y=18mm]
+\draw[->,Quiet] (-.2,0)--(3.5,0) node[right,lab] {$x_1$};
+\draw[->,Quiet] (0,-.2)--(0,2.5) node[above,lab] {$x_2$};
+\filldraw[fill=Pale,draw=Teal] (0,0)--(2,0)--(3,2)--(1,2)--cycle;
+\draw[flow,very thick] (0,0)--(2,0) node[midway,below,lab] {$\vct a=(2,0)$};
+\draw[flow,very thick] (0,0)--(1,2) node[midway,left,lab] {$\vct b=(1,2)$};
+\node[lab] at (2,1) {面积4};
+\end{tikzpicture}

@@ -1,0 +1,9 @@
+\begin{tikzpicture}
+\begin{axis}[width=125mm,height=48mm,ymin=0,ymax=.58,xmin=.5,xmax=4.5,
+ xlabel={训练样本},ylabel={归一化权重},xtick={1,2,3,4},ytick={0,.1666667,.25,.5},
+ yticklabels={0,$1/6$,$1/4$,$1/2$},ybar,bar width=7mm,
+ legend style={font=\small,at={(.5,1.03)},anchor=south,legend columns=2}]
+\addplot[fill=Teal!60,draw=Teal] coordinates {(1,.25)(2,.25)(3,.25)(4,.25)};\addlegendentry{更新前}
+\addplot[fill=Amber!60,draw=Amber] coordinates {(1,.1666667)(2,.1666667)(3,.1666667)(4,.5)};\addlegendentry{更新后}
+\end{axis}
+\end{tikzpicture}

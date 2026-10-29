@@ -1,0 +1,15 @@
+\begin{tikzpicture}
+\begin{axis}[width=121mm,height=57mm,xmin=-2.6,xmax=2.6,ymin=-1.1,ymax=1.8,
+ xlabel={$x_1$},ylabel={$x_2$},xtick={-2,-1,0,1,2},ytick={0,1},axis lines=left]
+\path[fill=Pale] (axis cs:-1,-1.1)--(axis cs:1,-1.1)--(axis cs:1,1.8)--(axis cs:-1,1.8)--cycle;
+\addplot[Teal,very thick] coordinates {(0,-1.1)(0,1.8)};
+\addplot[Quiet,dashed] coordinates {(-1,-1.1)(-1,1.8)};
+\addplot[Quiet,dashed] coordinates {(1,-1.1)(1,1.8)};
+\addplot[only marks,mark=o,Teal,mark size=3pt] coordinates {(-2,1)(-1,0)};
+\addplot[only marks,mark=triangle*,Amber,mark size=3pt] coordinates {(1,0)(2,1)};
+\addplot[only marks,mark=o,draw=Ink,mark size=6pt] coordinates {(-1,0)(1,0)};
+\draw[<->,Amber,thick] (axis cs:-1,-.55)--(axis cs:1,-.55);
+\node[lab,below] at (axis cs:0,-.6) {总间隔宽度2};
+\node[lab] at (axis cs:0,1.55) {$s=x_1=0$};
+\end{axis}
+\end{tikzpicture}
