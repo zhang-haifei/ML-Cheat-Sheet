@@ -14,12 +14,13 @@ Token ID是查表索引，不表示语义的高低远近。词典、分词规则
 Tokenization把文本切成处理单元（Token），可以是词、子词、字符等。
 中文不必按空格切分，词干提取也不是所有语言和模型都需要的步骤。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/sequence/tokens}
 \caption{一个人工分词与词典例子，词典含PAD=0、我=1、爱=2、猫=3。实际系统可采用不同切分。}
-\end{figure}
+\par\smallskip
 \readfigure{三项ID查三行嵌入，得到三条向量。ID为3不表示“猫”是“我”的三倍。
 验证与上线必须沿用同一词典及未知Token处理规则。}
+\end{figure}
 
 \begin{center}
 \begin{tabularx}{\textwidth}{P{35mm}Y}
@@ -35,7 +36,6 @@ Tokenization把文本切成处理单元（Token），可以是词、子词、字
 
 \quick{“不喜欢”中的“不”可能决定情感标签；文本清洗必须与任务语义一致。}
 
-\clearpage
 \section{词袋与TF-IDF：可解释的稀疏基线}
 \label{sec:text-tfidf}
 词袋（Bag of Words）把文档表示为词典上的计数或出现指示向量。
@@ -68,7 +68,6 @@ TF-IDF组合词频与逆文档频率。本例使用原始计数$tf$、自然对�
 
 \quick{词典与IDF从训练数据学习，随后固定用于验证、测试和新文档。}
 
-\clearpage
 \section{嵌入与Word2Vec：学习稠密向量}
 \label{sec:text-embedding}
 嵌入（Embedding）用矩阵$E\in\R^{V\times d}$为$V$个Token存储$d$维向量。
@@ -94,6 +93,8 @@ Word2Vec通过局部上下文预测等目标学习词向量，典型形式包括
 预训练嵌入可冻结后作为特征，也可以随任务微调。预处理应与预训练模型约定一致，
 不能任意删词、改变Token划分后仍假定原模型语义不变。
 
+\begingroup\small
 \noindent\textbf{参考：}Manning等，\textit{Introduction to Information Retrieval}（2008）第6章；
 Mikolov等（2013）的Word2Vec工作；scikit-learn Text feature extraction文档。
 本章表格与流程图独立设计。
+\par\endgroup

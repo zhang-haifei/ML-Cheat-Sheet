@@ -15,16 +15,16 @@
 约束$y_i(\vct w^\top\vct x_i+b)\geq1$，其中$y_i\in\{-1,1\}$。
 在这个规范化下，两条间隔边界为$s=\pm1$，总几何宽度为$2/\lVert\vct w\rVert$。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/kernel/margin}
 \caption{人工例子$\vct w=(1,0)$、$b=0$，圆形为负类，三角为正类；圈出的点位于间隔边界。}
-\end{figure}
+\par\smallskip
 \readfigure{决策边界$x_1=0$，间隔边界为$x_1=\pm1$，总宽度为2。
 在对偶表示中，系数$\alpha_i>0$的训练点称支持向量；它们在硬间隔解中位于间隔边界。}
+\end{figure}
 
 \quick{硬间隔要求可分且对异常记录敏感；不可分时不能机械强制所有约束。}
 
-\clearpage
 \section{软间隔：正确分类也可能付出代价}
 \label{sec:svm-soft}
 软间隔允许松弛变量$\xi_i\geq0$：
@@ -57,7 +57,6 @@ $C$越大，单位违例的惩罚越强，模型通常更努力适应训练约�
 类别不平衡还可能需要类权重与合适评估，而不是只调整$C$。
 \end{pitfall}
 
-\clearpage
 \section{核函数：在相似性上建立非线性边界}
 \label{sec:svm-kernel}
 核函数满足$K(x,z)=\langle\phi(x),\phi(z)\rangle$，
@@ -68,15 +67,18 @@ $C$越大，单位违例的惩罚越强，模型通常更努力适应训练约�
  K(x,z)=\exp[-\gamma\lVert x-z\rVert_2^2],\qquad\gamma>0.
 \]
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/kernel/rbf}
 \caption{RBF相似度随距离降低；较大$\gamma$使影响更局部。}
-\end{figure}
+\par\smallskip
 \readfigure{相同点的核值为1。$x=(0,0)$、$z=(1,1)$、$\gamma=0.5$时，核值为$e^{-1}\approx0.368$。
 指数的负号不能省略。核方法也不保证任意数据与标签都能理想泛化。}
+\end{figure}
 
 $C$与$\gamma$通常需要联合验证。核矩阵与求解成本可能随样本数迅速增加，
 较大任务可比较线性方法、核近似等方案。核相似性、得分和概率各有含义，不能混用。
 
+\begingroup\small
 \noindent\textbf{参考：}ISLR第二版第9章；scikit-learn Support Vector Machines文档。
 图和数值例子为本书独立构造。
+\par\endgroup

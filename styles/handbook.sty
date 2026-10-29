@@ -8,12 +8,13 @@
 \usepackage[export]{adjustbox}
 \usepackage{algorithm,algorithmic,enumerate}
 \usepackage[thinc]{esdiff}
-\usepackage{setspace,longtable,booktabs,tabularx,array}
+\usepackage{setspace,longtable,booktabs,tabularx,xltabular,array,needspace}
 \usepackage{xcolor,geometry,fancyhdr,tikz,pgfplots}
 \usetikzlibrary{arrows.meta,positioning,fit,calc,backgrounds,decorations.pathreplacing}
 \pgfplotsset{compat=1.18}
 \usepackage[most]{tcolorbox}
 \usepackage{caption}
+\usepackage[section]{placeins}
 \usepackage[unicode,colorlinks=true]{hyperref}
 \definecolor{Ink}{HTML}{183447}
 \definecolor{Teal}{HTML}{007F82}
@@ -25,10 +26,10 @@
 \geometry{a4paper,left=25mm,right=25mm,top=24mm,bottom=24mm,headheight=15pt}
 \setstretch{1.12}
 \setlength{\parindent}{2em}
-\setlength{\parskip}{0.35em}
+\setlength{\parskip}{0.30em}
 \setlength{\emergencystretch}{1.5em}
-\setlength{\textfloatsep}{12pt}
-\setlength{\intextsep}{10pt}
+\setlength{\textfloatsep}{10pt}
+\setlength{\intextsep}{8pt}
 \captionsetup{font=small,labelfont=bf,justification=justified,singlelinecheck=false}
 \ctexset{chapter={format=\LARGE\sffamily\bfseries\color{Ink},
   beforeskip=8pt,afterskip=16pt},
@@ -42,15 +43,15 @@
 \fancyfoot[C]{\small\thepage}
 \renewcommand{\headrulewidth}{0.3pt}
 \fancypagestyle{plain}{\fancyhf{}\fancyfoot[C]{\small\thepage}\renewcommand{\headrulewidth}{0pt}}
-\newtcolorbox{keyidea}[1][核心理解]{enhanced,breakable,colback=Pale,
+\newtcolorbox{keyidea}[1][核心理解]{enhanced,breakable,lines before break=4,colback=Pale,
   colframe=Teal,boxrule=0pt,borderline west={2pt}{0pt}{Teal},
   sharp corners,title={#1},coltitle=Ink,fonttitle=\sffamily\bfseries,
   attach title to upper={\par\smallskip},left=9pt,right=9pt,top=7pt,bottom=7pt}
-\newtcolorbox{pitfall}[1][容易混淆]{enhanced,breakable,colback=Amber!5,
+\newtcolorbox{pitfall}[1][容易混淆]{enhanced,breakable,lines before break=4,colback=Amber!5,
   colframe=Amber,boxrule=0pt,borderline west={2pt}{0pt}{Amber},
   sharp corners,title={#1},coltitle=Amber,fonttitle=\sffamily\bfseries,
   attach title to upper={\par\smallskip},left=9pt,right=9pt,top=7pt,bottom=7pt}
-\newcommand{\readfigure}[1]{\par\noindent\textbf{读图：}#1\par}
+\newcommand{\readfigure}[1]{\par\begingroup\raggedright\noindent\textbf{读图：}#1\par\endgroup}
 \newcommand{\quick}[1]{\par\noindent\textbf{记住：}#1\par}
 \newcolumntype{Y}{>{\raggedright\arraybackslash}X}
 \newcolumntype{P}[1]{>{\raggedright\arraybackslash}p{#1}}
@@ -63,3 +64,23 @@
   flow/.style={-{Stealth[length=2mm]},thick,draw=Teal},
   unit/.style={circle,draw=Teal,fill=Pale,minimum size=8mm,inner sep=1pt},
   lab/.style={font=\small,text=Quiet}}
+
+% Continuous book flow: reserve enough room for a heading and its opening lines.
+\raggedbottom
+\clubpenalty=10000
+\widowpenalty=10000
+\displaywidowpenalty=10000
+\AddToHook{cmd/section/before}{\Needspace{6\baselineskip}}
+\AddToHook{cmd/subsection/before}{\Needspace{4\baselineskip}}
+
+% Keep visual explanations with their figures while text fills available space.
+\renewcommand{\topfraction}{0.88}
+\renewcommand{\bottomfraction}{0.75}
+\renewcommand{\textfraction}{0.08}
+\renewcommand{\floatpagefraction}{0.8}
+\setcounter{topnumber}{3}
+\setcounter{bottomnumber}{2}
+\setcounter{totalnumber}{4}
+
+\setlength{\LTpre}{6pt}
+\setlength{\LTpost}{8pt}

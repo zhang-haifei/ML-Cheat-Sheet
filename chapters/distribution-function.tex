@@ -1,4 +1,3 @@
-\clearpage
 \section{CDF：把“落在左侧的概率”累计起来}
 \label{sec:math-cdf}
 累积分布函数（Cumulative Distribution Function, CDF）定义为
@@ -9,12 +8,13 @@ $X$是随机变量，$t$是查询位置；不要把等式右侧写成与$t$无�
 CDF单调不减、右连续，在负无穷和正无穷处的极限分别为0和1。
 它适用于离散、连续以及混合分布。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/math/cdf}
 \caption{左：$X\sim\mathrm{Bernoulli}(1/4)$的跳跃CDF。右：$U(0,0.5)$的连续CDF。实心点表示端点取值。}
-\end{figure}
+\par\smallskip
 \readfigure{左图在0跳到$3/4$，在1跳到1；所以$P(X=0)=3/4$。
 右图在$[0,0.5]$内为$F(t)=2t$，因此$P(0.1<X\leq0.4)=0.8-0.2=0.6$。}
+\end{figure}
 
 \begin{center}
 \begin{tabularx}{\textwidth}{P{30mm}Y}

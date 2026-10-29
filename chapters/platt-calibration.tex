@@ -1,4 +1,3 @@
-\clearpage
 \section{Platt校准：给固定得分再拟合一个概率映射}
 \label{sec:diag-platt}
 分类器的得分可以很好地排序，却不一定对应事件频率。
@@ -9,12 +8,13 @@
 这里采用$+as+b$的Sigmoid约定；也有文献写成$1/(1+e^{As+B})$，相应参数符号相反。
 输入是事先定义的得分，不要求它原本就是概率。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/diagnostics/calibration-flow}
 \caption{简化的三个数据角色；交叉拟合可提高数据利用率，但也必须保持每条校准预测的拟合边界。}
-\end{figure}
+\par\smallskip
 \readfigure{先训练基础模型，再冻结它并在校准集上产生得分，利用校准标签拟合$a,b$。
 测试只评价已经固定的完整流程。基础模型若重新拟合，得分分布可能变化，原校准映射也需重新检查。}
+\end{figure}
 
 沿用前面的8样本例子：两组标签分别为$[0,0,0,1]$与$[0,1,1,1]$，
 基础概率为0.1与0.9。若以其logit为得分，则$s=-\log9,+\log9$。

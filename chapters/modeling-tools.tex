@@ -39,7 +39,6 @@ $\Omega$是对模型的惩罚，不是预测方差的直接测量。
 $\lambda$控制惩罚强度，需要在开发数据内比较。
 最终评估指标可以与训练损失不同，例如用交叉熵训练、用召回率评估。
 
-\clearpage
 \section{常用损失速查}
 \label{sec:tools-losses}
 以下均先定义单样本损失；对相应数据集取平均，才得到平均损失或错误率。
@@ -78,7 +77,6 @@ MAE为1，MSE为$5/3$。平方与绝对损失表达不同的偏好。
 计算中常直接用logits与稳定的log-sum-exp实现；不要用错误的代数改写掩盖极端数值。
 \end{pitfall}
 
-\clearpage
 \section{凸性是相对具体变量而言的}
 \label{sec:tools-convex}
 定义域为凸集，且任意$x,z$及$\alpha\in[0,1]$满足
@@ -88,13 +86,14 @@ MAE为1，MSE为$5/3$。平方与绝对损失表达不同的偏好。
 则$f$为凸函数（Convex Function）。反向不等式定义凹函数（Concave Function）。
 不同教材可能使用不同中文旧称，本书统一按上述英文与不等式对应。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/tools/convex}
 \caption{弦与函数图像的位置关系。线性函数可以同时是凸函数和凹函数。}
-\end{figure}
+\par\smallskip
 \readfigure{$x^2$的弦不低于曲线；$-x^2$的弦不高于曲线。
 对不同端点和内部权重使用严格不等式，得到严格凸或严格凹。
 二次可微的一元函数在区间上满足$f''\geq0$可判定凸性。}
+\end{figure}
 
 平方损失对预测值$\hat y$是凸的，但若$\hat y$是参数的非线性函数，
 训练目标对参数不一定凸。例如$J(\theta)=(\theta^2-1)^2$在$\theta=0$附近非凸。
@@ -102,18 +101,18 @@ MAE为1，MSE为$5/3$。平方与绝对损失表达不同的偏好。
 
 \quick{判断凸性时，要同时说出函数、变量和定义域。}
 
-\clearpage
 \section{梯度为零，不保证已经最小}
 \label{sec:tools-minima}
 局部最小值只和附近点比较；全局最小值与整个定义域比较。
 在内部可微点，局部极小要求梯度为零，但梯度为零只是必要条件之一。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/tools/stationary}
 \caption{$J(\theta)=(\theta^2-1)^2$：导数为$4\theta(\theta^2-1)$。}
-\end{figure}
+\par\smallskip
 \readfigure{$\theta=-1,0,1$处的导数都为0，但0是局部极大值，$\pm1$是全局极小值。
 多维非凸函数还可能有鞍点，如$f(u,v)=u^2-v^2$的原点。}
+\end{figure}
 
 凸函数的任何局部最小值都是全局最小值；严格凸时若最小值存在则唯一。
 这不表示所有凸函数都能取得最小值，例如$e^x$在实数域内只趋近0而不达到。
@@ -124,18 +123,18 @@ MAE为1，MSE为$5/3$。平方与绝对损失表达不同的偏好。
 反之，优化不足也可能造成欠拟合；诊断时应检查数据、模型和优化过程。
 \end{pitfall}
 
-\clearpage
 \section{Bootstrap：从经验分布中有放回重采样}
 \label{sec:tools-bootstrap}
 自助法（Bootstrap）常从$n$条观测中有放回抽取$n$次，
 重新计算统计量，用许多次结果近似其抽样变化。重采样的记录可能重复，也可能遗漏。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/tools/bootstrap}
 \caption{原样本$[2,4,8,10]$，一次抽到索引$[1,1,3,4]$。保持每条记录的所有字段与标签同步。}
-\end{figure}
+\par\smallskip
 \readfigure{这一次均值从6变成5.5；它不是新的独立采集样本。
 反复重采样可以研究均值等统计量的变动，也可用于Bagging训练多个模型。}
+\end{figure}
 
 一条原记录在$n$次抽取中一次都未被抽到的概率为$(1-1/n)^n$，
 当$n$很大时趋近$e^{-1}\approx0.368$。这解释了袋外记录的来源，
@@ -147,7 +146,6 @@ MAE为1，MSE为$5/3$。平方与绝对损失表达不同的偏好。
 置信区间方法有不同假设与误差，不能把任意重采样结果自动当成可靠区间。
 \end{pitfall}
 
-\clearpage
 \section{AIC与BIC：在可比似然下权衡拟合与复杂度}
 \label{sec:tools-aic}
 设$\hat\ell$为最大化后的\textbf{对数似然}，$k$为估计参数个数，$n$为样本量，
@@ -181,7 +179,6 @@ BIC的复杂度项在$n>e^2$时大于AIC对应项，但并不自动解决维数�
 这些准则不能代替独立评估，也不是越小的数值就等于越高的分类准确率。
 \end{pitfall}
 
-\clearpage
 \section{维数灾难：覆盖空间需要多少格子？}
 \label{sec:tools-dimension}
 维数灾难（Curse of Dimensionality）描述高维空间中覆盖、距离与统计估计变困难的现象。
@@ -209,7 +206,6 @@ BIC的复杂度项在$n>e^2$时大于AIC对应项，但并不自动解决维数�
 
 \quick{高维不是自动失败；更多特征也不是自动得到更多有效信息。}
 
-\clearpage
 \section{贝叶斯误差：相对给定信息的最佳错误率}
 \label{sec:tools-bayes-error}
 在0--1损失下，知道真实条件概率时，选择概率最大的类别可以最小化条件错误率。
@@ -240,6 +236,8 @@ B & 0.5 & 0.6 & 1 & 0.4\\
 增加有效特征可能改变条件分布并降低最佳可达风险。
 \end{pitfall}
 
+\begingroup\small
 \noindent\textbf{参考：}ISLR第二版（2021）第2、5、6章；
 Boyd与Vandenberghe，\textit{Convex Optimization}（2004），第3章。
 本章数值例子可用配套源码中的\texttt{verify\_tools\_math.py}复核。
+\par\endgroup

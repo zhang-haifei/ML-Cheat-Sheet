@@ -7,13 +7,14 @@
 
 \section{冻结与微调分别更新什么？}
 \label{sec:transfer-freeze}
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/numerics/transfer}
 \caption{目标任务有$K$个互斥类别时，线性任务头将$d$维表示映成$K$个logits。}
-\end{figure}
+\par\smallskip
 \readfigure{若$d=16,K=3$，带偏置任务头有$16\times3+3=51$个参数。
 冻结底座时只训练这些新参数；部分或全部微调时，还更新被选中的底座参数。
 冻结减少可训练参数，但不消除底座前向计算。}
+\end{figure}
 
 \begin{center}
 \begin{tabularx}{\textwidth}{P{31mm}Y}
@@ -37,5 +38,6 @@
 还需核对预训练数据是否与评估样本重叠，避免把重复内容带来的好分数当作泛化。
 \end{pitfall}
 
+\begingroup\small
 \noindent\textbf{参考：}《动手学深度学习》微调章节；PyTorch Transfer Learning Tutorial。
-
+\par\endgroup

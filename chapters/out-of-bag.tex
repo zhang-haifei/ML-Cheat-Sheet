@@ -1,16 +1,16 @@
-\clearpage
 \section{袋外估计：只汇总没见过该样本的树}
 \label{sec:tree-oob}
 对$n$条记录有放回抽取$n$次构成一棵树的Bootstrap训练集。
 某条记录可能被抽到多次，也可能一次都没抽到；后一种记录对这棵树称为袋外
 （Out-of-Bag, OOB）。它不是对整个森林都未参与训练的独立测试记录。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/trees/oob}
 \caption{5条原记录、4份Bootstrap样本。格中为被抽次数；橙色0表示袋外。每行之和为5。}
-\end{figure}
+\par\smallskip
 \readfigure{对样本4，只有树2与树3没有用它训练。
 若两树对该样本给正类概率0.8、0.6，袋外平均为0.7；树1、树4的预测不参与这一次袋外汇总。}
+\end{figure}
 
 每次未抽中某条记录的概率为$1-1/n$，独立抽$n$次后
 \[

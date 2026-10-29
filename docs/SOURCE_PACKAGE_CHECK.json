@@ -1,15 +1,14 @@
 {
   "status": "PASS",
-  "pages": 161,
+  "pages": 113,
   "page_text_identical": true,
   "numerical_checks": 15,
-  "numerical_verification_scripts_unchanged": true,
-  "numerical_validation": "15组已在本轮独立源码包执行通过；后续仅补适用条件与参考链接，所有数值核验脚本逐字节相同。",
+  "numerical_results_identical": true,
   "build_script_archive_mode": "100755",
   "isolated_build_audit": {
     "target": "main",
-    "pages": 161,
-    "pdf_sha256": "26fc10edd67cfe850b45f1a8c4d276938e57a54acf7343afbf299a0fe53a38a7",
+    "pages": 113,
+    "pdf_sha256": "e8b2f7db79aa283b6b3560c0c1512b12baf21c3f2c6df9a967113d928bb2b9a1",
     "overfull": 0,
     "underfull": 0,
     "missing_characters": 0,
@@ -18,9 +17,9 @@
     "original_files_still_referenced": 0,
     "original_image_occurrences": 0,
     "independent_figure_sources": 85,
-    "internal_links": 319,
+    "internal_links": 317,
     "invalid_internal_links": 0,
-    "external_uri_links": 32,
+    "external_uri_links": 33,
     "missing_inputs": []
   },
   "source_only_package": true

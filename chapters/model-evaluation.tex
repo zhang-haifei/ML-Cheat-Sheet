@@ -18,15 +18,15 @@
 测试集（Test Set）在方案确定后用于最终评估。三者按\textbf{数据用途}区分，
 不是按程序运行时属于“训练阶段”还是“预测阶段”命名。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/evaluation/data-split}
 \caption{验证形成选择循环，测试不进入这个循环。图中的箭头表示工作流程，不表示将数据混合。}
 \label{fig:eval-split}
-\end{figure}
-
+\par\smallskip
 \readfigure{候选模型在训练集上拟合，然后用验证表现调整方案。
 确定方案后，可以按预定流程使用开发数据重新拟合，再对保留的测试集评估。
 不能因为测试结果不够好就继续调阈值或换模型，再把同一测试分数作为独立评估。}
+\end{figure}
 
 \textbf{训练误差}在训练集上算，\textbf{验证误差}在验证集上算，\textbf{测试误差}在测试集上算。
 分类错误率在相应数据集 $D$ 上定义为
@@ -41,7 +41,6 @@
 划分应模拟实际使用条件；随机独立同分布划分只是常见设置之一。
 \end{pitfall}
 
-\clearpage
 \section{交叉验证：评估整个拟合流程}
 \label{sec:eval-cv}
 
@@ -49,15 +48,15 @@ $K$折交叉验证（$K$-Fold Cross-Validation）在开发数据内轮流留出�
 其余 $K-1$ 折训练。每折都从头拟合预处理和模型，再汇总各折验证结果。
 \textbf{不从这 $K$ 个模型中简单挑出分数最高的一个作为最终模型。}
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/evaluation/cross-validation}
 \caption{五折示例：每个样本恰作一次折内验证，其余四次用于折内训练。}
 \label{fig:eval-cv}
-\end{figure}
-
+\par\smallskip
 \readfigure{每一行是一次独立拟合，橙色格仅用于该折验证。
 把每个候选方案都按相同划分评估，再依据汇总指标选择方案。
 最后按选定方案用开发数据重新拟合，独立测试集继续留在流程之外。}
+\end{figure}
 
 \subsection{预处理也必须在折内拟合}
 标准化的均值与方差、填补缺失值的统计量、特征筛选规则等，
@@ -81,7 +80,6 @@ $K$折交叉验证（$K$-Fold Cross-Validation）在开发数据内轮流留出�
 选择折数要权衡样本量和计算开销，不存在“一律10折”的规则。
 重复用同一套交叉验证调参仍可能产生选择偏差；可用独立测试集，或在适当设置下用嵌套交叉验证评估选择流程。
 
-\clearpage
 \section{混淆矩阵：先声明谁是正类}
 \label{sec:eval-confusion}
 
@@ -89,15 +87,15 @@ $K$折交叉验证（$K$-Fold Cross-Validation）在开发数据内轮流留出�
 例如设备故障检测中，可以把“故障”设为正类。
 混淆矩阵（Confusion Matrix）把真实标签与预测标签交叉计数。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/evaluation/confusion}
 \caption{100个样本的示例。本书约定行是真实类别、列是预测类别，正类都排在前面。}
 \label{fig:eval-confusion}
-\end{figure}
-
+\par\smallskip
 \readfigure{30个真实正类中，18个被检出，12个漏检；
 70个真实负类中，7个被误报为正类，63个正确判为负类。
 因此预测正类有25个，预测负类有75个。}
+\end{figure}
 
 \begin{center}
 \small
@@ -121,7 +119,6 @@ TN & True Negative，真负例 & 真实为负，预测也为负：63。\\
 如果只写“左上角是TP”而没有声明约定，就容易把四种计数认反。
 \end{pitfall}
 
-\clearpage
 \section{准确率、查准率与召回率：分母决定问题}
 \label{sec:eval-precision-recall}
 
@@ -162,7 +159,6 @@ TN & True Negative，真负例 & 真实为负，预测也为负：63。\\
 若某指标公式的分母为0，其数学定义无法直接使用。
 软件可能返回0、缺失值或警告，应记录约定，而不是把这些输出混同于有足够数据支持的测量值。
 
-\clearpage
 \section{F1、平均方式与分类阈值}
 \label{sec:eval-f1}
 
@@ -209,7 +205,6 @@ F1对Precision和Recall给予特定形式的折中，不是通用的业务收益
 
 \input{chapters/multilabel-evaluation}
 
-\clearpage
 \section{ROC：让阈值变化起来}
 \label{sec:eval-roc}
 
@@ -217,15 +212,15 @@ ROC曲线（Receiver Operating Characteristic Curve）汇总不同阈值下的�
 本书采用常见坐标：\textbf{横轴FPR，纵轴TPR}，两轴都从0到1。
 它需要模型输出连续或有序得分，不要求这些得分已是校准概率。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/evaluation/roc}
 \caption{八个样本的ROC示例，得分在下一节给出。并列得分作为一组改变阈值。虚线为对角参考线。}
 \label{fig:eval-roc}
-\end{figure}
-
+\par\smallskip
 \readfigure{阈值高于全部得分时，没有正类预测，对应 $(0,0)$。
 逐步降低阈值，会逐组纳入得分相同的样本；阈值低到所有样本都判为正时到达 $(1,1)$。
 曲线越靠近左上角，表示能在较低假正例率下取得较高真正例率。}
+\end{figure}
 
 每一个曲线点都代表一套阈值选择，不是同一个分类器在固定阈值下同时达到的多种结果。
 若实际只能接受很低的误报率，应重点看相应区域，而不是只比较整个曲线面积。
@@ -236,7 +231,6 @@ ROC曲线（Receiver Operating Characteristic Curve）汇总不同阈值下的�
 计算ROC与AUC时，评估数据还需包含正、负两类。
 \end{pitfall}
 
-\clearpage
 \section{AUC：排序能力与并列得分}
 \label{sec:eval-auc}
 
@@ -278,7 +272,6 @@ AUC为1表示在当前评估样本上正类得分都高于负类，也不是对�
 报告AUC时，应同时说明数据划分与适用任务；多分类还要说明如何组合类别。
 \end{keyidea}
 
-\clearpage
 \section{类别比例变化时，Precision也会变}
 \label{sec:eval-prevalence}
 
@@ -319,7 +312,6 @@ Precision--Recall曲线有助于观察查准与查全的关系；若报告其汇
 验证/测试集应代表目标使用情形，并同时考虑统计不确定性。
 \end{pitfall}
 
-\clearpage
 \section{回归误差：先看单位与残差}
 \label{sec:eval-regression}
 
@@ -333,15 +325,15 @@ Precision--Recall曲线有助于观察查准与查全的关系；若报告其汇
 MAE与RMSE和目标变量同单位；MSE的单位是目标单位的平方。
 平方误差对大残差惩罚更强，但不能因此断言MAE完全不受异常值影响。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/evaluation/regression-errors}
 \caption{真实目标为 $(1,2,3)$，预测为 $(1,2,4)$。箭头标出第3个样本的残差大小1；前两个重合点残差为0。}
 \label{fig:eval-regression}
-\end{figure}
-
+\par\smallskip
 \readfigure{残差向量为 $(0,0,-1)$，因此MAE与MSE都为 $1/3$，
 RMSE为 $\sqrt{1/3}\approx0.577$。
 图中水平线是当前评估目标的均值，不是把模型预测都替换成均值。}
+\end{figure}
 
 \begin{keyidea}[指标与训练目标可以使用相同公式，但用途不同]
 MSE既可以作为训练目标，也可以作为验证或测试指标。
@@ -349,7 +341,6 @@ MSE既可以作为训练目标，也可以作为验证或测试指标。
 比较模型要使用相同数据划分和相同目标尺度；如果训练时变换了目标，需说明评估在哪个尺度上进行。
 \end{keyidea}
 
-\clearpage
 \section{R²与平方和：把适用条件写出来}
 \label{sec:eval-r2}
 
@@ -395,17 +386,19 @@ $R^2$并非对任意预测都等于相关系数平方。
 任意模型或测试集不能照搬。本节图中预测与目标的相关系数平方约为0.964，实际 $R^2$只有0.5。
 \end{pitfall}
 
-\clearpage
-\section{一页速查与自测}
+\section{速查与自测}
 \label{sec:eval-summary}
 
-\begin{center}
+\begingroup
 \small
-\renewcommand{\arraystretch}{1.35}
-\begin{tabularx}{\textwidth}{P{38mm}Y}
+\renewcommand{\arraystretch}{1.2}
+\begin{xltabular}{\textwidth}{P{38mm}Y}
 \toprule
 要回答的问题 & 先看什么\\
 \midrule
+\endhead
+\bottomrule
+\endfoot
 模型参数在哪里拟合？ & 训练集；交叉验证中是每折子训练集。\\
 阈值或超参数在哪里选？ & 验证流程内；最终测试集保持独立。\\
 预测正类有多少是真的？ & Precision：$TP/(TP+FP)$。\\
@@ -414,12 +407,13 @@ $R^2$并非对任意预测都等于相关系数平方。
 跨阈值的排序表现怎样？ & ROC与ROC-AUC；并列正负得分按半对计分。\\
 数值误差有多大？ & MAE、RMSE与残差分布，注意单位。\\
 比目标均值基准好多少？ & $R^2=1-\mathrm{RSS}/\mathrm{TSS}$，可能为负。\\
-\bottomrule
-\end{tabularx}
-\end{center}
+
+\end{xltabular}
+\endgroup
 
 \subsection{三个自测问题}
 \begin{enumerate}
+\setlength{\itemsep}{1pt}\setlength{\parsep}{0pt}
  \item 若TP=9、FP=1、FN=6、TN=84，Precision与Recall分别是多少？
  \item 两个正类得分为0.8、0.4，两个负类为0.8、0.2，AUC是多少？
  \item 若TSS=10、RSS=15，$R^2$是多少？能否直接认为计算有误？
@@ -427,9 +421,9 @@ $R^2$并非对任意预测都等于相关系数平方。
 \textbf{参考答案：}（1）0.9与0.6。（2）$(1.5+1)/4=0.625$。
 （3）$-0.5$；它表示平方误差比该均值基准更大，不必然是计算错误。
 
-\subsection{进一步查阅}
-\begin{itemize}
- \item scikit-learn：\href{https://scikit-learn.org/stable/common_pitfalls.html}{数据泄漏与预处理常见问题}。
- \item 指标文档：\href{https://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_auc_score.html}{roc\_auc\_score}、
+\par\begingroup\small
+\noindent\textbf{进一步查阅：}
+scikit-learn：\href{https://scikit-learn.org/stable/common_pitfalls.html}{数据泄漏与预处理常见问题}。
+指标文档：\href{https://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_auc_score.html}{roc\_auc\_score}、
  \href{https://scikit-learn.org/stable/modules/generated/sklearn.metrics.r2_score.html}{r2\_score}，核对输入口径与边界约定。
-\end{itemize}
+\par\endgroup

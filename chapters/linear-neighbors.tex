@@ -15,12 +15,13 @@
 普通最小二乘（Ordinary Least Squares, OLS）最小化残差平方和，
 也可以等价地最小化其正比例缩放$J=\frac1{2n}\sum_i(\hat y_i-y_i)^2$。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/linear/ols}
 \caption{三个观测$(0,1),(1,2),(2,2)$的最小二乘直线；虚线为竖直残差。}
-\end{figure}
+\par\smallskip
 \readfigure{拟合得到$w=1/2$、$b=7/6$。三个预测为$7/6,5/3,13/6$，
 按“预测减真实”计的残差为$1/6,-1/3,1/6$，平方和为$1/6$，训练MSE为$1/18$。}
+\end{figure}
 
 \subsection{线性指的是系数的进入方式}
 模型可以对$x^2$、对数或交互特征作线性组合，仍对系数线性。
@@ -28,7 +29,6 @@
 
 \quick{拟合关系不自动具有因果含义；外推到训练范围之外要结合领域结构判断。}
 
-\clearpage
 \section{怎样求参数：方程、分解与迭代}
 \label{sec:linear-solve}
 将截距作为一列1并记增广矩阵为$\widetilde X$，系数为$\vct\theta$。
@@ -62,7 +62,6 @@ QR或SVD分解 & 通常比先形成正规方程再显式求逆更适合数值计
 
 \input{chapters/collinearity}
 
-\clearpage
 \section{多项式回归：改变表示，不增加样本}
 \label{sec:linear-polynomial}
 多项式回归（Polynomial Regression）使用$\phi(x)=(x,x^2,\ldots,x^d)$，
@@ -80,7 +79,7 @@ QR或SVD分解 & 通常比先形成正规方程再显式求逆更适合数值计
 \end{tabular}
 \end{center}
 同样三条样本增加了表示列，没有新增独立观测。
-上一页的目标$[1,2,2]$可被$1+1.5x-0.5x^2$精确拟合，
+前述三个观测的目标$[1,2,2]$可被$1+1.5x-0.5x^2$精确拟合，
 但只有三个点不能证明这个二次关系适用于新数据。
 
 \subsection{次数越高，越要检查数值与泛化}
@@ -90,7 +89,6 @@ QR或SVD分解 & 通常比先形成正规方程再显式求逆更适合数值计
 
 \quick{特征构造扩展了模型可表达的函数；它不是数据增强，也不是免费增加证据。}
 
-\clearpage
 \section{Ridge：连续收缩系数}
 \label{sec:linear-ridge}
 岭回归（Ridge Regression）在本章使用
@@ -104,28 +102,29 @@ QR或SVD分解 & 通常比先形成正规方程再显式求逆更适合数值计
 \]
 $\lambda>0$时，对全部斜率施加的L2惩罚使此系数矩阵正定，即使原矩阵秩亏。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/linear/shrinkage}
-\caption{单系数教学目标$\frac12(w-z)^2$上，Ridge为$z/(1+\lambda)$；下页解释Lasso。}
-\end{figure}
+\caption{单系数教学目标$\frac12(w-z)^2$上，Ridge为$z/(1+\lambda)$；后文解释Lasso。}
+\par\smallskip
 \readfigure{Ridge通常使系数向0收缩，但不能说“绝不等于0”：当$z=0$时仍为0。
 惩罚强度依赖目标中的$n$、$1/2$等缩放约定，比较软件参数前需对照完整公式。}
+\end{figure}
 
 尺度会改变同一系数惩罚所代表的限制，数值特征常在训练内标准化。
 相关特征的单个系数路径可以变化，不能把每个系数都必然单调趋零当作一般定理。
 
-\clearpage
 \section{Lasso：为什么能够产生零系数？}
 \label{sec:linear-lasso}
 Lasso使用$J=\frac1{2n}\lVert X\vct w+b\vct1-\vct y\rVert^2+\lambda\lVert\vct w\rVert_1$，
 截距不惩罚。L1惩罚在0处不可微，其几何与次梯度使零系数能够成为最优解。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/linear/geometry}
 \caption{两个系数的L1与平方L2约束区域。这里只比较区域形状，未画任意相切等高线。}
-\end{figure}
+\par\smallskip
 \readfigure{L1菱形的角在坐标轴上，一个系数为0；L2圆盘边界更平滑。
 这帮助理解稀疏性，但并不保证每个数据集都选择出真实变量。}
+\end{figure}
 
 对单系数目标$\frac12(w-z)^2+\lambda|w|$，精确解为软阈值
 \[
@@ -139,7 +138,6 @@ Lasso使用$J=\frac1{2n}\lVert X\vct w+b\vct1-\vct y\rVert^2+\lambda\lVert\vct w
 Lasso在秩亏等情形下未必有唯一系数解。不能把L1也当成保证正规方程可逆的方法。
 \end{pitfall}
 
-\clearpage
 \section{Elastic Net：同时控制稀疏与收缩}
 \label{sec:linear-elastic}
 弹性网络（Elastic Net）结合两种惩罚。本章约定总强度$\lambda$和混合比例$\rho$：
@@ -172,19 +170,19 @@ Elastic Net & 结合L1与L2，可同时稀疏与收缩。 & 相关特征组与�
 
 \input{chapters/perceptron}
 
-\clearpage
 \section{逻辑回归：线性得分对应分类概率}
 \label{sec:linear-logistic}
 二元逻辑回归（Logistic Regression）令
 $p=P(Y=1\mid\vct x)=\sigma(s)$，$s=b+\vct w^\top\vct x$，
 等价于$\log[p/(1-p)]=s$，即对数几率对特征线性。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/linear/logistic}
 \caption{概率与类别之间还需要决策阈值$t$，默认0.5只是常见选择。}
-\end{figure}
+\par\smallskip
 \readfigure{若$s=\log3$，则几率为3，概率为$3/4$。
 阈值0.5时预测1；阈值0.8时预测0。阈值改变决策，不改变已拟合概率函数。}
+\end{figure}
 
 以二元交叉熵拟合时，对单样本得分有$\partial\ell/\partial s=p-y$。
 批量参数梯度为$X^\top(\vct p-\vct y)/n$，再加所选正则项。
@@ -196,7 +194,6 @@ Sigmoid后的概率通常随输入非线性变化。
 概率是否准确反映频率，还需校准与独立评估。
 \end{pitfall}
 
-\clearpage
 \section{多分类：Softmax与一对其余}
 \label{sec:linear-multiclass}
 多项逻辑回归（Multinomial Logistic Regression）为$K$个互斥类别计算得分$s_k$，
@@ -221,18 +218,18 @@ Softmax & 一个联合的多分类目标。 & 类别概率和为1，面向互斥
 
 \quick{先确定标签能否同时出现，再选择输出结构与损失。}
 
-\clearpage
-\section{$k$近邻：根据局部训练记录预测}
+\section{\texorpdfstring{$k$}{k}近邻：根据局部训练记录预测}
 \label{sec:linear-knn}
 $k$近邻（$k$-Nearest Neighbors, KNN）查询最相似的$k$条训练记录。
 分类可等权投票，回归可平均目标；也可按距离加权，需明确定义零距离的处理。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/linear/knn}
 \caption{一维分类例子：训练位置0、1标签为0，3、5标签为1。}
-\end{figure}
+\par\smallskip
 \readfigure{查询1.8到四点距离为1.8、0.8、1.2、3.2。
 三个近邻为1、3、0，票数2比1，预测0；若$k=1$也预测0，但依据只有最近点。}
+\end{figure}
 
 Minkowski距离为$d_p(\vct x,\vct z)=(\sum_j|x_j-z_j|^p)^{1/p}$，$p\geq1$。
 $p=1$为曼哈顿，$p=2$为欧氏，$p\to\infty$为最大分量差。
@@ -244,5 +241,7 @@ KNN依赖局部相似性假设，也可能受异常点与高维影响。
 大样本查询成本高，可考虑适合维度与精度需求的索引或近似检索。
 \end{pitfall}
 
+\begingroup\small
 \noindent\textbf{参考：}ISLR第二版第3、4、6章；scikit-learn Linear Models与Nearest Neighbors文档。
 本章例子和图独立构造，公式缩放均按正文约定。
+\par\endgroup

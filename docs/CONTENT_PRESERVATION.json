@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "comparison": "161-page working draft before continuous reflow",
+  "math_fragments_unchanged": true,
+  "numerical_and_figure_sources_unchanged": true,
+  "chapter_files_checked": 31,
+  "figure_captions_in_pdf": 85,
+  "font_size_pt": 11,
+  "line_spread": 1.12
+}
