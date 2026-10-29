@@ -53,6 +53,7 @@ def audit(target):
                 original_image_occurrences=len(originals),
                 independent_figure_sources=len(list((root/'figures').rglob('*.tex'))),
                 internal_links=len(internal),invalid_internal_links=len(invalid),
+                external_uri_links=sum('uri' in link for link in links),
                 missing_inputs=missing_inputs)
 
 

@@ -1,22 +1,26 @@
 {
   "status": "PASS",
-  "pages": 154,
+  "pages": 161,
   "page_text_identical": true,
+  "numerical_checks": 15,
+  "numerical_results_identical": true,
+  "build_script_archive_mode": "100755",
   "isolated_build_audit": {
     "target": "main",
-    "pages": 154,
-    "pdf_sha256": "726b19082242c5203a2c66ca724223442738311377d8a962f7fa17cc042462e2",
+    "pages": 161,
+    "pdf_sha256": "741fffde698fff2c5054f117111dea702675820db6b60e1d57964a3997867c1d",
     "overfull": 0,
     "underfull": 0,
     "missing_characters": 0,
     "undefined_references": 0,
-    "source_files": 103,
+    "source_files": 117,
     "original_files_still_referenced": 0,
     "original_image_occurrences": 0,
-    "independent_figure_sources": 78,
-    "internal_links": 298,
+    "independent_figure_sources": 85,
+    "internal_links": 319,
     "invalid_internal_links": 0,
+    "external_uri_links": 32,
     "missing_inputs": []
   },
-  "visual_check": "精简后封面与阅读说明按较高分辨率检查；其余正文未改动。"
+  "source_only_package": true
 }

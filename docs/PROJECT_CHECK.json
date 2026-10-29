@@ -1,6 +1,8 @@
 {
-  "tracked_bytes_before": 82343211,
-  "original_images_removed": 287,
-  "tracked_bytes_after_before_zip": 1397802,
-  "reduction_percent_before_zip": 98.3
+  "status": "PASS",
+  "legacy_directories_present": [],
+  "legacy_files_present": [],
+  "stage_tex_entries": 0,
+  "stage_pdf_files": 0,
+  "independent_figure_sources": 85
 }

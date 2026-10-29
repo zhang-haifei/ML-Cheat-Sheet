@@ -102,17 +102,18 @@ $\log,\exp$ & 若无另注，$\log$是自然对数，$\exp z=e^z$。\\
 泄漏 Data Leakage & \hyperref[sec:data-pipeline]{完整拟合流水线} & \pageref{sec:data-pipeline}\\
 交叉验证 Cross-validation & \hyperref[sec:eval-cv]{折内拟合整个流程} & \pageref{sec:eval-cv}\\
 Precision/Recall/Specificity & \hyperref[sec:eval-precision-recall]{分母与正类口径} & \pageref{sec:eval-precision-recall}\\
-F1、Macro/Micro & \hyperref[sec:eval-f1]{F1与多分类汇总} & \pageref{sec:eval-f1}\\
+F1、多标签 Hamming & \hyperref[sec:eval-f1]{F1汇总}、\hyperref[sec:eval-multilabel]{多标签评价} & \pageref{sec:eval-f1}、\pageref{sec:eval-multilabel}\\
 ROC/AUC & \hyperref[sec:eval-auc]{排序、并列得分与面积} & \pageref{sec:eval-auc}\\
 MAE/MSE/RMSE、$R^2$ & \hyperref[sec:eval-regression]{回归误差}、\hyperref[sec:eval-r2]{决定系数} & \pageref{sec:eval-regression}\\
 调参、Nested CV & \hyperref[sec:diag-search]{搜索预算与内外层验证} & \pageref{sec:diag-search}\\
 学习/验证曲线 & \hyperref[sec:diag-curves]{横轴不同，问题不同} & \pageref{sec:diag-curves}\\
 Brier、LogLoss & \hyperref[sec:diag-probability]{概率质量} & \pageref{sec:diag-probability}\\
-校准、阈值 Calibration & \hyperref[sec:diag-calibration]{可靠性图与代价} & \pageref{sec:diag-calibration}\\
+校准、阈值 Calibration & \hyperref[sec:diag-calibration]{可靠性图}、\hyperref[sec:diag-platt]{Platt映射与代价} & \pageref{sec:diag-calibration}、\pageref{sec:diag-platt}\\
 MCC、置信区间 & \hyperref[sec:diag-mcc]{标签相关}、\hyperref[sec:diag-uncertainty]{抽样不确定性} & \pageref{sec:diag-mcc}\\
 Bootstrap、AIC/BIC & \hyperref[sec:tools-bootstrap]{重采样}、\hyperref[sec:tools-aic]{信息准则} & \pageref{sec:tools-bootstrap}\\
+感知机、VIF & \hyperref[sec:linear-perceptron]{线性边界}、\hyperref[sec:linear-vif]{系数方差} & \pageref{sec:linear-perceptron}、\pageref{sec:linear-vif}\\
 Ridge/Lasso/Elastic Net & \hyperref[sec:linear-ridge]{惩罚与系数收缩} & \pageref{sec:linear-ridge}\\
-NB、Bagging、Boosting & \hyperref[ch:trees]{概率、树与集成} & \pageref{ch:trees}\\
+NB、Bagging、OOB & \hyperref[ch:trees]{概率与树}、\hyperref[sec:tree-oob]{袋外估计} & \pageref{ch:trees}、\pageref{sec:tree-oob}\\
 SVM、核 Kernel & \hyperref[sec:svm-kernel]{间隔与核相似度} & \pageref{sec:svm-kernel}\\
 聚类、PCA & \hyperref[ch:unsupervised]{分组与低维表示} & \pageref{ch:unsupervised}\\
 \bottomrule
@@ -148,7 +149,7 @@ Causal/Padding Mask & \hyperref[sec:seq-mask]{可见信息约束} & \pageref{sec
 Transformer、Teacher Forcing & \hyperref[sec:seq-transformer]{块结构与训练目标} & \pageref{sec:seq-transformer}\\
 冻结、微调 Fine-tuning & \hyperref[sec:transfer-freeze]{参数更新与运行模式} & \pageref{sec:transfer-freeze}\\
 矩阵、SVD、梯度 & \hyperref[sec:math-matrix]{形状与运算} & \pageref{sec:math-matrix}\\
-贝叶斯、期望、分布 & \hyperref[sec:math-probability]{概率方向与统计量} & \pageref{sec:math-probability}\\
+概率、CDF与标准误 & \hyperref[sec:math-probability]{概率}、\hyperref[sec:math-cdf]{CDF}与\hyperref[sec:math-standard-error]{SE} & \pageref{sec:math-cdf}、\pageref{sec:math-standard-error}\\
 \bottomrule
 \end{tabularx}
 \end{center}

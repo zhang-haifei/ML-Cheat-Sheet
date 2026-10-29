@@ -60,6 +60,8 @@ QR或SVD分解 & 通常比先形成正规方程再显式求逆更适合数值计
 正则化和稳定求解都可以帮助，但用途与假设需要分别理解。
 \end{pitfall}
 
+\input{chapters/collinearity}
+
 \clearpage
 \section{多项式回归：改变表示，不增加样本}
 \label{sec:linear-polynomial}
@@ -167,6 +169,8 @@ Elastic Net & 结合L1与L2，可同时稀疏与收缩。 & 相关特征组与�
 系数目标具有严格的二次惩罚，有助于唯一性；截距仍需按数据与模型定义处理。
 
 \quick{正则化表达偏好，不会自动识别哪些特征是真实原因。}
+
+\input{chapters/perceptron}
 
 \clearpage
 \section{逻辑回归：线性得分对应分类概率}

@@ -43,6 +43,8 @@
 \]
 例如$(3,-4)$的L1范数为7，L2范数为5；范数总是非负。
 矩阵的秩（Rank）是独立列或独立行的最大数目，不等于行数、列数的简单乘积。
+向量的线性张成空间（Span）是它们所有线性组合构成的集合，\textbf{不是夹角}。
+例如$(1,0)$和$(2,0)$只能张成横轴；$(1,0)$和$(0,1)$则张成整个$\R^2$。
 
 \begin{figure}[H]
 \centering\input{figures/math/determinant}
@@ -196,11 +198,11 @@ $|x|$在0处不可微，可以使用次梯度；ReLU在0处也需实现约定。
 Bernoulli$(p)$ & $p^x(1-p)^{1-x}$，$x\in\{0,1\}$ & $p$；$p(1-p)$\\
 Binomial$(n,p)$ & $\binom nx p^x(1-p)^{n-x}$，$x=0,\ldots,n$ & $np$；$np(1-p)$\\
 Uniform$(a,b)$ & $1/(b-a)$在$[a,b]$内，区间外0 & $(a+b)/2$；$(b-a)^2/12$\\
-Normal$(\mu,s^2)$ & $\exp[-(x-\mu)^2/(2s^2)]/(s\sqrt{2\pi})$ & $\mu$；$s^2$\\
+Normal$(\mu,\sigma^2)$ & $\exp[-(x-\mu)^2/(2\sigma^2)]/(\sigma\sqrt{2\pi})$ & $\mu$；$\sigma^2$\\
 \bottomrule
 \end{tabularx}
 \end{center}
-$0\leq p\leq1$，二项$n$为非负整数，均匀分布$a<b$，正态$s>0$。
+$0\leq p\leq1$，二项$n$为非负整数，均匀分布$a<b$，正态$\sigma>0$。
 固定$n$次独立同分布Bernoulli试验的和才具有上述二项分布。
 
 \subsection{总体矩与样本估计要区分}
@@ -213,6 +215,9 @@ $n>1$时，$s^2=\sum_i(x_i-\bar x)^2/(n-1)$是总体方差的无偏估计（有�
 在独立同分布等适当条件下，大数定律说明均值趋近总体期望，
 中心极限定理描述标准化均值的近似分布。它们不表示任意原始数据都会随着样本增多变成正态。
 \end{pitfall}
+
+\input{chapters/distribution-function}
+\input{chapters/sampling-precision}
 
 \noindent\textbf{参考：}Deisenroth、Faisal与Ong，\textit{Mathematics for Machine Learning}（2020），
 第2、4、5、6章。本附录图与数字例子独立设计；更多计算细节见本项目复核脚本。
