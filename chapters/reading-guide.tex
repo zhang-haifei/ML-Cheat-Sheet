@@ -5,8 +5,8 @@
 不必先把数学附录背完，也不必一次读完全部模型。
 
 \begin{keyidea}[当前版本]
-这是持续修订中的工作稿，正文采用独立矢量图与表格。
-图中的数值例子配有复核脚本；全书仍在进行科学与编辑复审。
+这是第一版定稿候选，正文采用独立矢量图与表格。
+图中的数值例子配有复核脚本；本版已完成逐章内容核对与读者路线校读。
 阅读时请结合公式附近的变量定义、数据划分与适用条件。
 \end{keyidea}
 
@@ -16,18 +16,27 @@
 \toprule
 你的当前目标 & 建议路线\\
 \midrule
-第一次学习建模 & 第\ref{ch:learning}章建立工作流；第\ref{ch:data}--\ref{ch:diagnostics}章准备数据、评估与诊断；再挑一个经典模型动手理解。\\
-学习神经网络 & 先读数据划分与损失；第\ref{ch:neural}--\ref{ch:numerics}章串起前向、反向、更新与稳定训练；再读CNN或序列架构。\\
+第一次学习建模 & 第\ref{ch:learning}章建立工作流；第\ref{ch:data}--\ref{ch:tools}章准备数据、评价与建模工具；再选第\ref{ch:linear}--\ref{ch:svm}章的经典模型，或第\ref{ch:unsupervised}章的无监督方法。\\
+学习神经网络 & 先读第\ref{ch:evaluation}章的数据划分与第\ref{ch:tools}章的损失；第\ref{ch:neural}--\ref{ch:numerics}章串起前向、反向、更新与稳定训练；再按任务读CNN、文本、序列或迁移。\\
 遇到具体问题回查 & 用附录\ref{ch:reference}的主题页码与方法比较找入口，再回到相应图解；形状、概率与梯度见附录\ref{ch:math}。\\
 \bottomrule
 \end{tabularx}
 \end{center}
 
-\section*{每页怎样使用}
+\section*{数学不熟悉时怎样回查}
+向量、矩阵与乘法形状见附录\ref{sec:math-matrix}节；导数与梯度见附录\ref{sec:math-gradient}节；
+条件概率、期望与方差见附录\ref{sec:math-probability}--\ref{sec:math-random}节。
+先看对应的小算例，再回到当前主题。进入注意力结构前，若不熟悉层归一化，可查第\ref{sec:cnn-normalization}节。
+
+\section*{每个主题怎样阅读}
 先读开头的任务与定义；看图中轴、箭头、颜色和形状；对照“读图”复算小例子。
 随后检查提示框中的前提和常见误解。比较方法时，保持数据划分、评价口径与计算预算可比。
 图中有些曲线是明确标注的趋势示意，有些来自给出的实际递推或小数据；两者不要混同。
 
 本书偏向可解释的小算例与机制，不提供“某算法总是最好”的选型口诀。
-不同文献可能采用不同损失缩放、矩阵方向或更新符号；先对照本页定义，再换算。
+不同文献可能采用不同损失缩放、矩阵方向或更新符号；先对照本节定义，再换算。
 “更低/更高”均需结合指标方向、样本与使用条件理解。
+
+配套图源、算例复核脚本与构建说明见
+\href{https://github.com/zhang-haifei/ML-Cheat-Sheet/blob/work/review/handbook-source.zip}{可编译源码包}；
+解压后按\texttt{README.md}操作。

@@ -15,12 +15,14 @@
 超参数（Hyperparameter）控制模型或学习流程，如正则强度、树深度、学习率。
 超参数可以由验证搜索自动选择，不能简单理解为“只有人工才设置”。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/diagnostics/search}
 \caption{等预算的独立示意。随机搜索能试更多不同坐标值，但不保证每次更优。}
-\end{figure}
-\readfigure{网格搜索枚举指定笛卡尔积；3个正则强度与4个树深度共12组，
+\par\smallskip
+\readfigure{网格搜索枚举指定笛卡尔积，图中为$3\times4=12$组；随机搜索也画出12组。
+若比较3个正则强度与4个树深度，亦有12组候选，
 五折评估需60次折内拟合，最后全开发集重拟合另计一次。不能按训练分数挑选。}
+\end{figure}
 
 随机搜索从预先指定分布抽样；若正值跨多个数量级，可考虑对数尺度，
 例如$\log_{10}\lambda\sim U[-4,0]$，而非默认在线性区间均匀取值。
@@ -28,18 +30,18 @@
 
 \quick{先定指标方向、范围、预算、划分与随机种子。候选失败和实际开销也应记录；搜索只在指定范围内比较。}
 
-\clearpage
 \section{嵌套交叉验证：评估选择流程}
 \label{sec:diag-nested}
 普通交叉验证可用于选择超参数；同一组折上最优候选的分数，已经受到选择影响。
 若需要估计整套选择流程的泛化表现，可用嵌套交叉验证（Nested CV）。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/diagnostics/nested}
 \caption{外层评估、内层选择；预处理始终与模型一起在相应训练部分拟合。}
-\end{figure}
+\par\smallskip
 \readfigure{外层留出折不参与内层搜索；在不同外层折上选出的超参数可以不同。
 汇总外层结果，评价的是“给定新训练样本后执行这套选择流程”的表现。}
+\end{figure}
 
 若外层5折、内层3折、每次比较8组候选，内层拟合共$5\times3\times8=120$次；
 每个外层选定后重新拟合一次，共5次，因此外层评估阶段125次。
@@ -54,18 +56,18 @@
 时间序列与分组数据的内外层都需保持相应边界。
 也不要把五个外层模型中分数最高的一个直接当作“最终最佳模型”。
 
-\clearpage
 \section{三种曲线：先读横轴，再谈诊断}
 \label{sec:diag-curves}
 “学习曲线”有时泛指训练过程曲线，阅读时务必先检查横轴。
 这里区分训练样本量、一个超参数与训练步数三类图。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/diagnostics/curves}
 \caption{独立构造的趋势示意，不是实验结果；这类形状并非必然定律。}
-\end{figure}
+\par\smallskip
 \readfigure{左图改变训练样本量、固定方案，每个规模重新拟合；右图改变复杂度、固定样本量。
 纵轴均为误差，越低越好。若换成准确率等得分，方向应对应改变。}
+\end{figure}
 
 \begin{center}
 \begin{tabularx}{\textwidth}{P{33mm}Y}
@@ -83,7 +85,6 @@ Epoch或更新步数 & 优化过程、训练/验证分离和停止时刻；不�
 训练好、验证差：检查泄漏、划分、分布变化、正则与数据量。
 曲线只提供线索，不能单凭间距唯一诊断原因；验证误差也可能暂时低于训练误差。
 
-\clearpage
 \section{概率预测：Brier与对数损失}
 \label{sec:diag-probability}
 二分类模型给出的$p_i$应对应指定正类，$y_i\in\{0,1\}$。
@@ -93,6 +94,7 @@ Brier分数（Brier Score）与二元对数损失都直接评价概率，越小�
  \mathrm{LogLoss}&=-\frac1n\sum_i[y_i\log p_i+(1-y_i)\log(1-p_i)].
 \end{align}
 对数用自然底；错误且极度自信的概率会受较大惩罚。
+概率边界处按极限约定取$0\log0=0$。
 若真实类别被赋予零概率，对数损失趋于无穷；软件裁剪概率需说明约定。
 
 \begin{center}
@@ -118,24 +120,25 @@ B的对数损失约0.562，A约0.655；排序、硬标签与概率质量是不�
 
 \quick{Brier反映整体概率误差，不能单独证明校准完美；比较时保持样本、类别定义与缩放口径一致。}
 
-\clearpage
 \section{校准、排序与阈值分工}
 \label{sec:diag-calibration}
 校准（Calibration）问：预测概率相近的一组样本，其实际正类频率是否相近？
 可靠性图（Reliability Diagram）把组内平均预测概率与组内实际频率作比较。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/diagnostics/calibration}
-\caption{沿用上页两个各4样本的组。有限分组图只用于说明，不证明总体已经校准。}
-\end{figure}
+\caption{沿用前例两个各4样本的组。有限分组图只用于说明，不证明总体已经校准。}
+\par\smallskip
 \readfigure{A将两组概率推向0与1，比本例观察频率更自信。
 按组频率替换为B后，排序与0.5阈值标签不变，Brier下降。实际应用不能用测试标签这样修改预测。}
+\end{figure}
 
 Sigmoid/Platt或保序回归等校准器，应使用模型拟合之外的校准数据，
 或合适的交叉拟合流程；模型、校准器、阈值都确定后再测独立测试集。
 分箱数量和少量样本会影响图形，分布变化后原校准关系也可能失效。
 
 若$p$是适用场景的正类后验概率，正确决策代价为0，误报代价$C_{FP}$、漏报代价$C_{FN}$，
+两种错误代价非负且不同时为0，
 则预测正类的期望代价为$C_{FP}(1-p)$，负类为$C_{FN}p$。
 因此可按
 \[
@@ -144,7 +147,8 @@ Sigmoid/Platt或保序回归等校准器，应使用模型拟合之外的校准�
 判正（相等时的约定另定）。例如$C_{FP}=1,C_{FN}=4$给阈值0.2。
 这个结论依赖概率与代价假设，不可对任意未校准得分照搬，也不等于任何F1最优阈值。
 
-\clearpage
+\input{chapters/platt-calibration}
+
 \section{MCC：同时使用四种计数}
 \label{sec:diag-mcc}
 马修斯相关系数（Matthews Correlation Coefficient, MCC）是二元真实标签与预测标签的相关系数。
@@ -171,26 +175,26 @@ $TP=18,FN=12,FP=7,TN=63$ & 0.81 & 约0.529\\
 
 若真实标签或预测标签恒定，相关系数的普通定义失效。
 软件可能使用返回0等扩展约定，应记录这个约定，不能把0自动解释成测得了独立性。
-多分类MCC另有推广公式，不能直接将多分类矩阵四个位置代入本页二分类式。
+多分类MCC另有推广公式，不能直接将多分类矩阵四个位置代入本节二分类式。
 
 \begin{keyidea}[指标服务于问题]
 MCC可补充类别不平衡时的标签评价；仍应看混淆矩阵、各类表现与错误代价。
 需要概率质量时看概率指标，需要低误报运行点时检查相应阈值表现。
 \end{keyidea}
 
-\clearpage
 \section{不确定性：区间也有适用条件}
 \label{sec:diag-uncertainty}
 有限测试样本得到的准确率只是估计。
 在模型已固定、测试结果近似独立且同分布的二元成功/失败设置下，
 可用二项比例区间描述抽样不确定性。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/diagnostics/interval}
 \caption{100个独立测试结果中81个正确，采用$z=1.96$的Wilson近似95\%区间。}
-\end{figure}
+\par\smallskip
 \readfigure{0.81不是没有误差的总体常数。区间约为$[0.722,0.875]$，
 这不包含对未来分布变化的保证，也没有自动计入重新训练或调参的不确定性。}
+\end{figure}
 
 令$\hat p=k/n$，Wilson区间的中心和半宽分别为
 \[
@@ -207,7 +211,8 @@ MCC可补充类别不平衡时的标签评价；仍应看混淆矩阵、各类�
 有组结构时按组设计估计或重采样，明确抽样单位与所覆盖的不确定性。
 \end{pitfall}
 
+\begingroup\small
 \noindent\textbf{参考：}ISLR第二版第5章；Bergstra与Bengio，\textit{Random Search for Hyper-Parameter Optimization}（2012）；
 scikit-learn Model Selection、Calibration与Model Evaluation文档；Wilson（1927）。
 全部图与算例独立构造。
-
+\par\endgroup

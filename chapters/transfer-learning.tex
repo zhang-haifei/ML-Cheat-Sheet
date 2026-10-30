@@ -7,13 +7,14 @@
 
 \section{冻结与微调分别更新什么？}
 \label{sec:transfer-freeze}
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/numerics/transfer}
 \caption{目标任务有$K$个互斥类别时，线性任务头将$d$维表示映成$K$个logits。}
-\end{figure}
+\par\smallskip
 \readfigure{若$d=16,K=3$，带偏置任务头有$16\times3+3=51$个参数。
 冻结底座时只训练这些新参数；部分或全部微调时，还更新被选中的底座参数。
 冻结减少可训练参数，但不消除底座前向计算。}
+\end{figure}
 
 \begin{center}
 \begin{tabularx}{\textwidth}{P{31mm}Y}
@@ -29,6 +30,7 @@
 
 冻结参数与评估模式是两回事：BatchNorm运行统计是否更新、Dropout是否随机，
 需要另外设定；不能只设置“不求参数梯度”就默认底座输出固定。
+BN的统计与模式见第\ref{sec:cnn-normalization}节，Dropout的缩放规则见第\ref{sec:train-dropout}节。
 预处理、词表/分词和输入尺度也需与预训练约定衔接。
 
 \begin{pitfall}[预训练不保证每个目标任务都有收益]
@@ -37,5 +39,8 @@
 还需核对预训练数据是否与评估样本重叠，避免把重复内容带来的好分数当作泛化。
 \end{pitfall}
 
-\noindent\textbf{参考：}《动手学深度学习》微调章节；PyTorch Transfer Learning Tutorial。
+\quick{复用表示与参数后，仍要回到全书的起点：明确目标任务、预测时可用的信息，以及合适的验证方式。}
 
+\begingroup\small
+\noindent\textbf{参考：}《动手学深度学习》微调章节；PyTorch Transfer Learning Tutorial。
+\par\endgroup

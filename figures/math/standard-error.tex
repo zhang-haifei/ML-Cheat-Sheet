@@ -1,0 +1,9 @@
+\begin{tikzpicture}
+\begin{axis}[width=135mm,height=44mm,xmin=-2,xmax=10,ymin=0,ymax=.9,
+ xlabel={重复抽样得到的均值},ylabel={密度},xtick={0,2,4,6,8},
+ legend style={font=\small,draw=none,at={(.98,.95)},anchor=north east}]
+\addplot[Quiet,dashed,thick,domain=-2:10,samples=151] {exp(-(x-4)^2/8)/(2*sqrt(2*pi))};\addlegendentry{$n=1$，SE=2}
+\addplot[Amber,thick,domain=-2:10,samples=151] {exp(-(x-4)^2/2)/sqrt(2*pi)};\addlegendentry{$n=4$，SE=1}
+\addplot[Teal,very thick,domain=-2:10,samples=151] {exp(-(x-4)^2/.5)/(.5*sqrt(2*pi))};\addlegendentry{$n=16$，SE=0.5}
+\end{axis}
+\end{tikzpicture}

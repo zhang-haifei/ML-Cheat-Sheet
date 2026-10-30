@@ -8,12 +8,13 @@
 \label{sec:numeric-activation}
 除Sigmoid与ReLU外，常见激活各有形状和计算特点，不能仅凭“有负值”判断能否解决梯度问题。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/numerics/activations}
 \caption{函数值的独立绘图。Leaky ReLU示例斜率为0.1；它不是所有实现的默认值。}
-\end{figure}
+\par\smallskip
 \readfigure{tanh在两端趋于$\pm1$；Leaky ReLU保留负半轴斜率；ELU负半轴趋于$-\alpha$；
 Softplus平滑接近ReLU。图示比较函数，不直接代表模型效果排名。}
+\end{figure}
 
 \begin{center}
 \small
@@ -21,9 +22,9 @@ Softplus平滑接近ReLU。图示比较函数，不直接代表模型效果排�
 \toprule
 激活 & 定义或性质 & 导数与边界\\
 \midrule
-tanh & $\tanh z$，输出在$(-1,1)$。 & $1-\tanh^2z$；两端仍饱和。\\
+tanh & 双曲正切$\frac{e^{2z}-1}{e^{2z}+1}$，范围$(-1,1)$。 & $1-\tanh^2z$；两端仍饱和。\\
 Leaky ReLU & $z\geq0$取$z$，否则$az$，$0<a<1$。 & 两侧导数1与$a$；原点输出0且通常不可微。\\
-ELU & $z\geq0$取$z$，否则$\alpha(e^z-1)$。 & 负侧导数$\alpha e^z$仍可很小；$\alpha=1$时原点可微。\\
+ELU，$\alpha>0$ & $z\geq0$取$z$，否则$\alpha(e^z-1)$。 & 负侧导数$\alpha e^z$仍可很小；$\alpha=1$时原点可微。\\
 Softplus & $\log(1+e^z)$。 & 导数为Sigmoid；负端也会饱和。\\
 \bottomrule
 \end{tabularx}
@@ -32,7 +33,6 @@ Softplus & $\log(1+e^z)$。 & 导数为Sigmoid；负端也会饱和。\\
 ELU或tanh不保证激活均值恰好为0；Leaky ReLU也不保证完整网络梯度永远非零。
 激活、初始化、归一化与优化需一起考虑。
 
-\clearpage
 \section{从logits稳定计算交叉熵}
 \label{sec:numeric-logits}
 对有限logits $z_1,\ldots,z_K$，令$a=\max_k z_k$，则
@@ -43,13 +43,9 @@ ELU或tanh不保证激活均值恰好为0；Leaky ReLU也不保证完整网络�
 交叉熵需要负号，$y$是本例真实类别索引；更一般的目标分布$t_k$用$-\sum_k t_k\log p_k$。
 交叉熵与只含预测分布的熵不是同一个概念。
 
-\begin{figure}[H]
-\centering\input{figures/numerics/margin-loss}
-\caption{二分类有符号间隔下的损失比较；Hinge到达间隔1后为0，Logistic平滑下降。}
-\end{figure}
-\readfigure{对$\vct z=(1000,1001,999)$，若目标为第1类，
+对$\vct z=(1000,1001,999)$，若目标为第1类，
 稳定损失为$1+\log(1+e^{-1}+e^{-2})\approx1.408$。
-无需先计算会溢出的$e^{1001}$，也无需先生成可能舍入为0的目标概率。}
+无需先计算会溢出的$e^{1001}$，也无需先生成可能舍入为0的目标概率。
 
 二分类用$y\in\{0,1\}$、logit $s$时，稳定BCE可写为
 \[
@@ -61,7 +57,15 @@ ELU或tanh不保证激活均值恰好为0；Leaky ReLU也不保证完整网络�
 减最大值避免指数上溢，某些很小的指数项仍可能下溢为0；不能声称完全消除所有浮点问题。
 Hinge通常用$y\in\{-1,1\}$与得分$s$，随$ys$增加而不增，不是随$s$增加对两类都下降。
 
-\clearpage
+\begin{figure}[htbp]
+\centering\input{figures/numerics/margin-loss}
+\caption{二分类有符号间隔下的损失比较；Hinge到达间隔1后为0，Logistic平滑下降。}
+\par\smallskip
+\readfigure{横轴$m=ys$为有符号间隔：负值表示落在错误一侧，正值表示落在正确一侧。
+Hinge为$\max(0,1-m)$，在$m=0,1$处分别为1、0；Logistic为$\log(1+e^{-m})$，
+相应约为0.693、0.313。后者在有限间隔下仍为正；曲线更低不等于泛化更好。}
+\end{figure}
+
 \section{RMSprop、L2与解耦权重衰减}
 \label{sec:numeric-decay}
 一种非中心化RMSprop约定为逐坐标计算
@@ -69,7 +73,7 @@ Hinge通常用$y\in\{-1,1\}$与得分$s$，随$ys$增加而不增，不是随$s$
  \vct v_t=\beta\vct v_{t-1}+(1-\beta)\vct g_t^2,\qquad
  \vct w_t=\vct w_{t-1}-\eta\frac{\vct g_t}{\sqrt{\vct v_t}+\epsilon}.
 \]
-$\vct g_t$在$\vct w_{t-1}$处计算。它累积梯度\textbf{平方}的指数滑动平均，仍需设置学习率与其他超参数。
+取$\vct v_0=0$，$0\leq\beta<1$、$\eta,\epsilon>0$；$\vct g_t$在$\vct w_{t-1}$处计算。它累积梯度\textbf{平方}的指数滑动平均，仍需设置学习率与其他超参数。
 这里没有Adam式的一阶动量和偏差修正；实现可能另有中心化、动量等选项。
 
 标量例子$v_0=0,w_0=1,\beta=0.9,\eta=0.1$，仅为手算忽略$\epsilon$，
@@ -97,18 +101,18 @@ L2惩罚$\lambda\lVert\vct w\rVert_2^2/2$增加梯度$\lambda\vct w$。
 Adam中加入L2梯度还会影响矩估计历史，差异不只这一步；AdamW采用解耦衰减思想。
 偏置、归一化参数等是否衰减需明确参数组，不能不看实现就断言全部相同。
 
-\clearpage
 \section{裁剪梯度：限制范数，不修复全部不稳定}
 \label{sec:numeric-clipping}
 给定阈值$c>0$，全局L2范数裁剪把选定参数的梯度连接成一个向量，
 当$\lVert g\rVert_2>c$时令$g'=cg/\lVert g\rVert_2$，否则保持不变。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/numerics/clipping}
 \caption{阈值2。圆弧表示L2范数为2的边界；逐坐标裁剪不保持相同方向。}
-\end{figure}
+\par\smallskip
 \readfigure{$g=(3,4)$的范数为5，全局裁剪后为$(1.2,1.6)$，范数为2且方向不变。
 逐坐标限制在$[-2,2]$则得到$(2,2)$，范数为$2\sqrt2$，含义不同。}
+\end{figure}
 
 裁剪发生在反向传播之后、优化器更新之前。
 如果使用梯度累积，应明确对哪一次有效梯度裁剪；使用缩放梯度的混合精度流程时，
@@ -120,7 +124,6 @@ Adam中加入L2梯度还会影响矩估计历史，差异不只这一步；AdamW
 突然出现大梯度时，还应检查数据、损失尺度与实现。
 \end{pitfall}
 
-\clearpage
 \section{把不同正则化方式放回训练流程}
 \label{sec:numeric-regularization}
 正则化通过约束、惩罚、随机化或停止规则影响学习，不是给模型增加同一种“防过拟合按钮”。
@@ -149,6 +152,7 @@ Bagging的重采样可在给定训练集时独立抽取，但基模型都依赖�
 
 \quick{明确方法改变的是数据、目标、梯度、参数还是选择规则，再设计验证比较；不要把几个方法机械叠加就当作质量保证。}
 
+\begingroup\small
 \noindent\textbf{参考：}Goodfellow等《Deep Learning》第6--8章；Loshchilov与Hutter，\textit{Decoupled Weight Decay Regularization}（2019）；
 PyTorch损失、RMSprop、AdamW与梯度裁剪文档。所有图表与算例独立构造。
-
+\par\endgroup

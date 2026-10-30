@@ -1,0 +1,6 @@
+\begin{tikzpicture}[node distance=7mm]
+\node[box,text width=36mm] (train) {训练集\;T\\拟合基础模型};
+\node[box,text width=48mm,right=of train] (cal) {校准集\;C\\固定模型产生得分\\拟合映射$a,b$};
+\node[box,text width=36mm,right=of cal] (test) {测试集\;E\\固定完整流程\\一次独立评价};
+\draw[flow] (train)--(cal);\draw[flow] (cal)--(test);
+\end{tikzpicture}

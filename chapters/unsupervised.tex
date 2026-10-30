@@ -9,7 +9,7 @@
 这些目标与监督任务的预测准确性不同，需要结合用途评价。
 \end{keyidea}
 
-\section{$K$-means：分配，再更新中心}
+\section{\texorpdfstring{$K$}{K}-means：分配，再更新中心}
 \label{sec:unsup-kmeans}
 $K$-means最小化各点到所属中心的平方欧氏距离和：
 \[
@@ -17,21 +17,22 @@ $K$-means最小化各点到所属中心的平方欧氏距离和：
 \]
 常用Lloyd迭代交替进行最近中心分配与簇内均值更新。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/kernel/kmeans}
 \caption{四个一维样本0、1、4、5，初始中心0与5；一次更新得到0.5与4.5。}
-\end{figure}
+\par\smallskip
 \readfigure{初始分组为$\{0,1\}$、$\{4,5\}$；更新后组内平方和从2降到1。
 再次分配不变，此例已经稳定。一般迭代不能保证得到全局最优，需考虑初始化和多次运行。}
+\end{figure}
 
 平方距离偏好相应几何中的紧凑分组，异常值可显著移动均值。
 空簇需要实现约定；混合尺度、非球状结构或密度差异大时，应比较其他方法与表示。
 $K$-means++改善初始化选择，但不把全局最优变成保证。
 
-\clearpage
 \section{选择簇数与轮廓系数}
 \label{sec:unsup-silhouette}
-组内平方和一般随$K$增加而不增，因此不能直接选择其最小值来确定合理簇数。
+在 $1\leq K\leq n$ 且每个 $K$ 都求到全局最优时，组内平方和随 $K$ 增加不增；
+实际局部解还受初始化影响。因此不能直接选择组内平方和最小值来确定合理簇数。
 肘部法是观察改进幅度的启发式，未必出现清晰拐点。
 轮廓系数（Silhouette Coefficient）同时比较簇内和簇间距离。
 
@@ -40,7 +41,8 @@ $K$-means++改善初始化选择，但不把全局最优变成保证。
  s_i=\frac{b_i-a_i}{\max(a_i,b_i)},\qquad S=\frac1n\sum_i s_i.
 \]
 常见取值在$[-1,1]$，较大表示在该距离定义下更接近本簇、远离最近其他簇。
-单点簇通常按实现约定取0；一个簇或每点单独一簇不能按普通定义有效比较。
+单点簇或分母为0的退化情形通常按实现约定取0；
+一个簇或每点单独一簇不能按普通定义有效比较。
 
 \begin{center}
 \begin{tabular}{lrrr}
@@ -57,40 +59,39 @@ $K$-means++改善初始化选择，但不把全局最优变成保证。
 
 \quick{轮廓分数依赖距离和几何，不直接证明分组符合实际用途或真实标签。}
 
-\clearpage
 \input{chapters/density-clustering}
-\clearpage
 \section{PCA：寻找单位长度的最大方差方向}
 \label{sec:unsup-pca}
 主成分分析（Principal Component Analysis, PCA）先中心化输入。
 第一方向最大化投影方差，约束$\lVert\vct v\rVert_2=1$；后续方向在与先前方向正交的条件下依次选择。
 不加长度约束，任意放大系数就能放大方差，问题没有同样意义。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/kernel/pca}
 \caption{中心为0的四点$(2,1),(1,2),(-1,-2),(-2,-1)$，第一方向为$(1,1)/\sqrt2$。}
-\end{figure}
+\par\smallskip
 \readfigure{沿第一方向投影后，$(2,1)$的坐标为$3/\sqrt2$，重建为$(1.5,1.5)$。
 虚线表示丢弃第二方向造成的误差，平方距离为0.5。第一方向描述输入变化，不直接使用类别标签。}
+\end{figure}
 
 投影坐标为$Z=X_cV_r$，重建为$\hat X=ZV_r^\top+\vct1\vct\mu^\top$。
 中心与方向均在训练内拟合。主成分符号正负可以同时翻转，不改变对应子空间。
 
-\clearpage
 \section{保留多少主成分：方差与任务一起看}
 \label{sec:unsup-components}
-采用分母$n-1$的样本协方差时，上页四点的矩阵为
+采用分母$n-1$的样本协方差时，前述四点的矩阵为
 \[
  S=\begin{bmatrix}10/3&8/3\\8/3&10/3\end{bmatrix},
 \]
 特征值为6与$2/3$，解释方差比例为各特征值除以总和。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/kernel/pca-variance}
 \caption{本例第一方向解释90\%方差，第二方向解释10\%；保留一维后仍有重建误差。}
-\end{figure}
+\par\smallskip
 \readfigure{四条记录各损失0.5的平方距离，重建误差平方和为2。
 若用“至少90\%方差”规则，本例保留一维；若要求超过90\%，则需两维。}
+\end{figure}
 
 比例阈值是工程选择，不存在普遍正确的95\%或99\%。
 较小方差方向也可能包含重要预测信息；应把PCA与后续模型一起在训练内验证。
@@ -98,7 +99,6 @@ PCA通常中心化，但是否标准化取决于单位和目标；标准化会�
 
 \quick{解释方差比例描述这个表示对输入变动的保留，不等于保留同比例的“所有有用信息”。}
 
-\clearpage
 \section{核PCA与方法选择的边界}
 \label{sec:unsup-kernel-pca}
 核PCA（Kernel PCA）在核所对应的特征空间中进行PCA，可形成非线性表示。
@@ -122,10 +122,11 @@ $K$-means & 降低簇内平方距离。 & 得到的簇自动等于真实类别�
 对初学者，应先建立线性PCA与简单聚类基线，再决定是否需要非线性方法。
 
 \subsection{自测与回看}
-$\xi=0$是否只表示在SVM间隔边界？\textbf{不是。}
 轮廓系数是否直接使用组内平方和？\textbf{不是。}
 PCA保留90\%方差是否保证保留90\%预测能力？\textbf{不能。}
 核PCA是否保证任何标签线性可分？\textbf{不能。}
 
+\begingroup\small
 \noindent\textbf{参考：}ISLR第二版第12章；MML第10章；scikit-learn Clustering与Decomposition文档。
 图和数字例子独立构造。
+\par\endgroup

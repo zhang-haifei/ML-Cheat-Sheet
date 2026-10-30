@@ -1,5 +1,6 @@
 \chapter{神经网络：从结构到一次参数更新}
 \label{ch:neural}
+\noindent{\sffamily\small\color{Teal}第二部分 · 深度学习基础}\par\smallskip
 
 神经网络（Neural Network）把一系列可调的数学变换组合起来，将输入映射为预测。
 学习的关键，是利用数据调整这些变换中的参数，而不是手工规定每个中间特征。
@@ -18,16 +19,16 @@
 损失函数回答“当前预测错了多少”，反向传播回答“参数改变会怎样影响损失”，
 优化器根据梯度决定“这一步怎样改参数”。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering
 \input{figures/training-map}
 \caption{训练循环与验证的分工。虚线表示用验证数据评估方案，不通过该分支拟合参数。}
 \label{fig:training-map}
-\end{figure}
-
+\par\smallskip
 \readfigure{沿实线走一圈，就是一次参数更新。网络先产生预测，损失把预测与标签比较，
 反向传播计算梯度，优化器据此更新参数，随后才能开始下一次计算。
 验证集用来选择网络宽度、学习率或停止时刻；测试集留到方案确定后评估。}
+\end{figure}
 
 对于训练集 $\mathcal D=\{(\vct x_i,y_i)\}_{i=1}^n$，一个常见目标是
 \begin{equation}
@@ -45,7 +46,6 @@ $\Omega$ 是正则化项，$\lambda\geq0$ 控制正则化强度。
 再应用于验证集和测试集。训练损失下降，并不保证新数据上的误差下降。
 \end{pitfall}
 
-\clearpage
 \section{结构、前馈与隐藏层}
 \label{sec:nn-structure}
 
@@ -54,17 +54,17 @@ $\Omega$ 是正则化项，$\lambda\geq0$ 控制正则化强度。
 相邻层的每个单元与上一层的全部单元相连。
 卷积网络也可以是前馈网络，所以“前馈网络”和“MLP”不能在所有语境下画等号。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering
 \input{figures/network}
 \caption{一个 $3\!\to\!4\!\to\!3\!\to\!1$ 的 MLP。箭头表示计算依赖，偏置未画出。}
 \label{fig:network}
-\end{figure}
-
+\par\smallskip
 \readfigure{最左侧的三个输入单元只是三个特征的入口。
 中间两列分别有四个和三个隐藏单元，最右侧只有一个输出。
 每条连接对应一个权重；每个隐藏单元和输出单元通常还有一个偏置。
 这些偏置不应因为图中省略而在计算时被忘掉。}
+\end{figure}
 
 \textbf{隐藏层（Hidden Layer）}位于输入与输出之间，其激活值是网络根据输入计算出的中间表示。
 “隐藏”指它们没有直接作为任务所给定的输入或目标，并不表示它们无法观察，也不表示必须另有标签。
@@ -87,22 +87,21 @@ $\Omega$ 是正则化项，$\lambda\geq0$ 控制正则化强度。
 更多层或更多参数带来表达能力与计算成本的变化，不自动带来更好的泛化。
 \end{keyidea}
 
-\clearpage
 \section{神经元与前向计算}
 \label{sec:nn-forward}
 
 人工神经元（Artificial Neuron）可以看成“加权求和，加偏置，再做激活”的小计算模块。
 权重决定输入各分量怎样组合，偏置决定变换的平移，激活函数改变组合结果的形状。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering
 \input{figures/neuron}
 \caption{单个神经元的计算。偏置在激活之前加入。}
 \label{fig:neuron}
-\end{figure}
-
+\par\smallskip
 \readfigure{输入先乘各自权重并相加，得到激活前的数值 $z$；
 激活函数 $\phi$ 将 $z$ 转为输出 $a$。图中的“求和”并非把输入原样相加，而是进行加权求和。}
+\end{figure}
 
 \subsection{先算一个单元}
 设 $\vct x=(2,-1)^\top$、$\vct w=(0.5,1)^\top$、$b=0.2$，则
@@ -137,7 +136,6 @@ $\vct z^{(l)},\vct a^{(l)}$ & $d_l\times1$ & 当前层激活前的值与激活�
 
 \quick{先检查矩阵形状，再计算数值。隐藏层在计算新的表示；输出层把表示转换成任务所需的预测。}
 
-\clearpage
 \section{为什么需要非线性激活？}
 \label{sec:nn-activations}
 
@@ -149,16 +147,16 @@ $\vct z^{(l)},\vct a^{(l)}$ & $d_l\times1$ & 当前层激活前的值与激活�
 因此，仅增加这样的层数无法获得一般的非线性表达能力。
 激活函数（Activation Function）让网络能表示更丰富的关系。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering
 \input{figures/activations}
 \caption{Sigmoid 平滑地压缩数值；ReLU 保留正半轴，把负半轴置零。}
 \label{fig:activations}
-\end{figure}
-
+\par\smallskip
 \readfigure{左图过 $(0,0.5)$ 且单调递增，两端逐渐变平；
 右图在原点折转，负半轴为水平线，正半轴斜率为 1。
 曲线的斜率就是反向传播会用到的局部导数。}
+\end{figure}
 
 \begin{align}
  \sigma(z)&=\frac{1}{1+e^{-z}}, & \sigma'(z)&=\sigma(z)(1-\sigma(z)),\label{eq:sigmoid}\\
@@ -180,9 +178,7 @@ ReLU 不能保证整个深层网络不会出现梯度消失。
 Sigmoid 输出的数值也不会仅因位于 $(0,1)$ 就自动成为校准良好的概率。
 \end{pitfall}
 
-\clearpage
 \input{chapters/nonlinear-representation}
-\clearpage
 \section{Softmax：把一组得分变为分布}
 \label{sec:nn-softmax}
 
@@ -197,15 +193,15 @@ Softmax 将这组得分转换为和为 1 的概率分布估计：
 对有限 logits，所有 $p_k>0$ 且 $\sum_k p_k=1$。
 分母遍历同一个样本的全部类别，而不是遍历不同样本。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering
 \input{figures/softmax}
 \caption{三分类的数值例子。显示值经过四舍五入。}
 \label{fig:softmax}
-\end{figure}
-
+\par\smallskip
 \readfigure{得分最大的第一类获得最高概率，但其概率约为 $0.665$，并不接近 1。
 第二、三类仍保有概率质量。若取概率最大的类别作为最终标签，这一步才是离散的分类决策。}
+\end{figure}
 
 \subsection{数值稳定性来自平移不变性}
 若给每个得分同时减去常数 $c$，分子分母会约去相同的因子 $e^{-c}$，所以结果不变。
@@ -226,7 +222,6 @@ Softmax 保持得分的大小顺序，\textbf{它不是取最大值运算，也�
 
 \quick{Sigmoid 逐个处理二元事件；Softmax 联合处理互斥类别。判断任务能否同时有多个真标签，再选择输出。}
 
-\clearpage
 \section{把输出层和损失函数配对}
 \label{sec:nn-output}
 
@@ -281,7 +276,6 @@ Softmax 保持得分的大小顺序，\textbf{它不是取最大值运算，也�
 使用这类接口时，再手动做一次激活会改变计算。不同接口要求不同，应检查文档。
 \end{pitfall}
 
-\clearpage
 \section{反向传播：把链式法则组织起来}
 \label{sec:nn-backprop}
 
@@ -289,16 +283,16 @@ Softmax 保持得分的大小顺序，\textbf{它不是取最大值运算，也�
 它沿前向计算的依赖关系反向工作，把已经算出的上游梯度与当前运算的局部导数组合，
 避免对共享的中间计算反复求导。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering
 \input{figures/backprop}
 \caption{一个标量小网络的计算图。青色向前计算数值，橙色反向传递导数。}
 \label{fig:backprop}
-\end{figure}
-
+\par\smallskip
 \readfigure{输入 $x$ 先经过第一层和 ReLU 得到 $h$，再经过第二层得到得分 $s$，
 最后计算损失。反向时从 $\partial\ell/\partial s$ 开始，
 经第二层传到 $h$，再经 ReLU 传到 $z$。参数梯度从对应运算处分支得到。}
+\end{figure}
 
 对这一标量例子，链式法则给出
 \[
@@ -333,7 +327,6 @@ Softmax 配类别交叉熵时，$\partial\ell/\partial\vct z=\vct p-\vct t$。
 这是“激活与相应损失组合”的结果，不能换一个损失后仍照抄。
 \end{keyidea}
 
-\clearpage
 \section{手算一次完整的训练更新}
 \label{sec:nn-example}
 
@@ -380,7 +373,6 @@ Softmax 配类别交叉熵时，$\partial\ell/\partial\vct z=\vct p-\vct t$。
 通常应完成当前损失的反向计算，再让优化器统一更新。
 \end{pitfall}
 
-\clearpage
 \section{梯度下降与学习率}
 \label{sec:nn-gd}
 
@@ -399,53 +391,52 @@ $t$ 为更新次数，$\eta_t$ 为学习率（Learning Rate），控制梯度对
 固定学习率下有 $\theta_{t+1}=(1-\eta)\theta_t$。
 取 $\theta_0=2$，得到下面三组\textbf{实际递推数值}。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering
 \input{figures/learning-rate}
 \caption{纵轴是参数值，横轴是更新次数；最优参数为 $\theta=0$。}
 \label{fig:learning-rate}
+\par\smallskip
+\readfigure{橙线缓慢缩小，青线更快接近0；深色线在$2$与$-2$之间振荡，损失不降。
+本例$0<\eta<2$时收敛，$\eta>2$时参数绝对值不断增大。}
 \end{figure}
 
-\readfigure{橙线每次只缩小一点；青线较快接近 0；深色线不断在 $2$ 与 $-2$ 之间跳动，
-损失并未减小。这个例子中 $0<\eta<2$ 才收敛，$\eta>2$ 则参数绝对值不断增大。}
-
-一般可微目标在足够小的步长下，负梯度方向具有局部下降意义。
-但神经网络目标通常非凸；不能据此保证到达全局最优。
-即使目标凸，也需要最小值存在、步长等条件，才能讨论具体算法的收敛。
-梯度为 0 只说明处于驻点，可能对应极小值、极大值或鞍点，损失也不必为 0。
+在可微且梯度非零处，足够小的负梯度步具有局部下降意义，不保证非凸目标的全局最优。
+即使目标凸，收敛仍需最小值存在、步长等条件。
+零梯度只说明处于驻点，可能是极大值或鞍点，损失不必为0。
 
 \begin{keyidea}[从全批量到小批量]
-全批量梯度下降每步使用全部训练样本。
-小批量随机梯度下降（Minibatch SGD）用一小批样本平均梯度近似整体梯度，
-计算更便宜，但训练损失可能上下波动。
-调学习率和停止时刻应参考训练与验证表现，不用测试集反复试验。
+全批量每步使用全部训练样本；小批量随机梯度下降（Minibatch SGD）用小批量平均梯度估计整体梯度。
+每步计算较少，损失可能波动。学习率与停止时刻在验证流程内选择，测试集不参与。
 \end{keyidea}
 
-\clearpage
-\section{一页速查与自测}
+\section{速查与自测}
 \label{sec:nn-summary}
 
-\begin{center}
+\begingroup
 \small
-\renewcommand{\arraystretch}{1.35}
-\begin{tabularx}{\textwidth}{P{35mm}Y}
+\setlength{\LTpre}{3pt}\setlength{\LTpost}{4pt}
+\renewcommand{\arraystretch}{1.2}
+\begin{xltabular}{\textwidth}{P{35mm}Y}
 \toprule
 问题 & 快速定位\\
 \midrule
+\endhead
+\bottomrule
+\endfoot
 网络怎样计算？ & 仿射变换与激活逐层组合；见\ref{sec:nn-forward}节。\\
 为什么需要激活？ & 仿射变换堆叠仍是仿射变换；见\ref{sec:nn-activations}节。\\
-Sigmoid 输出什么？ & 单个二元事件的概率估计，$\sigma(z)=1/(1+e^{-z})$。\\
-Softmax 输出什么？ & 互斥类别的一组概率，分母遍历该样本的全部类别。\\
+概率输出怎样选？ & Sigmoid对应二元事件；Softmax给互斥类别分布，和为1。\\
 多标签怎么做？ & 常见起点是每个标签一个 Sigmoid，配逐标签 BCE。\\
 反向传播做什么？ & 由损失计算梯度；每个梯度形状与对应参数一致。\\
 优化器做什么？ & 按更新规则调整参数；普通梯度下降减去 $\eta\nabla J$。\\
-训练损失越低越好？ & 还要检查验证表现；测试集用于最终评估。\\
-\bottomrule
-\end{tabularx}
-\end{center}
+
+\end{xltabular}
+\endgroup
 
 \subsection{三个自测问题}
 \begin{enumerate}
+\setlength{\itemsep}{1pt}\setlength{\parsep}{0pt}
  \item 一个 $5\to4\to2$ 的全连接网络，每个参数层都有偏置，共有多少参数？
  \item 三个类别的 logits 都是 0，Softmax 输出是什么？
  \item 若 $J(\theta)=\theta^2/2$，$\theta=2$，$\eta=0.1$，下一步参数是多少？
@@ -453,10 +444,9 @@ Softmax 输出什么？ & 互斥类别的一组概率，分母遍历该样本的
 \textbf{参考答案：}（1）$(5\times4+4)+(4\times2+2)=34$。
 （2）$(1/3,1/3,1/3)$。（3）$2-0.1\times2=1.8$。
 
-\subsection{进一步查阅}
-以下资料用于核对本章的计算机制与接口约定；本章图表和数值例子独立编写。
-\begin{itemize}
- \item \href{https://d2l.ai/chapter_multilayer-perceptrons/backprop.html}{《动手学深度学习》：前向传播、反向传播与计算图}。
- \item PyTorch 文档：\href{https://docs.pytorch.org/docs/stable/generated/torch.nn.BCEWithLogitsLoss.html}{BCEWithLogitsLoss} 与
+\par\begingroup\small
+\noindent\textbf{进一步查阅：}
+\href{https://d2l.ai/chapter_multilayer-perceptrons/backprop.html}{《动手学深度学习》：前向传播、反向传播与计算图}。
+PyTorch 文档：\href{https://docs.pytorch.org/docs/stable/generated/torch.nn.BCEWithLogitsLoss.html}{BCEWithLogitsLoss} 与
  \href{https://docs.pytorch.org/docs/stable/generated/torch.nn.CrossEntropyLoss.html}{CrossEntropyLoss}，核对 logits 输入及损失定义。
-\end{itemize}
+\par\endgroup

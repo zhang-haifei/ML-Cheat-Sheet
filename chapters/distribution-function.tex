@@ -1,0 +1,43 @@
+\section{CDF：把“落在左侧的概率”累计起来}
+\label{sec:math-cdf}
+累积分布函数（Cumulative Distribution Function, CDF）定义为
+\[
+ F_X(t)=P(X\leq t),\quad t\in\R.
+\]
+$X$是随机变量，$t$是查询位置；不要把等式右侧写成与$t$无关的固定事件。
+CDF单调不减、右连续，在负无穷和正无穷处的极限分别为0和1。
+它适用于离散、连续以及混合分布。
+
+\begin{figure}[htbp]
+\centering\input{figures/math/cdf}
+\caption{左：$X\sim\mathrm{Bernoulli}(1/4)$的跳跃CDF。右：$U(0,0.5)$的连续CDF。实心点表示端点取值。}
+\par\smallskip
+\readfigure{左图在0跳到$3/4$，在1跳到1；所以$P(X=0)=3/4$。
+右图在$[0,0.5]$内为$F(t)=2t$，因此$P(0.1<X\leq0.4)=0.8-0.2=0.6$。}
+\end{figure}
+
+\begin{center}
+\begin{tabularx}{\textwidth}{P{30mm}Y}
+\toprule
+对象 & 与概率的关系\\
+\midrule
+离散质量函数 & $p(x)=P(X=x)$，各可能取值的质量相加为1。\\
+概率密度 & 若分布具有密度$f$，则$F(t)=\int_{-\infty}^t f(u)\,du$；密度值不是单点概率。\\
+累积分布函数 & 一般有$P(a<X\leq b)=F(b)-F(a)$，$a<b$。\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+记左极限为$F(a^-)=\lim_{t\uparrow a}F(t)$，则
+\[
+ P(X=a)=F(a)-F(a^-),\qquad
+ P(a\leq X\leq b)=F(b)-F(a^-).
+\]
+例如左图$P(0<X\leq1)=1/4$，但$P(0\leq X\leq1)=1$；端点是否纳入会改变答案。
+有密度的分布在单点上概率为0，此时有限个端点的开闭不改变区间概率。
+
+\begin{pitfall}[几乎处处不等于处处]
+把均匀分布密度在单个位置的值改成100，不改变任何区间积分，因而不改变分布。
+若两个密度只在零测集（例如有限个点）上不同，便称为几乎处处（Almost Everywhere）相同。
+类似地，ReLU只在0处不可微，不妨碍它在几乎处处可微；实现仍要约定0处如何反传。
+\end{pitfall}

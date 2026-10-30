@@ -1,15 +1,20 @@
 \chapter{符号、方法比较与主题索引}
 \label{ch:reference}
 
-本附录是阅读入口。速查表只保留定位与关键判断；算法前提、公式约定和例子仍以相应正文为准。
+本附录提供符号、模型比较与主题入口。具体公式和例子以正文为准；
+使用接口时，核对标签、轴次序、归约、平滑与模式。
 
 \section{符号与口径}
 \label{sec:reference-notation}
-\begin{center}
-\begin{tabularx}{\textwidth}{P{30mm}Y}
+\begingroup
+\setlength{\LTpre}{3pt}\setlength{\LTpost}{4pt}
+\begin{xltabular}{\textwidth}{P{30mm}Y}
 \toprule
 记号 & 本书常见含义\\
 \midrule
+\endhead
+\bottomrule
+\endfoot
 $n,d,K$ & 样本数、特征维度、类别/簇数；$K$也可在K折验证中表示折数，按局部定义。\\
 $X\in\R^{n\times d}$ & 表格数据按行放样本、按列放特征；单个样本常写列向量$\vct x$。\\
 $\vct w,b,\theta$ & 权重、偏置与一般参数；$\hat y$表示预测，帽子也可表示估计量。\\
@@ -19,10 +24,11 @@ $\lVert\cdot\rVert_2$ & 向量欧氏范数；平方惩罚为范数平方，不�
 $B,T,C,H,W$ & 神经网络中常指批量、长度、通道、高、宽；轴次序必须说明。\\
 $Q,K,V,d_k$ & 注意力查询、键、值与键维度；这里$K$是矩阵而不是类别数。\\
 $\mathbb E,\operatorname{Var}$ & 期望、方差；条件概率竖线右侧是已知条件。\\
+$\mathbf1[A]$ & 指示函数：条件$A$成立取1，否则取0；不是概率本身。\\
 $\log,\exp$ & 若无另注，$\log$是自然对数，$\exp z=e^z$。\\
-\bottomrule
-\end{tabularx}
-\end{center}
+
+\end{xltabular}
+\endgroup
 
 \begin{keyidea}[先确认三个口径]
 \textbf{标签：}二元交叉熵常用0/1，Hinge常用$-1/+1$。
@@ -33,37 +39,43 @@ $\log,\exp$ & 若无另注，$\log$是自然对数，$\exp z=e^z$。\\
 同一字母在不同领域可有不同局部含义，例如$\lambda$也可表示特征值，$h$可表示隐藏维度或头数。
 本书尽量在公式附近给出定义，不把符号表当作省略局部解释的理由。
 
-\clearpage
 \section{监督模型：先做什么基线？}
 \label{sec:reference-supervised}
-\begin{center}
-\begin{tabularx}{\textwidth}{P{30mm}P{52mm}Y}
+\begingroup
+\setlength{\LTpre}{3pt}\setlength{\LTpost}{4pt}
+\begin{xltabular}{\textwidth}{P{30mm}P{52mm}Y}
 \toprule
 模型与入口 & 核心做法 & 需要验证的地方\\
 \midrule
+\endhead
+\bottomrule
+\endfoot
 \hyperref[sec:linear-ols]{线性/多项式回归} & 以选定特征的线性组合预测数值。 & 残差、外推、特征尺度与复杂度；线性系数不自动是因果效应。\\
 \hyperref[sec:linear-ridge]{Ridge}、\hyperref[sec:linear-lasso]{Lasso} & 用L2/L1限制系数；Elastic Net结合两者。 & 损失缩放、标准化、正则强度与变量相关性。\\
 \hyperref[sec:linear-logistic]{逻辑回归} & 线性logit经Sigmoid给二分类概率。 & 线性边界、正则、校准与阈值；名字含“回归”但常用于分类。\\
-\hyperref[sec:linear-knn]{$K$近邻} & 按距离找邻居后投票或平均。 & 尺度、距离、维度、存储与查询开销。\\
+\hyperref[sec:linear-knn]{$k$近邻} & 按距离找邻居后投票或平均。 & 尺度、距离、维度、存储与查询开销。\\
 \hyperref[sec:tree-naive-bayes]{朴素贝叶斯} & 按类组合特征似然与先验。 & 条件独立假设、似然形式、平滑与概率校准。\\
 \hyperref[sec:tree-classification]{决策树} & 递归分割特征空间。 & 深度、叶节点样本量与稳定性；贪心切分不保证全局最优树。\\
 \hyperref[sec:svm-margin]{SVM} & 结合间隔、惩罚与可选核形成边界。 & $C$、核参数、尺度及数据规模；得分不是自动的校准概率。\\
 \hyperref[sec:tree-bagging]{随机森林/Bagging} & 重采样、特征随机性与多模型汇总。 & 模型相关、计算预算、重要性偏差与目标指标。\\
 \hyperref[sec:tree-gradient-boosting]{梯度提升} & 顺序增加拟合当前损失方向的弱模型。 & 学习率、树复杂度、轮数与验证；不要与所有提升算法的权重机制混称。\\
-\bottomrule
-\end{tabularx}
-\end{center}
+
+\end{xltabular}
+\endgroup
 
 \quick{表格数据可先比较简单线性基线与树模型，文本可先比较稀疏词袋基线；这只是可解释的起点，不是性能排序。}
 
-\clearpage
 \section{无监督与神经架构：目标和结构相配}
 \label{sec:reference-architectures}
-\begin{center}
-\begin{tabularx}{\textwidth}{P{30mm}P{52mm}Y}
+\begingroup
+\setlength{\LTpre}{3pt}\setlength{\LTpost}{4pt}
+\begin{xltabular}{\textwidth}{P{30mm}P{52mm}Y}
 \toprule
 方法与入口 & 提供什么结构 & 关键边界\\
 \midrule
+\endhead
+\bottomrule
+\endfoot
 \hyperref[sec:unsup-kmeans]{$K$-means} & 固定簇数，以平方距离和聚组。 & 紧凑几何、尺度、初始化与异常值。\\
 \hyperref[sec:unsup-dbscan]{DBSCAN} & 连接高密度核心并吸收边界点，可留噪声。 & 距离、密度阈值、密度差异与高维。\\
 \hyperref[sec:unsup-hierarchy]{层次聚类} & 通过合并构造多层分组。 & 链接、距离、截断高度与计算规模。\\
@@ -73,84 +85,90 @@ $\log,\exp$ & 若无另注，$\log$是自然对数，$\exp z=e^z$。\\
 \hyperref[sec:seq-rnn]{RNN、LSTM、GRU} & 顺序更新共享状态；门控调节信息保留。 & 状态、长路径、梯度与在线可见信息。\\
 \hyperref[sec:seq-transformer]{Transformer} & 注意力、前馈、残差与位置结构组合。 & 遮罩、长度开销、训练目标和表示维度。\\
 \hyperref[ch:transfer]{迁移学习} & 复用已有表示并适应目标任务。 & 来源匹配、冻结/模式、评估重叠与负迁移。\\
-\bottomrule
-\end{tabularx}
-\end{center}
+
+\end{xltabular}
+\endgroup
 
 复杂方法需要与任务合适的简单基线比较。聚类编号不等于已知类别，解释方差不是预测能力，
 能拟合不是能泛化，预训练也不是数据泄漏与分布变化的豁免。
 
-\clearpage
 \section{主题入口：数据、评估与经典方法}
 \label{sec:reference-topics}
 以下页码可点击，指向当前整书版本。英文缩写与中文术语并列，便于不同资料间对照。
 
-\begin{center}
+\begingroup
+\setlength{\LTpre}{3pt}\setlength{\LTpost}{4pt}
 \small
-\begin{tabularx}{\textwidth}{P{52mm}Y r}
+\begin{xltabular}{\textwidth}{P{52mm}Y r}
 \toprule
 要查的概念 & 具体入口 & 页\\
 \midrule
-容量、过拟合 Capacity/Overfitting & \hyperref[sec:learn-capacity]{容量与泛化} & \pageref{sec:learn-capacity}\\
-偏差—方差 Bias--Variance & \hyperref[sec:learn-decomposition]{期望误差分解及前提} & \pageref{sec:learn-decomposition}\\
+\endhead
+\bottomrule
+\endfoot
+容量、过拟合 Capacity/Overfitting & \hyperref[sec:learn-capacity]{容量与泛化}、\hyperref[sec:learn-fit]{拟合现象} & \pageref{sec:learn-capacity}、\pageref{sec:learn-fit}\\
+偏差—方差 Bias--Variance & \hyperref[sec:learn-biasvariance]{定义}、\hyperref[sec:learn-decomposition]{误差分解} & \pageref{sec:learn-biasvariance}、\pageref{sec:learn-decomposition}\\
 缺失、填补 Imputation & \hyperref[sec:data-missing]{缺失值与训练内填补} & \pageref{sec:data-missing}\\
-编码 One-hot/Ordinal & \hyperref[sec:data-onehot]{独热与类别编码} & \pageref{sec:data-onehot}\\
-缺失机制、完整记录 & \hyperref[sec:reliability-mechanism]{MCAR/MAR/MNAR与分析目标} & \pageref{sec:reliability-mechanism}\\
-异常与特征筛选 & \hyperref[sec:reliability-outlier]{核查、方差与卡方关联} & \pageref{sec:reliability-outlier}\\
+编码 One-hot/Ordinal & \hyperref[sec:data-onehot]{独热}、\hyperref[sec:data-ordinal]{有序编码} & \pageref{sec:data-onehot}、\pageref{sec:data-ordinal}\\
+缺失机制、完整记录 & \hyperref[sec:reliability-mechanism]{MCAR/MAR/MNAR}、\hyperref[sec:reliability-deletion]{删除的影响} & \pageref{sec:reliability-mechanism}、\pageref{sec:reliability-deletion}\\
+异常与特征筛选 & \hyperref[sec:reliability-outlier]{核查}、\hyperref[sec:reliability-variance]{方差}、\hyperref[sec:reliability-chi2]{卡方关联} & \pageref{sec:reliability-outlier}、\pageref{sec:reliability-variance}、\pageref{sec:reliability-chi2}\\
 缩放 Scaling & \hyperref[sec:data-scaling]{标准化与MinMax} & \pageref{sec:data-scaling}\\
-不平衡、SMOTE & \hyperref[sec:data-sampling]{采样的用途与边界} & \pageref{sec:data-sampling}\\
+不平衡、SMOTE & \hyperref[sec:data-sampling]{重采样}、\hyperref[sec:data-smote]{邻居插值} & \pageref{sec:data-sampling}、\pageref{sec:data-smote}\\
 泄漏 Data Leakage & \hyperref[sec:data-pipeline]{完整拟合流水线} & \pageref{sec:data-pipeline}\\
 交叉验证 Cross-validation & \hyperref[sec:eval-cv]{折内拟合整个流程} & \pageref{sec:eval-cv}\\
 Precision/Recall/Specificity & \hyperref[sec:eval-precision-recall]{分母与正类口径} & \pageref{sec:eval-precision-recall}\\
-F1、Macro/Micro & \hyperref[sec:eval-f1]{F1与多分类汇总} & \pageref{sec:eval-f1}\\
-ROC/AUC & \hyperref[sec:eval-auc]{排序、并列得分与面积} & \pageref{sec:eval-auc}\\
-MAE/MSE/RMSE、$R^2$ & \hyperref[sec:eval-regression]{回归误差}、\hyperref[sec:eval-r2]{决定系数} & \pageref{sec:eval-regression}\\
-调参、Nested CV & \hyperref[sec:diag-search]{搜索预算与内外层验证} & \pageref{sec:diag-search}\\
+F1、多标签 Hamming & \hyperref[sec:eval-f1]{F1汇总}、\hyperref[sec:eval-multilabel]{多标签评价} & \pageref{sec:eval-f1}、\pageref{sec:eval-multilabel}\\
+ROC/AUC & \hyperref[sec:eval-roc]{阈值曲线}、\hyperref[sec:eval-auc]{排序与面积} & \pageref{sec:eval-roc}、\pageref{sec:eval-auc}\\
+MAE/MSE/RMSE、$R^2$ & \hyperref[sec:eval-regression]{回归误差}、\hyperref[sec:eval-r2]{决定系数} & \pageref{sec:eval-regression}、\pageref{sec:eval-r2}\\
+调参、Nested CV & \hyperref[sec:diag-search]{搜索预算}、\hyperref[sec:diag-nested]{内外层验证} & \pageref{sec:diag-search}、\pageref{sec:diag-nested}\\
 学习/验证曲线 & \hyperref[sec:diag-curves]{横轴不同，问题不同} & \pageref{sec:diag-curves}\\
 Brier、LogLoss & \hyperref[sec:diag-probability]{概率质量} & \pageref{sec:diag-probability}\\
-校准、阈值 Calibration & \hyperref[sec:diag-calibration]{可靠性图与代价} & \pageref{sec:diag-calibration}\\
-MCC、置信区间 & \hyperref[sec:diag-mcc]{标签相关}、\hyperref[sec:diag-uncertainty]{抽样不确定性} & \pageref{sec:diag-mcc}\\
-Bootstrap、AIC/BIC & \hyperref[sec:tools-bootstrap]{重采样}、\hyperref[sec:tools-aic]{信息准则} & \pageref{sec:tools-bootstrap}\\
-Ridge/Lasso/Elastic Net & \hyperref[sec:linear-ridge]{惩罚与系数收缩} & \pageref{sec:linear-ridge}\\
-NB、Bagging、Boosting & \hyperref[ch:trees]{概率、树与集成} & \pageref{ch:trees}\\
-SVM、核 Kernel & \hyperref[sec:svm-kernel]{间隔与核相似度} & \pageref{sec:svm-kernel}\\
-聚类、PCA & \hyperref[ch:unsupervised]{分组与低维表示} & \pageref{ch:unsupervised}\\
-\bottomrule
-\end{tabularx}
-\end{center}
+校准、阈值 Calibration & \hyperref[sec:diag-calibration]{可靠性图}、\hyperref[sec:diag-platt]{Platt映射与代价} & \pageref{sec:diag-calibration}、\pageref{sec:diag-platt}\\
+MCC、置信区间 & \hyperref[sec:diag-mcc]{标签相关}、\hyperref[sec:diag-uncertainty]{抽样不确定性} & \pageref{sec:diag-mcc}、\pageref{sec:diag-uncertainty}\\
+Bootstrap、AIC/BIC & \hyperref[sec:tools-bootstrap]{重采样}、\hyperref[sec:tools-aic]{信息准则} & \pageref{sec:tools-bootstrap}、\pageref{sec:tools-aic}\\
+感知机、VIF & \hyperref[sec:linear-perceptron]{线性边界}、\hyperref[sec:linear-vif]{系数方差} & \pageref{sec:linear-perceptron}、\pageref{sec:linear-vif}\\
+Ridge/Lasso/Elastic Net & \hyperref[sec:linear-ridge]{L2}、\hyperref[sec:linear-lasso]{L1}、\hyperref[sec:linear-elastic]{混合惩罚} & \pageref{sec:linear-ridge}、\pageref{sec:linear-lasso}、\pageref{sec:linear-elastic}\\
+NB、Bagging、OOB & \hyperref[sec:tree-naive-bayes]{类条件概率}、\hyperref[sec:tree-bagging]{汇总}、\hyperref[sec:tree-oob]{袋外估计} & \pageref{sec:tree-naive-bayes}、\pageref{sec:tree-bagging}、\pageref{sec:tree-oob}\\
+SVM、核 Kernel & \hyperref[sec:svm-margin]{间隔约束}、\hyperref[sec:svm-kernel]{核相似度} & \pageref{sec:svm-margin}、\pageref{sec:svm-kernel}\\
+聚类、PCA & \hyperref[sec:unsup-kmeans]{中心分组}、\hyperref[sec:unsup-pca]{主成分} & \pageref{sec:unsup-kmeans}、\pageref{sec:unsup-pca}\\
 
-\clearpage
+\end{xltabular}
+\endgroup
+
 \section{主题入口：神经计算与数学}
-\begin{center}
+\begingroup
+\setlength{\LTpre}{3pt}\setlength{\LTpost}{4pt}
 \small
-\begin{tabularx}{\textwidth}{P{52mm}Y r}
+\begin{xltabular}{\textwidth}{P{52mm}Y r}
 \toprule
 要查的概念 & 具体入口 & 页\\
 \midrule
+\endhead
+\bottomrule
+\endfoot
 神经元、前向 Forward & \hyperref[sec:nn-forward]{形状与加权计算} & \pageref{sec:nn-forward}\\
-ReLU/Sigmoid、XOR & \hyperref[sec:nn-activations]{非线性激活}、\hyperref[sec:nn-xor]{隐藏表示} & \pageref{sec:nn-activations}\\
+ReLU/Sigmoid、XOR & \hyperref[sec:nn-activations]{非线性激活}、\hyperref[sec:nn-xor]{隐藏表示} & \pageref{sec:nn-activations}、\pageref{sec:nn-xor}\\
 Softmax与输出/损失 & \hyperref[sec:nn-softmax]{得分、概率与配对} & \pageref{sec:nn-softmax}\\
 反向传播 Backprop & \hyperref[sec:nn-backprop]{链式法则和共享贡献} & \pageref{sec:nn-backprop}\\
-Batch/Epoch/Step、SGD & \hyperref[sec:train-batches]{数据遍历与更新} & \pageref{sec:train-batches}\\
-Momentum/Adam & \hyperref[sec:train-momentum]{历史梯度与更新} & \pageref{sec:train-momentum}\\
-初始化、梯度消失 & \hyperref[sec:train-initialization]{激活与尺度} & \pageref{sec:train-initialization}\\
-Dropout、提前停止 & \hyperref[sec:train-dropout]{随机掩码}、\hyperref[sec:train-early-stopping]{停止规则} & \pageref{sec:train-dropout}\\
+Batch/Epoch/Step、SGD & \hyperref[sec:train-batches]{遍历与计数}、\hyperref[sec:train-sgd]{抽样梯度} & \pageref{sec:train-batches}、\pageref{sec:train-sgd}\\
+Momentum/Adam & \hyperref[sec:train-momentum]{动量}、\hyperref[sec:train-adam]{自适应矩估计} & \pageref{sec:train-momentum}、\pageref{sec:train-adam}\\
+初始化、梯度消失 & \hyperref[sec:train-initialization]{起始尺度}、\hyperref[sec:train-vanishing]{导数链条} & \pageref{sec:train-initialization}、\pageref{sec:train-vanishing}\\
+Dropout、提前停止 & \hyperref[sec:train-dropout]{随机掩码}、\hyperref[sec:train-early-stopping]{停止规则} & \pageref{sec:train-dropout}、\pageref{sec:train-early-stopping}\\
 tanh/ELU/Softplus & \hyperref[sec:numeric-activation]{激活形状与导数} & \pageref{sec:numeric-activation}\\
 LogSumExp、稳定CE & \hyperref[sec:numeric-logits]{直接使用logits} & \pageref{sec:numeric-logits}\\
 RMSprop、AdamW & \hyperref[sec:numeric-decay]{自适应更新与权重衰减} & \pageref{sec:numeric-decay}\\
 梯度裁剪 Clipping & \hyperref[sec:numeric-clipping]{范数、方向与边界} & \pageref{sec:numeric-clipping}\\
-卷积、池化、感受野 & \hyperref[sec:cnn-convolution]{局部窗口与共享参数} & \pageref{sec:cnn-convolution}\\
-残差、BN/LN & \hyperref[sec:cnn-residual]{相加支路}、\hyperref[sec:cnn-normalization]{统计轴} & \pageref{sec:cnn-residual}\\
-TF-IDF、嵌入 Embedding & \hyperref[ch:text]{从符号到表示} & \pageref{ch:text}\\
-RNN、LSTM、GRU & \hyperref[sec:seq-rnn]{状态与门控} & \pageref{sec:seq-rnn}\\
+卷积、池化、感受野 & \hyperref[sec:cnn-convolution]{卷积计算}、\hyperref[sec:cnn-pooling]{汇总与依赖范围} & \pageref{sec:cnn-convolution}、\pageref{sec:cnn-pooling}\\
+残差、BN/LN & \hyperref[sec:cnn-residual]{相加支路}、\hyperref[sec:cnn-normalization]{统计轴} & \pageref{sec:cnn-residual}、\pageref{sec:cnn-normalization}\\
+TF-IDF、嵌入 Embedding & \hyperref[sec:text-tfidf]{稀疏词频}、\hyperref[sec:text-embedding]{稠密查表} & \pageref{sec:text-tfidf}、\pageref{sec:text-embedding}\\
+RNN、LSTM、GRU & \hyperref[sec:seq-rnn]{共享状态}、\hyperref[sec:seq-gates]{门控更新} & \pageref{sec:seq-rnn}、\pageref{sec:seq-gates}\\
+GRU重置约定 & \hyperref[sec:seq-gru-reset]{矩阵乘法前后与接口差异} & \pageref{sec:seq-gru-reset}\\
 Q/K/V、Attention & \hyperref[sec:seq-attention]{查询与加权汇总} & \pageref{sec:seq-attention}\\
 Causal/Padding Mask & \hyperref[sec:seq-mask]{可见信息约束} & \pageref{sec:seq-mask}\\
-Transformer、Teacher Forcing & \hyperref[sec:seq-transformer]{块结构与训练目标} & \pageref{sec:seq-transformer}\\
+Transformer、Teacher Forcing & \hyperref[sec:seq-transformer]{块结构}、\hyperref[sec:seq-encoder-decoder]{训练前缀} & \pageref{sec:seq-transformer}、\pageref{sec:seq-encoder-decoder}\\
 冻结、微调 Fine-tuning & \hyperref[sec:transfer-freeze]{参数更新与运行模式} & \pageref{sec:transfer-freeze}\\
-矩阵、SVD、梯度 & \hyperref[sec:math-matrix]{形状与运算} & \pageref{sec:math-matrix}\\
-贝叶斯、期望、分布 & \hyperref[sec:math-probability]{概率方向与统计量} & \pageref{sec:math-probability}\\
-\bottomrule
-\end{tabularx}
-\end{center}
+矩阵、SVD、梯度 & \hyperref[sec:math-matrix]{形状}、\hyperref[sec:math-spectral]{分解}、\hyperref[sec:math-gradient]{求导} & \pageref{sec:math-matrix}、\pageref{sec:math-spectral}、\pageref{sec:math-gradient}\\
+概率、CDF与标准误 & \hyperref[sec:math-probability]{概率}、\hyperref[sec:math-cdf]{CDF}、\hyperref[sec:math-standard-error]{SE} & \pageref{sec:math-probability}、\pageref{sec:math-cdf}、\pageref{sec:math-standard-error}\\
 
-\quick{缩写相同不代表定义相同；遇到接口差异，检查标签编码、轴次序、归约、平滑与默认模式。}
+\end{xltabular}
+\endgroup

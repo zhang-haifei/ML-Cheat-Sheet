@@ -1,8 +1,10 @@
 \chapter{序列与注意力：共享状态与动态汇总}
 \label{ch:sequence}
 
-序列模型需要处理位置之间的依赖。RNN按顺序更新状态，注意力根据当前表示计算位置之间的权重。
+得到长度 $T$、特征维度 $d$ 的向量序列后，还需要定义位置之间怎样传递或汇总信息。
+RNN按顺序更新状态，注意力根据当前表示计算位置之间的权重。
 本章沿着输入形状、计算路径与可见信息，建立RNN、门控结构和Transformer的基本联系。
+文本怎样变成向量序列，见第\ref{ch:text}章；本章也适用于其他类型的序列。
 
 \begin{keyidea}[能看到什么，是模型定义的一部分]
 离线阅读整段文本与根据历史预测未来，允许的信息不同。
@@ -18,20 +20,20 @@
 若输入维度$d$、状态维度$h$，则$W_x\in\R^{h\times d}$、$W_h\in\R^{h\times h}$。
 同一组参数在所有位置复用，序列加长不自动增加这组参数数量。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/sequence/rnn}
 \caption{展开三个位置只是展示计算依赖，横向箭头传递状态。}
-\end{figure}
+\par\smallskip
 \readfigure{标量例子$h_t=\tanh(x_t+0.5h_{t-1})$，$h_0=0$、输入$[1,0,-1]$，
 得到约$[0.762,0.363,-0.674]$。同一个输入值出现在不同历史后，可以产生不同状态。}
+\end{figure}
 
-反向传播通过时间（Backpropagation Through Time, BPTT）沿展开图计算，
-共享参数在各位置的贡献需要相加。长路径上的Jacobian连乘可能导致梯度消失或爆炸；
+通过时间的反向传播（Backpropagation Through Time, BPTT）沿展开图计算，
+共享参数在各位置的贡献需要相加。长路径上的Jacobian（局部导数矩阵）连乘可能导致梯度消失或爆炸；
 截断BPTT限制回传长度，裁剪可帮助控制爆炸，但两者都不是保证学到所有长期依赖。
 
 \quick{双向RNN可以利用前后文，因而不能直接用于当时不可获得未来输入的实时预测。}
 
-\clearpage
 \section{LSTM与GRU：门控制信息更新}
 \label{sec:seq-gates}
 长短期记忆网络（Long Short-Term Memory, LSTM）的经典形式用Sigmoid门与候选状态控制更新：
@@ -40,7 +42,7 @@
  \qquad\vct h_t=\vct o_t\odot\tanh(\vct c_t).
 \]
 遗忘门$f$、输入门$i$、输出门$o$分别由当前输入和前一状态的仿射变换经Sigmoid得到；
-候选$\widetilde c$常用tanh。$c$为记忆单元，$h$为输出状态，$\odot$表示逐元素乘法。
+候选$\widetilde c$常用tanh。$c$为记忆状态，$h$为隐藏状态，$\odot$表示逐元素乘法。
 
 \begin{center}
 \begin{tabularx}{\textwidth}{P{31mm}Y}
@@ -55,14 +57,38 @@ GRU & 通常只有一个状态，用更新门与重置门组合旧状态和候�
 \end{center}
 
 一种GRU约定为$h_t=z_t\odot h_{t-1}+(1-z_t)\odot\widetilde h_t$，
-候选依赖输入与$r_t\odot h_{t-1}$。不同文献可对$z$采用互补命名，读实现时要对照公式。
+其中 $z_t$ 控制保留旧状态的比例；另一些文献对 $z$ 采用互补命名，需同时核对更新式。
+重置门 $r_t$ 则影响候选状态的生成，不等于更新门。
 LSTM的$i$与$f$一般独立，不要求两者之和为1。
 
 标量LSTM例子$c_{t-1}=2,f=0.9,i=0.2,\widetilde c=-0.5,o=0.8$，
 则$c_t=1.7$，$h_t=0.8\tanh1.7\approx0.748$。
 门控提供更适合保留状态的路径，但并不保证永远记住所有历史。
 
-\clearpage
+\subsection{GRU重置门：乘法位置不能随意交换}
+\label{sec:seq-gru-reset}
+将输入仿射项记为 $a_t=W_xx_t+b_x$，两种候选计算约定分别为
+\[
+ \widetilde h_t^{\mathrm{pre}}=\tanh\!\bigl(a_t+W_h(r_t\odot h_{t-1})+b_h\bigr),
+\]
+\[
+ \widetilde h_t^{\mathrm{post}}=\tanh\!\bigl(a_t+r_t\odot(W_hh_{t-1}+b_h)\bigr).
+\]
+PyTorch的GRU采用后一种；这与先重置旧状态再乘矩阵的写法一般不等价。
+偏置是否也受重置门缩放，同样属于计算定义的一部分。
+
+\begin{figure}[htbp]
+\centering\input{figures/sequence/gru-reset}
+\caption{相同重置门与权重，交换操作顺序即可改变候选状态的输入。}
+\par\smallskip
+\readfigure{取 $W=\left[\begin{smallmatrix}1&1\\1&-1\end{smallmatrix}\right]$，
+$h=(0.5,0.5)^\top$，$r=(0.5,0.25)^\top$，输入项与偏置均为0。
+上路先得 $r\odot h=(0.25,0.125)^\top$，下路先得 $Wh=(1,0)^\top$，
+所以两路结果不同；再应用tanh也不能把它们变成相同向量。}
+\end{figure}
+
+\quick{移植门控网络时，核对门的含义、矩阵作用次序、偏置位置与状态形状，而不仅是层名。}
+
 \section{注意力：查询键，再汇总值}
 \label{sec:seq-attention}
 缩放点积注意力（Scaled Dot-Product Attention）为
@@ -72,12 +98,13 @@ LSTM的$i$与$f$一般独立，不要求两者之和为1。
 Softmax逐行作用。$Q$是查询（Query），$K$是键（Key），$V$是值（Value），
 $M$指定允许关注的位置；键与值的行数必须对应。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/sequence/attention}
 \caption{键参与计算匹配分数，值提供被加权汇总的内容；两者职责不同。}
-\end{figure}
+\par\smallskip
 \readfigure{一个查询$q=\log3$、$d_k=1$，两个键为$[0,1]$，得分为$[0,\log3]$。
 权重为$[1/4,3/4]$；若值为$(2,0)$和$(0,4)$，输出为$(0.5,3)$。}
+\end{figure}
 
 若$Q\in\R^{T_q\times d_k}$、$K\in\R^{T_k\times d_k}$、$V\in\R^{T_k\times d_v}$，
 权重形状是$T_q\times T_k$，输出为$T_q\times d_v$。
@@ -86,19 +113,19 @@ $M$指定允许关注的位置；键与值的行数必须对应。
 
 \quick{权重随输入变化，是一种计算关系；不能直接把权重大小当作因果解释。}
 
-\clearpage
 \section{因果与填充遮罩：在Softmax之前处理}
 \label{sec:seq-mask}
 因果自注意力只允许位置$i$关注$j\leq i$。
 常令$M_{ij}=0$表示允许，$M_{ij}=-\infty$表示屏蔽，再计算Softmax。
 这使被屏蔽位置的权重为0，而允许位置重新归一化。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/sequence/causal-mask}
 \caption{三个位置的未遮罩得分全为0时，加入因果遮罩后得到的注意力权重。}
-\end{figure}
+\par\smallskip
 \readfigure{第一行只能看第1位置，第二行平均看前两个，第三行平均看三个。
 先做Softmax再简单把未来位置设0而不重新归一化，会得到另一种运算。}
+\end{figure}
 
 填充遮罩（Padding Mask）用于排除PAD等无效位置，和因果遮罩解决不同问题。
 损失或序列池化也要排除相应填充位置；不要只屏蔽键就默认所有输出均有效。
@@ -109,19 +136,19 @@ $M$指定允许关注的位置；键与值的行数必须对应。
 逐步生成则按已有前缀扩展，两种计算方式可以实现同一个信息约束。
 \end{pitfall}
 
-\clearpage
 \section{多头注意力：多组投影再拼接}
 \label{sec:seq-heads}
 多头注意力（Multi-Head Attention, MHA）并行计算多个注意力头：
 \[\mathrm{head}_i=\operatorname{Attn}(XW_i^Q,XW_i^K,XW_i^V).\]
 再拼接并乘输出投影$W_O$。头之间通常有不同的可学习投影。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/sequence/heads}
 \caption{省略批量轴，长度3、表示维度4、两个等宽头的形状例子。}
-\end{figure}
+\par\smallskip
 \readfigure{每头的键和值维度为2，输出各为$3\times2$，拼接恢复$3\times4$。
 拼接不是取平均；$W_O$进一步混合不同头的输出。}
+\end{figure}
 
 在常见等宽设置中，$d_{\mathrm{model}}$能被头数整除。
 若Q、K、V和输出均从$d$维映到$d$维，忽略偏置，四组投影参数共$4d^2$；
@@ -132,21 +159,22 @@ $M$指定允许关注的位置；键与值的行数必须对应。
 头的作用依赖任务、数据和训练结果。
 \end{pitfall}
 
-\clearpage
 \section{Transformer块：注意力、前馈与残差}
 \label{sec:seq-transformer}
 Transformer把注意力、逐位置前馈层、残差和归一化组合起来。
+LN指层归一化，其统计轴与配置见第\ref{sec:cnn-normalization}节。
 下面选择一种Pre-LN示意：
 $Z=X+\mathrm{MHA}(\mathrm{LN}(X))$，
 $Y=Z+\mathrm{FFN}(\mathrm{LN}(Z))$。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/sequence/transformer}
 \caption{省略Dropout与部分实现细节的Pre-LN块；不是所有Transformer变体的唯一顺序。}
-\end{figure}
+\par\smallskip
 \readfigure{注意力在位置间汇总；FFN对每个位置分别应用同一组权重，
 典型为$d\to d_{\mathrm{ff}}\to d$的两次仿射变换与中间非线性。
 残差支路保持对应形状，LayerNorm常按每个位置的特征轴计算。}
+\end{figure}
 
 普通自注意力若没有位置或其他次序结构，对位置排列具有等变性。
 序列模型通常加入位置表示，如可学习位置向量、正弦编码或相对位置机制。
@@ -154,20 +182,21 @@ $Y=Z+\mathrm{FFN}(\mathrm{LN}(Z))$。
 
 \quick{Transformer不是只有一个Softmax：表示、位置、遮罩、注意力、前馈与训练目标共同决定行为。}
 
-\clearpage
 \section{编码器、解码器与下一Token目标}
 \label{sec:seq-encoder-decoder}
 编码器常对完整输入作双向表示；自回归解码器按前缀预测下一Token；
 编码器—解码器结构还用交叉注意力读取源表示。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/sequence/encoder-decoder}
-\caption{条件生成示意：目标查询读取源序列的键和值，同时屏蔽目标未来位置。}
-\end{figure}
+\caption{条件生成示意：目标自注意力屏蔽目标未来位置，交叉注意力读取允许访问的源表示。}
+\par\smallskip
 \readfigure{交叉注意力中的键/值来自编码器源表示，查询来自解码器目标状态。
-源长度与目标长度可以不同，不能按逐位置一一配对理解。}
+源长度与目标长度可以不同，不能按逐位置一一配对理解。
+离线任务常允许读取完整源序列；流式任务必须另外限制尚未到达的源信息。}
+\end{figure}
 
-自回归训练通常将输入和目标错开一个位置：
+自回归训练通常将输入和目标错开一个位置；BOS（Beginning of Sequence）是序列开始标记：
 \begin{center}
 \begin{tabular}{lccc}
 \toprule
@@ -186,7 +215,6 @@ $Y=Z+\mathrm{FFN}(\mathrm{LN}(Z))$。
 不能仅凭名称把任何编码器模型当作已经训练好的自回归生成器。
 \end{pitfall}
 
-\clearpage
 \section{比较架构，同时检查时间与内存}
 \label{sec:seq-compare}
 没有架构在所有任务上都最好。局部结构、序列长度、可用数据与部署需求会影响选择。
@@ -214,6 +242,9 @@ LSTM输入门与遗忘门是否必须互补？\textbf{不必。}
 多头输出是否简单取平均？\textbf{通常是拼接再投影。}
 训练并行是否允许看到未来标签？\textbf{不允许。}
 
+\begingroup\small
 \noindent\textbf{参考：}Goodfellow等《Deep Learning》第10章；Hochreiter与Schmidhuber（1997）的LSTM；
 Cho等（2014）的门控结构；Vaswani等，\textit{Attention Is All You Need}（2017）。
 图、形状与数值例子独立构造。
+GRU重置位置参见\href{https://docs.pytorch.org/docs/stable/generated/torch.nn.GRU.html}{PyTorch GRU计算约定}。
+\par\endgroup

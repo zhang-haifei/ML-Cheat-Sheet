@@ -27,9 +27,13 @@ def verify():
     assert 2*2-1*0==4 and math.hypot(3,-4)==5
     x=[[1,2],[3,4]];w=[.5,-.25];y=[1,0]
     def objective(weights):
-        residual=[sum(a*b for a,b in zip(row,weights))-yi for row,yi in zip(x,y)]
-        return sum(r*r for r in residual)/4
+        prediction_error=[sum(a*b for a,b in zip(row,weights))-yi for row,yi in zip(x,y)]
+        return sum(e*e for e in prediction_error)/4
     gradient=[.25,0];eps=1e-5
+    predictions=[sum(a*b for a,b in zip(row,w)) for row in x]
+    residuals=[yi-p for yi,p in zip(y,predictions)]
+    assert predictions==[0,.5] and residuals==[1,-.5]
+    assert [-sum(row[j]*e for row,e in zip(x,residuals))/len(x) for j in range(2)]==gradient
     numerical=[]
     for i in range(2):
         plus=w[:];minus=w[:];plus[i]+=eps;minus[i]-=eps
@@ -60,6 +64,7 @@ def verify():
                 bootstrap_variance=bootstrap_variance,omission_n4=omission,aic_bic=aic_bic,
                 dimension_cells=[5**d for d in [1,2,5,10]],matrix_product=result,
                 gradient=gradient,finite_difference_gradient=numerical,
+                residuals=residuals,prediction_errors=[-e for e in residuals],
                 two_coin_mean=str(fair_mean),two_coin_variance=str(fair_var),
                 zero_covariance_dependent_example=str(cov),bayes_posterior=str(posterior),
                 cross_entropy=[-math.log(.8),-math.log(.2)],convex_chords_checked=chords,

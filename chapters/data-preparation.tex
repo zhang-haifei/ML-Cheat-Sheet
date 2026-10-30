@@ -14,14 +14,16 @@
 \label{sec:data-matrix}
 样本矩阵（Design Matrix）$X\in\R^{n\times d}$ 的每行是一条样本，
 每列是一个输入特征。$x_{ij}$ 表示第 $i$ 个样本的第 $j$ 个特征。
-单目标监督学习的标签向量为 $y\in\R^n$；分类时其元素也可以是类别标签。
+单目标监督学习有长度为 $n$ 的目标向量 $\vct y$：
+数值回归中常写作 $\vct y\in\R^n$，分类时每项则是一个类别标签。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/data/matrix}
 \caption{三个样本、三个数值特征与一个目标的结构示例。数字仅用于说明形状。}
-\end{figure}
+\par\smallskip
 \readfigure{第三列只有0和1，仍可能是输入特征。是不是目标取决于任务定义，
 不能仅凭数据类型或列的位置判断。样本顺序改变时，$X$与$y$必须同步改变。}
+\end{figure}
 
 \subsection{先问预测时能否获得这个特征}
 预测违约时，申请时的收入可能可用，事后产生的催收记录不能提前作为输入。
@@ -30,19 +32,19 @@
 
 \quick{特征不是“表中除标签之外的所有列”；每一列都需要含义、单位和可用时间。}
 
-\clearpage
 \section{无序类别与独热编码}
 \label{sec:data-onehot}
 无序类别（Nominal Category）只有类别差异，没有自然大小顺序。
 把红、蓝、绿编码为0、1、2，并不能说明绿比蓝“大”，也不能说明两者距离为1。
 独热编码（One-Hot Encoding）为每个类别建立一个指示列。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/data/encoding}
 \caption{三种颜色映射到三个指示列；这里没有定义颜色间的顺序。}
-\end{figure}
+\par\smallskip
 \readfigure{一条非缺失、属于已知类别的记录，在完整独热编码中恰有一列为1。
 拟合时记录类别字典和列顺序；预测时必须保持同一顺序。}
+\end{figure}
 
 \subsection{三个常见边界}
 训练中未出现的新类别需要预先定义处理方法，例如报错、归入“其他”，或按编码器约定输出全零。
@@ -56,7 +58,6 @@
 是否删除要结合模型与正则化，不能把“所有模型必须删一列”当成规则。
 \end{pitfall}
 
-\clearpage
 \section{有序编码保留顺序，不保证间距}
 \label{sec:data-ordinal}
 有序类别（Ordinal Category）具有自然顺序，例如低、中、高。
@@ -84,7 +85,6 @@
 \end{pitfall}
 \quick{编码方式要与变量含义及模型的使用方式一起选择。}
 
-\clearpage
 \section{缺失值：不知道，不等于零}
 \label{sec:data-missing}
 缺失值（Missing Value）表示未获得观测。零可能是有效数值，不能默认用零代替所有缺失。
@@ -114,19 +114,19 @@
 \end{pitfall}
 \quick{填补后的值是建模用的估计，不是已经找回的真实观测。}
 
-\clearpage
 \section{近邻填补：用观测部分寻找相似记录}
 \label{sec:data-knn}
 $k$近邻填补（$k$-NN Imputation）根据已观测特征寻找相似的训练记录，
 再汇总这些邻居在缺失列上的值。下面只用一个已观测特征$A$计算距离。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/data/knn-imputation}
 \caption{训练记录为$(1,10),(2,12),(8,80),(9,90)$；橙色新记录的$B$缺失。}
-\end{figure}
+\par\smallskip
 \readfigure{到$A=2.1$的距离分别为1.1、0.1、5.9、6.9。
 当$k=2$且等权时，选择前两条记录，填补$B=(10+12)/2=11$。
 全部训练$B$的中位数则为$(12+80)/2=46$；两种规则表达不同假设。}
+\end{figure}
 
 \subsection{距离怎样定义，决定谁是邻居}
 缺失的$B$本身不能用于寻找邻居。多维特征可依据共同观测的部分定义距离，
@@ -139,7 +139,6 @@ $k$、权重、尺度与距离都应通过训练内验证选择。
 近邻填补可能保留局部结构，也可能传播异常值，不能预先断言优于简单填补。
 \end{pitfall}
 
-\clearpage
 \section{缩放：参数来自训练集}
 \label{sec:data-scaling}
 Min--Max缩放使用训练最小值$a$和最大值$b$：
@@ -153,13 +152,14 @@ Min--Max缩放使用训练最小值$a$和最大值$b$：
 \]
 这里明确使用分母$n$，与一些统计教材的样本标准差约定不同。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/data/scaling}
 \caption{训练值10、20、30；新值40沿用同一套参数。标准化数字保留三位小数。}
-\end{figure}
+\par\smallskip
 \readfigure{训练均值为20，标准差为$\sqrt{200/3}\approx8.165$。
 新值40经Min--Max变为1.5，经标准化变为约2.449。
 训练范围映射到$[0,1]$，不意味着所有未来值都在$[0,1]$内。}
+\end{figure}
 
 \begin{pitfall}[标准化不会自动变成正态分布]
 减均值、除标准差只改变位置与尺度。它不消除偏态，也不消除异常值。
@@ -168,7 +168,6 @@ Min--Max缩放使用训练最小值$a$和最大值$b$：
 距离、正则化和梯度更新常受尺度影响；常规按单列阈值切分的树通常不依赖这种缩放。
 是否缩放仍由模型与特征含义决定。
 
-\clearpage
 \section{特征选择：筛选规则也是模型的一部分}
 \label{sec:data-selection}
 特征选择（Feature Selection）保留原特征的一个子集。
@@ -195,19 +194,19 @@ Min--Max缩放使用训练最小值$a$和最大值$b$：
 
 \quick{先确定选择流程，再评估整个流程。删列后的泛化表现，比“看起来显著”更接近实际目标。}
 
-\clearpage
 \section{类别不平衡：调整训练，不改写评估对象}
 \label{sec:data-sampling}
 类别不平衡（Class Imbalance）指类别频率差异较大。
 多数类、少数类由频率决定，正类、负类由任务定义决定，两组概念不能混用。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/data/sampling}
 \caption{90个负类、10个正类的两个独立采样示例；不要求一定变成1:1。}
-\end{figure}
+\par\smallskip
 \readfigure{欠采样（Undersampling）从多数类中保留较小子集，会损失部分记录。
 随机过采样（Random Oversampling）重复抽取少数类，使其在训练中出现更多次；
 45条少数类训练记录不代表获得45个独立的新对象。}
+\end{figure}
 
 采样只在训练数据内进行；验证与测试保留目标使用场景的分布。
 交叉验证时也只处理每折子训练集。先重复样本再划分，会使相同对象跨训练与验证。
@@ -218,7 +217,6 @@ Min--Max缩放使用训练最小值$a$和最大值$b$：
 也可以比较类别权重等方案，不必先认定采样一定有益。
 \end{pitfall}
 
-\clearpage
 \section{SMOTE：在少数类邻居之间插值}
 \label{sec:data-smote}
 SMOTE是一种合成过采样方法。基本形式在少数类样本$x_i$与其少数类近邻$x_j$之间生成
@@ -244,19 +242,16 @@ SMOTE是一种合成过采样方法。基本形式在少数类样本$x_i$与其�
 
 \quick{随机复制改变记录出现频率；SMOTE改变训练点的位置。两者都不能替代真实的新数据。}
 
-\clearpage
 \section{把处理步骤放进同一条流水线}
 \label{sec:data-pipeline}
-流水线（Pipeline）把处理步骤按顺序连接，让训练和预测遵循同一套规则。
-数值列与类别列可以分别处理，再拼接为模型输入。
+流水线（Pipeline）串联处理规则；本例把数值列与类别列分别处理后拼接。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/data/pipeline}
 \caption{一个基础表格数据流程；箭头表示数据经过的步骤。可在训练支路添加筛选和采样。}
+\par\smallskip
+\readfigure{训练内拟合，预测时沿用。此例先填补再缩放；近邻填补需另定距离尺度。}
 \end{figure}
-\readfigure{拟合时，在训练集学习各步所需参数并拟合模型。
-预测时只调用已学规则。数值填补放在缩放之前，是此例的选择；
-近邻填补等流程还需单独设计距离尺度，不能机械套用。}
 
 \begin{center}
 \begin{tabularx}{\textwidth}{P{32mm}YY}
@@ -273,11 +268,12 @@ SMOTE是一种合成过采样方法。基本形式在少数类样本$x_i$与其�
 \end{center}
 
 \subsection{自测与回看}
-测试值超出训练最大值，经Min--Max得到1.2，是否一定是程序错误？\textbf{不是。}
-交叉验证前用全部标签筛选列，是否合适？\textbf{不合适，筛选应在每折训练内。}
-复制10条少数类到50条，是否等于新增40个独立对象？\textbf{不等于。}
+Min--Max测试值为1.2，是否一定出错？\textbf{不是，新值可超出训练范围。}
+交叉验证前用全部标签筛列，是否合适？\textbf{不合适，应在每折训练内。}
+少数类从10条复制到50条，是否新增40个独立对象？\textbf{没有。}
 
 \smallskip
-\noindent\textbf{核查依据：}scikit-learn的Preprocessing、Imputation、Feature selection与Common pitfalls文档，
-以及imbalanced-learn的Common pitfalls文档（访问于2026-10-28）。
-计算记录见本项目第四批审校文件；图均为本书独立绘制的矢量图。
+\begingroup\small
+\noindent\textbf{核查依据：}scikit-learn Preprocessing、Imputation、Feature selection、Common pitfalls与
+imbalanced-learn Common pitfalls文档（2026-10-28核对）；算例见\texttt{verify\_data.py}。
+\par\endgroup

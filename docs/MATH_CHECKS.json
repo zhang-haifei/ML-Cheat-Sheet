@@ -1,6 +1,6 @@
 {
   "status": "PASS",
-  "checks": 14,
+  "checks": 15,
   "results": {
     "verify_cnn.py": {
       "status": "PASS",
@@ -116,7 +116,30 @@
       "gap_shape": [
         8,
         16
-      ]
+      ],
+      "normalization_axes": {
+        "bn_mean": [
+          4.0,
+          16.0
+        ],
+        "bn_variance": [
+          5.0,
+          20.0
+        ],
+        "ln_mean": [
+          7.0,
+          13.0
+        ],
+        "ln_variance": [
+          27.5,
+          51.5
+        ],
+        "unbiased_batch_variance": [
+          6.666666666666667,
+          26.666666666666668
+        ],
+        "other_sample_affects_bn_only": "PASS"
+      }
     },
     "verify_data.py": {
       "status": "PASS",
@@ -354,6 +377,11 @@
         "13/6"
       ],
       "residuals": [
+        "-1/6",
+        "1/3",
+        "-1/6"
+      ],
+      "prediction_errors": [
         "1/6",
         "-1/3",
         "1/6"
@@ -467,6 +495,18 @@
           "target": 0
         }
       ],
+      "margin_losses": [
+        {
+          "margin": 0,
+          "hinge": 1,
+          "logistic": 0.6931471805599453
+        },
+        {
+          "margin": 1,
+          "hinge": 0,
+          "logistic": 0.31326168751822286
+        }
+      ],
       "activation_derivative_max_error": 2.470439408597258e-10,
       "categorical_ce_decimal": "1.40760596444438030448291990454507045147294710830619407473",
       "categorical_ce_stable": 1.4076059644444285,
@@ -507,6 +547,11 @@
       "status": "PASS",
       "population_mean": 50.0,
       "complete_case_mean": 32.0,
+      "observed_group_probabilities": [
+        "4/5",
+        "1/5"
+      ],
+      "observed_distribution_mean": "32",
       "adjusted_mean": 50.0,
       "quartiles": [
         2.0,
@@ -577,6 +622,73 @@
       "sigmoid_sum": 1.5,
       "softmax_sum": 1.0
     },
+    "verify_review.py": {
+      "status": "PASS",
+      "multilabel": {
+        "hamming": "1/6",
+        "subset_accuracy": "1/3",
+        "macro_f1": "1/2",
+        "micro_f1": "4/5",
+        "samples_f1": "7/9"
+      },
+      "perceptron_updates": [
+        {
+          "score_before": 0,
+          "w": [
+            2,
+            1
+          ],
+          "b": 1
+        },
+        {
+          "score_before": 2,
+          "w": [
+            1,
+            2
+          ],
+          "b": 0
+        }
+      ],
+      "final_signed_margins": [
+        4,
+        1,
+        3,
+        4
+      ],
+      "bootstrap_sequences": 3125,
+      "oob_probability": "1024/3125",
+      "expected_oob_count": "1024/625",
+      "uniform_interval_probability": "3/5",
+      "mean_variances": {
+        "1": 4.0,
+        "4": 1.0,
+        "16": 0.25
+      },
+      "chebyshev_tail_and_bound": {
+        "1": [
+          1.0,
+          4.0
+        ],
+        "4": [
+          0.125,
+          1.0
+        ],
+        "16": [
+          0.021270751953125,
+          0.25
+        ]
+      },
+      "sample_sd": 1.632993161855452,
+      "estimated_mean_se": 0.816496580927726,
+      "auxiliary_r2": 0.5,
+      "vif": 2,
+      "coefficient_variance_over_noise": 0.5,
+      "calibrated_probabilities": [
+        0.25,
+        0.75
+      ],
+      "calibration_gradient_max_error": 2.7755575615628914e-17
+    },
     "verify_sequence.py": {
       "status": "PASS",
       "document_frequencies": [
@@ -642,7 +754,35 @@
         "256": 2.0
       },
       "permutation_equivariance": "PASS",
-      "future_value_invariance": "PASS"
+      "future_value_invariance": "PASS",
+      "zero_document_normalization": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "gru_reset": {
+        "before": [
+          0.375,
+          0.125
+        ],
+        "after": [
+          0.5,
+          0.0
+        ],
+        "candidate_before": [
+          0.35835739835078595,
+          0.12435300177159621
+        ],
+        "candidate_after": [
+          0.46211715726000974,
+          0.0
+        ],
+        "commutator_check": "PASS",
+        "diagonal_special_case": "PASS"
+      }
     },
     "verify_tools_math.py": {
       "status": "PASS",
@@ -687,6 +827,14 @@
       "finite_difference_gradient": [
         0.24999999999608666,
         0.0
+      ],
+      "residuals": [
+        1.0,
+        -0.5
+      ],
+      "prediction_errors": [
+        -1.0,
+        0.5
       ],
       "two_coin_mean": "1",
       "two_coin_variance": "1/2",
@@ -751,6 +899,16 @@
       ],
       "enumerated_correlated_variance": 2.3333333333333335,
       "gradient_boosting_before": "8/3",
+      "half_squared_negative_gradient": [
+        "-2",
+        "0",
+        "2"
+      ],
+      "full_squared_negative_gradient": [
+        "-4",
+        "0",
+        "4"
+      ],
       "gradient_boosting_after": "7/6",
       "adaboost_alpha": 0.5493061443340549,
       "adaboost_weights": [

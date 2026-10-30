@@ -1,0 +1,37 @@
+\section{感知机：从分错的样本修正线性边界}
+\label{sec:linear-perceptron}
+感知机（Perceptron）使用得分$s=\vct w^\top\vct x+b$区分两个类别，
+标签约定为$y\in\{-1,+1\}$。边界为$s=0$；这里预测时$s\geq0$判$+1$。
+它直接学习分类边界，不输出已经校准的概率。
+
+\begin{figure}[htbp]
+\centering\input{figures/linear/perceptron}
+\caption{四个可分点。虚线是第一次更新后的边界，实线是第二次更新后的边界。}
+\par\smallskip
+\readfigure{依次读取$(2,1),+1$与$(1,-1),-1$。
+从$\vct w=(0,0),b=0$开始，步长1，第一次更新为$(2,1),1$；
+第二条得分为2，符号错误，更新后为$(1,2),0$。此时四点都严格分对。}
+\end{figure}
+
+本节采用在线规则：当$y_i(\vct w^\top\vct x_i+b)\leq0$时更新
+\[
+ \vct w\leftarrow\vct w+\eta y_i\vct x_i,\qquad
+ b\leftarrow b+\eta y_i,\quad\eta>0;
+\]
+否则保持。边界点即使按预测平票规则判对，也按此训练规则更新。
+可把输入增广为$(\vct x,1)$，将偏置一并理解为参数。
+
+\begin{pitfall}[有限步结论需要可分条件]
+对有界、以正间隔线性可分的固定训练数据，经典感知机规则有有限次更新的收敛保证。
+非线性可分或含冲突标签时可能不停更新，需要训练上限或改用合适目标。
+收敛只说明训练集分开，不保证最大间隔、概率校准或未来表现。
+\end{pitfall}
+
+阶跃输出几乎处处导数为0，不能把上述更新理解为直接穿过硬阶跃的普通梯度。
+可从感知机损失$\max(0,-ys)$的次梯度解释更新；在$ys=0$处需选定约定。
+逻辑回归使用平滑的逻辑损失，SVM使用间隔与惩罚；三者不能只因边界线性就混为同一算法。
+
+
+\begingroup\small
+\noindent\textbf{继续阅读：}Shalev-Shwartz与Ben-David，\textit{Understanding Machine Learning}（2014），第9章。
+\par\endgroup

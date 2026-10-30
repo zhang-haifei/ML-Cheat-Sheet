@@ -1,6 +1,6 @@
 # 机器学习与深度学习：图解速查手册
 
-面向初学者的中文图解参考书，将概念、独立矢量图、公式与可复算的小例子放在一起。当前为154页工作稿、17个主章节、78份TikZ/PGFPlots图源，仍在科学与编辑复审。
+面向初学者的中文图解参考书，将概念、独立矢量图、公式与可复算的小例子放在一起。当前为第一版定稿候选：112页、17个主章节、两份附录、87份TikZ/PGFPlots图源；已完成逐章科学复审与读者路线校读。
 
 - [阅读整书PDF](review/handbook-working-draft.pdf)
 - [下载可编译源码包](review/handbook-source.zip)
@@ -15,10 +15,12 @@ scripts/build.sh
 python -m pip install numpy pymupdf
 python scripts/verify_all.py
 python scripts/audit_build.py main
+python scripts/audit_navigation.py
+python scripts/audit_layout.py
 python scripts/package_source.py
 ```
 
-构建结果在 `build/main.pdf`。`verify_all.py`统一运行各章数值复核；`audit_build.py`检查构建日志、输入依赖、图源和PDF链接；`package_source.py`生成不含PDF、临时文件和Git历史的源码包。正常TeX Live安装无需工作区专用路径，托管环境已有配置则由构建脚本自动加载。
+构建结果在 `build/main.pdf`。`verify_all.py`统一运行各章数值复核；`audit_build.py`检查构建日志、输入依赖、图源和PDF链接；`audit_navigation.py`核对主题条目、页码、PDF目的位置与书签；`audit_layout.py`筛查页尾留白供人工复查；`package_source.py`生成不含PDF、临时文件和Git历史的源码包。正常TeX Live安装无需工作区专用路径，托管环境已有配置则由构建脚本自动加载。
 
 ## 文件组织
 

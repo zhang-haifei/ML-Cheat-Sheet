@@ -1,5 +1,6 @@
 \chapter{学习与泛化：先把问题定义清楚}
 \label{ch:learning}
+\noindent{\sffamily\small\color{Teal}第一部分 · 机器学习与经典模型}\par\smallskip
 
 机器学习（Machine Learning）利用数据中的经验改善任务表现。
 开始建模前，至少要说清楚三件事：完成什么任务、有哪些可用经验、怎样判断表现。
@@ -15,13 +16,14 @@
 例如根据设备运行记录预测下一天是否故障：任务是故障分类，经验是历史记录与后续故障标签，
 表现可以用漏报率、误报率或相应成本衡量。只报训练准确率不足以说明这个任务已经做好。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/foundations/workflow}
 \caption{监督学习中的拟合与预测。新输入应满足任务中约定的信息可用性。}
-\end{figure}
+\par\smallskip
 \readfigure{学习算法从样本得到一个模型；已拟合模型再把新输入映射为预测。
 拟合不是逐条记住答案的同义词，预测也不保证每次正确。
 模型表现是否随更多经验改善，需要用合适的评估流程检验。}
+\end{figure}
 
 \subsection{预测关系不自动等于因果关系}
 记录中的某个特征与故障相关，可以帮助预测，但不表示主动改变它一定能减少故障。
@@ -29,7 +31,6 @@
 
 \quick{先写下任务、信息与评估规则，再开始选算法。}
 
-\clearpage
 \section{监督、无监督；分类、回归}
 \label{sec:learn-tasks}
 监督学习（Supervised Learning）有用于学习的输入—目标对应关系。
@@ -59,20 +60,21 @@
 \end{pitfall}
 \quick{分类和回归按目标区分；监督和无监督按学习信号区分。}
 
-\clearpage
 \section{决策边界划分预测区域}
 \label{sec:learn-boundary}
 分类器的决策边界（Decision Boundary）是预测类别发生变化的位置。
 考虑得分$s=x_1+x_2-4$，采用$s\geq0$预测1，否则预测0；边界是$x_1+x_2=4$。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/foundations/boundary}
 \caption{圆点真实标签为0，三角真实标签为1；背景及直线表示模型的预测规则。}
-\end{figure}
+\par\smallskip
 \readfigure{直线上方预测1，下方预测0。有一个圆点落在上方，因此会被误分。
 边界说明模型怎样预测，散点说明观测标签，两者不必完全一致。}
+\end{figure}
 
-如果得分先经过Sigmoid得到概率$p=\sigma(s)$，以$p\geq0.5$分类仍得到同一边界。
+如果得分先经过Sigmoid函数$p=\sigma(s)=1/(1+e^{-s})$，可得到$(0,1)$内的概率估计。
+它把得分0映为0.5，所以以$p\geq0.5$分类仍得到同一边界。
 改变概率阈值会改变边界的位置。非线性特征或模型可以产生弯曲边界，
 但边界更曲折不直接证明预测更好。
 
@@ -81,19 +83,19 @@
 得分经函数变到$[0,1]$不等于已经证明概率校准良好。
 \end{pitfall}
 
-\clearpage
 \section{模型容量与泛化能力分别回答什么？}
 \label{sec:learn-capacity}
 模型容量（Capacity）描述候选函数集合的表达能力。
-例如所有常数函数包含在一次多项式中，一次多项式又包含在至多二次多项式中。
+例如所有常数函数包含在至多一次多项式中，后者又包含在至多二次多项式中。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/foundations/capacity}
 \caption{候选函数集合的包含关系示例。方框面积不表示任何数值容量指标。}
-\end{figure}
+\par\smallskip
 \readfigure{外层集合可以表达内层集合的函数，也能表达更多形状。
 若使用同一训练损失、没有额外限制并找到全局最优，扩大候选集合不会提高最优训练损失。
 这不保证实际优化一定找到最优，更不保证新数据表现改善。}
+\end{figure}
 
 泛化（Generalization）关注从已见数据学到的规则在目标新数据上的表现。
 它取决于数据量、任务结构、噪声、模型和训练方式，也受训练与使用分布差异影响。
@@ -101,7 +103,6 @@
 
 \quick{容量问“能够表达什么”；泛化问“学到的规则在目标新数据上表现如何”。}
 
-\clearpage
 \section{参数模型与非参数模型}
 \label{sec:learn-parametric}
 固定输入维度时，参数模型（Parametric Model）用固定有限维参数描述模型族。
@@ -128,19 +129,22 @@ $k$近邻预测 & 保存训练样本并查询邻居。 & 需要保存的信息�
 距离、平滑性、局部结构等仍是重要假设，必须结合具体模型判断。
 \end{pitfall}
 
-\clearpage
 \section{欠拟合与过拟合：看训练，也看新数据}
 \label{sec:learn-fit}
 欠拟合（Underfitting）指模型或训练流程未充分学到有用结构。
 过拟合（Overfitting）指对训练样本中的偶然变化适应过多，影响新数据表现。
 用同一组九条带固定扰动的样本，比较三种最小二乘多项式拟合。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/foundations/fits}
 \caption{人工构造的$y=x^2+\varepsilon$示例。曲线在同一训练集拟合；虚线是已知生成信号。}
-\end{figure}
+\par\smallskip
 \readfigure{常数无法描述弯曲趋势；二次函数接近信号；八次函数穿过训练点但产生额外起伏。
 这些判断在本例有已知信号支撑。真实任务通常不知道信号，需依靠独立验证。}
+\end{figure}
+
+下面用均方误差（Mean Squared Error, MSE）比较预测：把各位置的预测与参照值相减、
+平方，再取平均。训练MSE以训练目标为参照，右列则以已知的无噪声信号为参照。
 
 \begin{center}
 \small
@@ -157,7 +161,6 @@ $k$近邻预测 & 保存训练样本并查询邻居。 & 需要保存的信息�
 数值保留五位小数；网格误差只比较201个等距位置的无噪声信号，
 不是从真实人群采集的测试分数。
 
-\clearpage
 \section{偏差与方差：固定输入，改变训练集}
 \label{sec:learn-biasvariance}
 回归中固定输入$x$，令$f(x)=\mathbb E[Y\mid X=x]$。
@@ -173,19 +176,19 @@ $k$近邻预测 & 保存训练样本并查询邻居。 & 需要保存的信息�
 偏差描述平均预测偏离条件均值的程度，方差描述不同拟合之间预测的波动。
 它们都不是单个训练样本的残差。
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering\input{figures/foundations/bias-variance}
 \caption{固定$x$处，三种训练结果等概率出现的离散教学例子。}
-\end{figure}
+\par\smallskip
 \readfigure{预测均值为2，偏差为$2-2.5=-0.5$，偏差平方为0.25。
 方差为$[(1-2)^2+0+(3-2)^2]/3=2/3$。偏差可以有正负，偏差平方非负。}
+\end{figure}
 
 \begin{pitfall}[一个数据集的残差不能直接给出这些量]
 真实条件均值通常未知，也没有无限多个独立训练集。
 重采样实验可以帮助研究稳定性，但不能把其输出自动当作真实偏差和方差。
 \end{pitfall}
 
-\clearpage
 \section{平方误差怎样分成三部分？}
 \label{sec:learn-decomposition}
 设新响应$Y=f(x)+\varepsilon$满足
@@ -213,7 +216,7 @@ $\mathbb E[\varepsilon\mid x]=0$、$\operatorname{Var}(\varepsilon\mid x)=\sigma
 平方展开后，$\mathbb E\varepsilon=0$、$\mathbb E_D(\bar f-\hat f_D)=0$，
 以及新噪声与训练集的独立性，使交叉项期望为零；其余三项就是上式。
 
-接着上一页，令新噪声以相同概率取$-0.5$或$0.5$，则噪声方差为0.25。
+沿用前述预测例子，令新噪声以相同概率取$-0.5$或$0.5$，则噪声方差为0.25。
 预期平方误差为$0.25+2/3+0.25=7/6\approx1.167$。
 对三个预测与两个新响应的六种组合直接计算，也得到相同结果。
 
@@ -223,7 +226,6 @@ $\mathbb E[\varepsilon\mid x]=0$、$\operatorname{Var}(\varepsilon\mid x)=\sigma
 变量相关本身不等于噪声来源。
 \end{pitfall}
 
-\clearpage
 \section{用现象诊断问题，不背固定曲线}
 \label{sec:learn-diagnosis}
 经典偏差—方差权衡提供一种解释：放宽模型限制时，偏差可能降低而方差可能增大。
@@ -248,7 +250,6 @@ $\mathbb E[\varepsilon\mid x]=0$、$\operatorname{Var}(\varepsilon\mid x)=\sigma
 
 \quick{把诊断变成可比较的实验：固定划分、一次改变清楚的因素，再看验证结果。}
 
-\clearpage
 \section{第一类、第二类错误要先声明原假设}
 \label{sec:learn-testing-errors}
 假设检验中先设原假设$H_0$和备择假设$H_1$。
@@ -277,7 +278,6 @@ $p$值也不是“原假设为真的概率”。预测模型的错误率与统�
 需要按各自任务分别定义。
 \end{pitfall}
 
-\clearpage
 \section{简单模型优先，是有条件的选择原则}
 \label{sec:learn-occam-nfl}
 奥卡姆剃刀（Occam's Razor）鼓励在解释能力和证据相近时，避免不必要的复杂性。
@@ -302,5 +302,7 @@ $p$值也不是“原假设为真的概率”。预测模型的错误率与统�
 第二类错误是否是假阳性？\textbf{在常见“无病”为原假设的对应中，是假阴性。}
 
 \smallskip
+\begingroup\small
 \noindent\textbf{参考：}James等，\textit{An Introduction to Statistical Learning}，
 第二版，2021，第2章；本章数值例子、图和计算文件均为独立构造。
+\par\endgroup
