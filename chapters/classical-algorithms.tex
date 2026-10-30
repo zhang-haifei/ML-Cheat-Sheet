@@ -125,7 +125,9 @@ Bernoulli NB & 二元是否出现。 & 出现与未出现都进入相应概率�
 实际常用$\log P(c)+\sum_j\log P(x_j\mid c)$计算，再用稳定方式归一化。
 
 \subsection{MLE、MAP和后验均值不能混用}
-MLE最大化似然，MAP最大化后验，平方损失下的贝叶斯参数点估计为后验均值。
+最大似然估计（Maximum Likelihood Estimation, MLE）最大化似然；
+最大后验估计（Maximum a Posteriori, MAP）最大化后验。
+平方损失下的贝叶斯参数点估计为后验均值。
 例如硬币2次正面、1次反面，正面概率$\theta$的MLE为$2/3$。
 均匀先验下，后验密度与$\theta^2(1-\theta)$成比例，即Beta$(3,2)$分布；
 MAP为$2/3$，后验均值为$3/5$。均匀先验没有让均值也自动等于MLE。

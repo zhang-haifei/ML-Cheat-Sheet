@@ -25,6 +25,13 @@ def verify():
         gradient_errors.append(abs((math.tanh(z+eps)-math.tanh(z-eps))/(2*eps)-(1-math.tanh(z)**2)))
     assert max(gradient_errors)<1e-8
     assert softplus(1000)==1000 and math.isfinite(softplus(-1000))
+    # Read the margin plot at its two annotated reference positions.
+    margin_losses = []
+    for margin, expected_logistic in [(0, .693), (1, .313)]:
+        hinge = max(0, 1-margin)
+        logistic = softplus(-margin)
+        assert hinge == 1-margin and round(logistic, 3) == expected_logistic
+        margin_losses.append(dict(margin=margin, hinge=hinge, logistic=logistic))
     with localcontext() as context:
         context.prec=60
         lse=D(1001)+(D(1)+D(-1).exp()+D(-2).exp()).ln()
@@ -62,7 +69,7 @@ def verify():
     assert abs(np.linalg.norm(np.clip(grad,-2,2))-2*math.sqrt(2))<1e-14
     masked_outputs=[max(0,2*m1-2*m2) for m1,m2 in itertools.product([0,1],repeat=2)]
     assert sum(masked_outputs)/4==.5 and max(0,1-1)==0
-    return dict(status='PASS',xor=xor,activation_derivative_max_error=max(gradient_errors),
+    return dict(status='PASS',xor=xor,margin_losses=margin_losses,activation_derivative_max_error=max(gradient_errors),
                 categorical_ce_decimal=str(ce),categorical_ce_stable=stable,
                 categorical_gradient=analytic.tolist(),categorical_gradient_max_error=float(np.max(abs(analytic-numerical))),
                 extreme_logits_BCE='finite at -1000 and 1000 for either target',rmsprop=trajectory,

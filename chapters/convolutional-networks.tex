@@ -14,8 +14,9 @@
 \section{张量形状：批量、通道与空间}
 \label{sec:cnn-tensor}
 深度学习程序中的张量（Tensor）通常指多维数组。
-图像批量常用NCHW或NHWC布局；字母顺序决定轴的含义，不能只看数组有几维。
-本章统一用$B,C,H,W$表示批量、通道、高、宽。
+图像批量常用NCHW或NHWC布局；其中N表示批量，C、H、W表示通道、高、宽。
+本章用$B$记批量大小，因此NCHW形状写为$B\times C\times H\times W$。
+字母顺序决定轴的含义，不能只看数组有几维。
 
 \begin{figure}[htbp]
 \centering\input{figures/cnn/layout}
@@ -150,7 +151,7 @@ Stride跳过部分位置，Dilation拉开核采样点间隔；二者对输出大
 若通道数或空间大小变化，可用相应投影/下采样支路$P(x)$，成为$y=P(x)+F(x)$。}
 \end{figure}
 
-在形状一致、可微设置中，局部Jacobian为$I+\partial F/\partial x$。
+在形状一致、可微设置中，局部Jacobian（雅可比矩阵，即各输出对各输入的偏导数组）为$I+\partial F/\partial x$。
 这说明直接路径的存在，但不意味着梯度永不消失或训练必定成功。
 不同ResNet变体的归一化与激活位置不同，应按具体结构计算。
 
@@ -162,7 +163,7 @@ Stride跳过部分位置，Dilation拉开核采样点间隔；二者对输出大
 
 \section{归一化层：统计量在哪些轴上计算？}
 \label{sec:cnn-normalization}
-Batch Normalization（BN）训练时按约定轴计算均值与方差，再进行可学习的缩放与平移：
+批量归一化（Batch Normalization, BN）训练时按约定轴计算均值与方差，再进行可学习的缩放与平移：
 \[
  \hat x=\frac{x-\mu}{\sqrt{v+\epsilon}},\qquad y=\gamma\hat x+\beta.
 \]
@@ -176,7 +177,7 @@ $\gamma,\beta$为可学习参数，统计量不是同一种参数。
 \midrule
 BN训练 & 同通道的批量与空间位置。 & 训练批量影响统计，常维护滑动估计。\\
 BN推理 & 通常使用保存的滑动统计。 & 需切换到适当模式，不能默认仍用当前批量。\\
-Layer Normalization & 单条记录约定的特征轴。 & 通常训练/推理都按该条输入计算，无批量滑动统计。\\
+层归一化 LayerNorm & 单条记录约定的特征轴。 & 通常训练/推理都按该条输入计算，无批量滑动统计。\\
 \bottomrule
 \end{tabularx}
 \end{center}
@@ -190,7 +191,8 @@ Layer Normalization & 单条记录约定的特征轴。 & 通常训练/推理都
 两处方差均按组内元素数作分母；相同输入不意味着相同统计量。}
 \end{figure}
 
-LayerNorm的统计轴由配置决定，不能只凭层名推断。
+层归一化的英文为Layer Normalization（LN），常写作LayerNorm；
+它的统计轴由配置决定，不能只凭层名推断。
 例如PyTorch的\texttt{normalized\_shape}匹配输入最后若干轴：
 对 $B\times C\times H\times W$ 指定 $(C,H,W)$，才是图中的逐样本整块归一化；
 对 $B\times T\times d$ 指定 $d$，则每个位置只在特征轴上汇总。

@@ -244,16 +244,13 @@ SMOTE是一种合成过采样方法。基本形式在少数类样本$x_i$与其�
 
 \section{把处理步骤放进同一条流水线}
 \label{sec:data-pipeline}
-流水线（Pipeline）把处理步骤按顺序连接，让训练和预测遵循同一套规则。
-数值列与类别列可以分别处理，再拼接为模型输入。
+流水线（Pipeline）串联处理规则；本例把数值列与类别列分别处理后拼接。
 
 \begin{figure}[htbp]
 \centering\input{figures/data/pipeline}
 \caption{一个基础表格数据流程；箭头表示数据经过的步骤。可在训练支路添加筛选和采样。}
 \par\smallskip
-\readfigure{拟合时，在训练集学习各步所需参数并拟合模型。
-预测时只调用已学规则。数值填补放在缩放之前，是此例的选择；
-近邻填补等流程还需单独设计距离尺度，不能机械套用。}
+\readfigure{训练内拟合，预测时沿用。此例先填补再缩放；近邻填补需另定距离尺度。}
 \end{figure}
 
 \begin{center}
@@ -271,13 +268,12 @@ SMOTE是一种合成过采样方法。基本形式在少数类样本$x_i$与其�
 \end{center}
 
 \subsection{自测与回看}
-测试值超出训练最大值，经Min--Max得到1.2，是否一定是程序错误？\textbf{不是。}
-交叉验证前用全部标签筛选列，是否合适？\textbf{不合适，筛选应在每折训练内。}
-复制10条少数类到50条，是否等于新增40个独立对象？\textbf{不等于。}
+Min--Max测试值为1.2，是否一定出错？\textbf{不是，新值可超出训练范围。}
+交叉验证前用全部标签筛列，是否合适？\textbf{不合适，应在每折训练内。}
+少数类从10条复制到50条，是否新增40个独立对象？\textbf{没有。}
 
 \smallskip
 \begingroup\small
-\noindent\textbf{核查依据：}scikit-learn的Preprocessing、Imputation、Feature selection与Common pitfalls文档，
-以及imbalanced-learn的Common pitfalls文档（访问于2026-10-28）。
-填补、缩放与采样的数值例子可用配套源码中的\texttt{verify\_data.py}复核。
+\noindent\textbf{核查依据：}scikit-learn Preprocessing、Imputation、Feature selection、Common pitfalls与
+imbalanced-learn Common pitfalls文档（2026-10-28核对）；算例见\texttt{verify\_data.py}。
 \par\endgroup

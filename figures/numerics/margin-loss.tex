@@ -2,7 +2,7 @@
 \begin{axis}[width=112mm,height=66mm,xmin=-3,xmax=3,ymin=0,ymax=4.2,
  xlabel={有符号间隔$m=ys$，$y\in\{-1,1\}$},ylabel={损失},xtick={-3,-1,0,1,3},ytick={0,1,2,3,4},
  legend style={at={(1.02,.8)},anchor=west,draw=none,font=\small}]
-\addplot[Teal,thick,domain=-3:3,samples=101]{max(0,1-x)};\addlegendentry{Hinge}
+\addplot[Teal,thick] coordinates {(-3,4)(1,0)(3,0)};\addlegendentry{Hinge}
 \addplot[Amber,thick,domain=-3:3,samples=100]{ln(1+exp(-x))};\addlegendentry{Logistic}
 \end{axis}
 \end{tikzpicture}

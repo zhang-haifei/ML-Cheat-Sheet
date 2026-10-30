@@ -30,6 +30,7 @@
 
 冻结参数与评估模式是两回事：BatchNorm运行统计是否更新、Dropout是否随机，
 需要另外设定；不能只设置“不求参数梯度”就默认底座输出固定。
+BN的统计与模式见第\ref{sec:cnn-normalization}节，Dropout的缩放规则见第\ref{sec:train-dropout}节。
 预处理、词表/分词和输入尺度也需与预训练约定衔接。
 
 \begin{pitfall}[预训练不保证每个目标任务都有收益]

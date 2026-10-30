@@ -1,8 +1,164 @@
 {
   "status": "PASS",
+  "edition_status": "first_edition_candidate",
+  "date": "2026-10-30",
   "legacy_directories_present": [],
   "legacy_files_present": [],
   "stage_tex_entries": 0,
   "stage_pdf_files": 0,
-  "independent_figure_sources": 85
+  "independent_figure_sources": 87,
+  "figure_caption_readnote_units": 87,
+  "definition_of_done_scope": "Original project brief criteria 1--25; image-related criteria 9,10,14,15 follow the user's later instructions to replace and delete the old material. This is a project-internal readiness record, not an external publication certification.",
+  "definition_of_done": [
+    {
+      "id": 1,
+      "criterion": "结构连贯",
+      "status": "satisfied",
+      "evidence": "17主章由任务、数据、评估进入经典模型，再到神经计算与架构；两份附录用于回查。"
+    },
+    {
+      "id": 2,
+      "criterion": "机器学习基础",
+      "status": "satisfied",
+      "evidence": "第1--6章覆盖泛化、准备、假设、评估、选择与风险。"
+    },
+    {
+      "id": 3,
+      "criterion": "经典算法",
+      "status": "satisfied",
+      "evidence": "第7--10章覆盖线性、近邻、树、概率、集成、SVM与无监督。"
+    },
+    {
+      "id": 4,
+      "criterion": "深度学习基础",
+      "status": "satisfied",
+      "evidence": "第11--17章覆盖前反向、训练、CNN、文本、序列注意力与迁移。"
+    },
+    {
+      "id": 5,
+      "criterion": "数学支持",
+      "status": "satisfied",
+      "evidence": "附录A及阅读说明给出矩阵、导数、概率统计与具体回查。"
+    },
+    {
+      "id": 6,
+      "criterion": "已发现科学问题修复",
+      "status": "satisfied",
+      "evidence": "REVIEW_NOTES.md与15组数值结果列出修正及验证。"
+    },
+    {
+      "id": 7,
+      "criterion": "术语与符号",
+      "status": "satisfied",
+      "evidence": "三条路线回查首次定义、残差、损失缩放、轴、单位与局部约定。"
+    },
+    {
+      "id": 8,
+      "criterion": "无占位章节",
+      "status": "satisfied",
+      "evidence": "当前正文无TODO/TBD/待补段落，31份章文件实际可达。"
+    },
+    {
+      "id": 9,
+      "criterion": "图集检查要求调整",
+      "status": "adapted_and_satisfied",
+      "evidence": "按用户后续要求以87份独立图源替换旧素材；当前图文全部连读，不声称在此重新审计已删除旧图。"
+    },
+    {
+      "id": 10,
+      "criterion": "图的选择依据调整",
+      "status": "adapted_and_satisfied",
+      "evidence": "按知识关系与算例需要组织独立图，不以旧卡张数扩写。"
+    },
+    {
+      "id": 11,
+      "criterion": "图在适当位置",
+      "status": "satisfied",
+      "evidence": "87份图源各使用一次，随对应章节编译。"
+    },
+    {
+      "id": 12,
+      "criterion": "解释直接对应图",
+      "status": "satisfied",
+      "evidence": "87个图注/读图单元；修复间隔损失错位及搜索预算不一致。"
+    },
+    {
+      "id": 13,
+      "criterion": "图中错误处理",
+      "status": "satisfied",
+      "evidence": "搜索12组、预期人数、矩阵行列与Hinge折点已同步修正。"
+    },
+    {
+      "id": 14,
+      "criterion": "不要求使用全部旧图",
+      "status": "adapted_and_satisfied",
+      "evidence": "旧done/to-do/illustration素材已按用户要求移除。"
+    },
+    {
+      "id": 15,
+      "criterion": "图片来源要求调整",
+      "status": "adapted_and_satisfied",
+      "evidence": "当前87份TikZ/PGFPlots图和4份CSV为项目独立图源，无旧外部图片进入构建。"
+    },
+    {
+      "id": 16,
+      "criterion": "源码可维护",
+      "status": "satisfied",
+      "evidence": "main.tex唯一入口，正文/图源/共享样式/脚本分离；删除未用排版包依赖。"
+    },
+    {
+      "id": 17,
+      "criterion": "构建成功",
+      "status": "satisfied",
+      "evidence": "BUILD_CHECK.json：112页，零溢出、缺字与未定义引用。"
+    },
+    {
+      "id": 18,
+      "criterion": "显示正确",
+      "status": "satisfied",
+      "evidence": "112页渲染通览、14个位置放大复核，图表/公式未见裁切遮挡。"
+    },
+    {
+      "id": 19,
+      "criterion": "视觉检查",
+      "status": "satisfied",
+      "evidence": "VISUAL_REVIEW.md记录当前PDF哈希、范围及页尾复查。"
+    },
+    {
+      "id": 20,
+      "criterion": "一致版式",
+      "status": "satisfied",
+      "evidence": "连续排版、11pt/1.12行距、自然章末、图文单元与长表续页规则一致。"
+    },
+    {
+      "id": 21,
+      "criterion": "项目规则",
+      "status": "satisfied",
+      "evidence": "AGENTS.md维护当前阶段、源码结构、检查与用户时限规则。"
+    },
+    {
+      "id": 22,
+      "criterion": "编辑决策",
+      "status": "satisfied",
+      "evidence": "EDITORIAL_PLAN.md和REVIEW_NOTES.md记录当前编排与定稿处理。"
+    },
+    {
+      "id": 23,
+      "criterion": "进度准确",
+      "status": "satisfied",
+      "evidence": "PROGRESS.md与本次PDF、导航和核验报告同步。"
+    },
+    {
+      "id": 24,
+      "criterion": "构建说明",
+      "status": "satisfied",
+      "evidence": "README.md列明XeLaTeX、字体、Python依赖及检查/打包命令。"
+    },
+    {
+      "id": 25,
+      "criterion": "实际限制记录",
+      "status": "satisfied",
+      "evidence": "3个资料入口读取限制、独立Python复算及同工具链复建范围已明确。"
+    }
+  ]
 }

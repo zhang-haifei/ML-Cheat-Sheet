@@ -1,6 +1,6 @@
 # 参考入口核对
 
-2026-10-29。PDF有37个外部URI注释、35个不同地址；跨行链接可产生多个注释。本次用网页检索工具逐一打开入口并检查标题/来源类型；重定向另跟进目标页。32个地址已解析（包括新增4个主题入口及原有5个重定向目标），1个只确认重定向，2个受访问限制或超时影响。此处记录工具观察，不作未来可达性保证，也不把“能打开”当作全文科学审定。
+2026-10-30。当前PDF有37个外部URI注释、37个不同地址。资料入口的访问记录来自本轮及此前检查：原有35个地址沿用2026-10-29的观察，本轮补核Boyd教材官网，源码包入口使用仓库连接器核对。33个资料地址已解析，1个源码包入口经仓库核对，1个资料地址只确认重定向，2个受限或超时。此处记录实际工具观察，不作未来可达性保证，也不把可读取当作全文科学审定。
 
 DBSCAN论文改用可读取的AAAI官方CDN。LSTM的正式DOI返回403，Stanford教材入口超时，均保留原引文。PyTorch stable是浮动别名；工具本次返回的版本信息不等于本项目安装或测试了该框架版本。
 
@@ -36,6 +36,8 @@ DBSCAN论文改用可读取的AAAI官方CDN。LSTM的正式DOI返回403，Stanfo
 | [scikit-learn.org / user_guide.html](https://scikit-learn.org/stable/user_guide.html) | 已解析 |  |
 | [www.deeplearningbook.org / 主页](https://www.deeplearningbook.org/) | 已解析 |  |
 | [www.statlearning.com / 主页](https://www.statlearning.com/) | 已解析 |  |
+| [web.stanford.edu / cvxbook](https://web.stanford.edu/~boyd/cvxbook/) | 已解析 | 2026-10-30补核作者教材主页，补全正文已引用的Boyd与Vandenberghe教材汇总入口 |
+| [GitHub / 配套源码包](https://github.com/zhang-haifei/ML-Cheat-Sheet/blob/work/review/handbook-source.zip) | 仓库连接器核对 | 阅读说明中的配套文件入口；交付时核对work分支与源码包Git blob，不将其计作科学参考资料 |
 | [zh.d2l.ai / 主页](https://zh.d2l.ai/) | 已解析 |  |
 | [docs.pytorch.org / BatchNorm2d](https://docs.pytorch.org/docs/stable/generated/torch.nn.BatchNorm2d.html) | 重定向后已解析 | 工具返回2.15文档；核对统计轴、方差分母、运行统计与评估模式 |
 | [docs.pytorch.org / LayerNorm](https://docs.pytorch.org/docs/stable/generated/torch.nn.LayerNorm.html) | 重定向后已解析 | 工具返回2.15文档；核对normalized_shape末尾轴与训练/评估统计 |
@@ -46,4 +48,6 @@ DBSCAN论文改用可读取的AAAI官方CDN。LSTM的正式DOI返回403，Stanfo
 
 [Keras EarlyStopping文档](https://keras.io/api/callbacks/early_stopping/)明确区分停止与恢复最佳权重，当前默认restore_best_weights为False；本书要求检查恢复规则的说明与之相符。
 
-本次复查原有3个未完整解析入口：Stanford教材主页及官方HTML/PDF入口仍超时，LSTM正式DOI仍403，nn.init仍只确认stable重定向而未解析目标。另核对Cho等2014年论文的官方arXiv HTML，确认重置门与候选状态的定义。保留正式入口，不以未核验镜像替换。
+2026-10-29复查记录：原有3个未完整解析入口中，Stanford教材主页及官方HTML/PDF入口仍超时，LSTM正式DOI仍403，nn.init仍只确认stable重定向而未解析目标。另核对Cho等2014年论文的官方arXiv HTML，确认重置门与候选状态的定义。保留正式入口，不以未核验镜像替换。
+
+最后成书校读补齐《Convex Optimization》的汇总条目和作者提供的公开入口。原有35个地址沿用已记录的访问观察；本次不声称逐一重新访问，也不将3个工具读取受限入口视为失效。

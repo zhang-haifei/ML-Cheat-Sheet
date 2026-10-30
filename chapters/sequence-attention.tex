@@ -4,6 +4,7 @@
 得到长度 $T$、特征维度 $d$ 的向量序列后，还需要定义位置之间怎样传递或汇总信息。
 RNN按顺序更新状态，注意力根据当前表示计算位置之间的权重。
 本章沿着输入形状、计算路径与可见信息，建立RNN、门控结构和Transformer的基本联系。
+文本怎样变成向量序列，见第\ref{ch:text}章；本章也适用于其他类型的序列。
 
 \begin{keyidea}[能看到什么，是模型定义的一部分]
 离线阅读整段文本与根据历史预测未来，允许的信息不同。
@@ -27,8 +28,8 @@ RNN按顺序更新状态，注意力根据当前表示计算位置之间的权�
 得到约$[0.762,0.363,-0.674]$。同一个输入值出现在不同历史后，可以产生不同状态。}
 \end{figure}
 
-反向传播通过时间（Backpropagation Through Time, BPTT）沿展开图计算，
-共享参数在各位置的贡献需要相加。长路径上的Jacobian连乘可能导致梯度消失或爆炸；
+通过时间的反向传播（Backpropagation Through Time, BPTT）沿展开图计算，
+共享参数在各位置的贡献需要相加。长路径上的Jacobian（局部导数矩阵）连乘可能导致梯度消失或爆炸；
 截断BPTT限制回传长度，裁剪可帮助控制爆炸，但两者都不是保证学到所有长期依赖。
 
 \quick{双向RNN可以利用前后文，因而不能直接用于当时不可获得未来输入的实时预测。}
@@ -41,7 +42,7 @@ RNN按顺序更新状态，注意力根据当前表示计算位置之间的权�
  \qquad\vct h_t=\vct o_t\odot\tanh(\vct c_t).
 \]
 遗忘门$f$、输入门$i$、输出门$o$分别由当前输入和前一状态的仿射变换经Sigmoid得到；
-候选$\widetilde c$常用tanh。$c$为记忆单元，$h$为输出状态，$\odot$表示逐元素乘法。
+候选$\widetilde c$常用tanh。$c$为记忆状态，$h$为隐藏状态，$\odot$表示逐元素乘法。
 
 \begin{center}
 \begin{tabularx}{\textwidth}{P{31mm}Y}
@@ -161,6 +162,7 @@ $M$指定允许关注的位置；键与值的行数必须对应。
 \section{Transformer块：注意力、前馈与残差}
 \label{sec:seq-transformer}
 Transformer把注意力、逐位置前馈层、残差和归一化组合起来。
+LN指层归一化，其统计轴与配置见第\ref{sec:cnn-normalization}节。
 下面选择一种Pre-LN示意：
 $Z=X+\mathrm{MHA}(\mathrm{LN}(X))$，
 $Y=Z+\mathrm{FFN}(\mathrm{LN}(Z))$。
@@ -194,7 +196,7 @@ $Y=Z+\mathrm{FFN}(\mathrm{LN}(Z))$。
 离线任务常允许读取完整源序列；流式任务必须另外限制尚未到达的源信息。}
 \end{figure}
 
-自回归训练通常将输入和目标错开一个位置：
+自回归训练通常将输入和目标错开一个位置；BOS（Beginning of Sequence）是序列开始标记：
 \begin{center}
 \begin{tabular}{lccc}
 \toprule

@@ -1,21 +1,30 @@
 {
   "status": "PASS",
-  "pages": 114,
+  "pages": 112,
+  "distributed_pdf_sha256": "42762c88b16ced10869bc509c36b48b59a9a36882905ec42d80e7d4e4f81da12",
   "page_text_identical": true,
   "page_rasters_identical": true,
   "raster_dpi": 72,
   "raster_format": "RGB, no alpha, annotations excluded",
   "raster_mismatch_pages": [],
-  "raster_page_hash_chain_sha256": "b33f4bb0ed69452adba21256ce96c7c0813f1978aa80f0e5f72d9b6192773920",
+  "raster_page_hash_chain_sha256": "5baaa6a3d13dcb704535ddc342c00a88ef44ba2b1565ef955001e0a1d5ce13d6",
   "pymupdf_version": "1.26.6",
-  "comparison_environment": "Separate ZIP extraction and build directory, same installed XeLaTeX/TeX/fonts and Python libraries.",
+  "comparison_environment": "Separate ZIP extraction in a directory containing spaces, same installed XeLaTeX/TeX/fonts and Python libraries.",
   "numerical_checks": 15,
   "numerical_results_identical": true,
+  "navigation_results_identical_except_pdf_metadata_hash": true,
+  "isolated_navigation": {
+    "status": "PASS",
+    "topic_rows": 48,
+    "topic_targets": 83,
+    "bookmarks": 171,
+    "errors": []
+  },
   "build_script_archive_mode": "100755",
   "isolated_build_audit": {
     "target": "main",
-    "pages": 114,
-    "pdf_sha256": "4d380da81d93be3728f0525a824f786824f615a65d6f5c98e23424dd827d04e8",
+    "pages": 112,
+    "pdf_sha256": "18a4ac4f5fd556d4798b622320c1983a0a1c7c29952d3b116b7c37ae853a9d11",
     "overfull": 0,
     "underfull": 0,
     "missing_characters": 0,
@@ -24,10 +33,12 @@
     "original_files_still_referenced": 0,
     "original_image_occurrences": 0,
     "independent_figure_sources": 87,
-    "internal_links": 324,
+    "internal_links": 388,
     "invalid_internal_links": 0,
     "external_uri_links": 37,
     "missing_inputs": []
   },
-  "source_only_package": true
+  "source_only_package": true,
+  "source_members": 160,
+  "post_verification_update": "Only this verification report is replaced before final deterministic repack; all other members match the verified extracted snapshot."
 }
