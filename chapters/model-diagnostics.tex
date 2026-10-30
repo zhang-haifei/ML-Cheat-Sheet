@@ -19,7 +19,8 @@
 \centering\input{figures/diagnostics/search}
 \caption{等预算的独立示意。随机搜索能试更多不同坐标值，但不保证每次更优。}
 \par\smallskip
-\readfigure{网格搜索枚举指定笛卡尔积；3个正则强度与4个树深度共12组，
+\readfigure{网格搜索枚举指定笛卡尔积，图中为$3\times4=12$组；随机搜索也画出12组。
+若比较3个正则强度与4个树深度，亦有12组候选，
 五折评估需60次折内拟合，最后全开发集重拟合另计一次。不能按训练分数挑选。}
 \end{figure}
 
@@ -93,6 +94,7 @@ Brier分数（Brier Score）与二元对数损失都直接评价概率，越小�
  \mathrm{LogLoss}&=-\frac1n\sum_i[y_i\log p_i+(1-y_i)\log(1-p_i)].
 \end{align}
 对数用自然底；错误且极度自信的概率会受较大惩罚。
+概率边界处按极限约定取$0\log0=0$。
 若真实类别被赋予零概率，对数损失趋于无穷；软件裁剪概率需说明约定。
 
 \begin{center}

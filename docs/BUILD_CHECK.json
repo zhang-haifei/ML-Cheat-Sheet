@@ -1,7 +1,7 @@
 {
   "target": "main",
-  "pages": 114,
-  "pdf_sha256": "4562252180de422d610d32ba8af5127ccfa9199ed55af4f69a721622db184ec4",
+  "pages": 112,
+  "pdf_sha256": "42762c88b16ced10869bc509c36b48b59a9a36882905ec42d80e7d4e4f81da12",
   "overfull": 0,
   "underfull": 0,
   "missing_characters": 0,
@@ -10,7 +10,7 @@
   "original_files_still_referenced": 0,
   "original_image_occurrences": 0,
   "independent_figure_sources": 87,
-  "internal_links": 324,
+  "internal_links": 388,
   "invalid_internal_links": 0,
   "external_uri_links": 37,
   "missing_inputs": []

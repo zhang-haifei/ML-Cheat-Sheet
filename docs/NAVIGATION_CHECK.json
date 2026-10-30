@@ -1,0 +1,1016 @@
+{
+  "status": "PASS",
+  "method": "Compare each topic-row link with its page-reference label, resolve PDF named destinations and printed page labels; check bookmark destinations and visible title text. Concept-to-entry relevance is reviewed manually.",
+  "pdf_sha256": "42762c88b16ced10869bc509c36b48b59a9a36882905ec42d80e7d4e4f81da12",
+  "pages": 112,
+  "topic_rows": 48,
+  "topic_targets": 83,
+  "topic_table_pdf_pages": [
+    109,
+    110
+  ],
+  "bookmarks": 171,
+  "labels": 208,
+  "bookmark_titles_not_found": [],
+  "errors": [],
+  "rows": [
+    {
+      "topic_tex": "容量、过拟合 Capacity/Overfitting",
+      "entries": [
+        {
+          "label": "sec:learn-capacity",
+          "section": "1.4",
+          "title_tex": "模型容量与泛化能力分别回答什么？",
+          "printed_page": "3",
+          "pdf_page": 10,
+          "destination": "section.1.4",
+          "matching_pdf_link_annotations": 2
+        },
+        {
+          "label": "sec:learn-fit",
+          "section": "1.6",
+          "title_tex": "欠拟合与过拟合：看训练，也看新数据",
+          "printed_page": "4",
+          "pdf_page": 11,
+          "destination": "section.1.6",
+          "matching_pdf_link_annotations": 2
+        }
+      ]
+    },
+    {
+      "topic_tex": "偏差—方差 Bias--Variance",
+      "entries": [
+        {
+          "label": "sec:learn-biasvariance",
+          "section": "1.7",
+          "title_tex": "偏差与方差：固定输入，改变训练集",
+          "printed_page": "4",
+          "pdf_page": 11,
+          "destination": "section.1.7",
+          "matching_pdf_link_annotations": 2
+        },
+        {
+          "label": "sec:learn-decomposition",
+          "section": "1.8",
+          "title_tex": "平方误差怎样分成三部分？",
+          "printed_page": "5",
+          "pdf_page": 12,
+          "destination": "section.1.8",
+          "matching_pdf_link_annotations": 2
+        }
+      ]
+    },
+    {
+      "topic_tex": "缺失、填补 Imputation",
+      "entries": [
+        {
+          "label": "sec:data-missing",
+          "section": "2.4",
+          "title_tex": "缺失值：不知道，不等于零",
+          "printed_page": "10",
+          "pdf_page": 17,
+          "destination": "section.2.4",
+          "matching_pdf_link_annotations": 2
+        }
+      ]
+    },
+    {
+      "topic_tex": "编码 One-hot/Ordinal",
+      "entries": [
+        {
+          "label": "sec:data-onehot",
+          "section": "2.2",
+          "title_tex": "无序类别与独热编码",
+          "printed_page": "8",
+          "pdf_page": 15,
+          "destination": "section.2.2",
+          "matching_pdf_link_annotations": 2
+        },
+        {
+          "label": "sec:data-ordinal",
+          "section": "2.3",
+          "title_tex": "有序编码保留顺序，不保证间距",
+          "printed_page": "9",
+          "pdf_page": 16,
+          "destination": "section.2.3",
+          "matching_pdf_link_annotations": 2
+        }
+      ]
+    },
+    {
+      "topic_tex": "缺失机制、完整记录",
+      "entries": [
+        {
+          "label": "sec:reliability-mechanism",
+          "section": "3.1",
+          "title_tex": "MCAR、MAR与MNAR：缺失依赖什么？",
+          "printed_page": "14",
+          "pdf_page": 21,
+          "destination": "section.3.1",
+          "matching_pdf_link_annotations": 2
+        },
+        {
+          "label": "sec:reliability-deletion",
+          "section": "3.2",
+          "title_tex": "完整记录分析：MAR下也可能改变总体",
+          "printed_page": "14",
+          "pdf_page": 21,
+          "destination": "section.3.2",
+          "matching_pdf_link_annotations": 2
+        }
+      ]
+    },
+    {
+      "topic_tex": "异常与特征筛选",
+      "entries": [
+        {
+          "label": "sec:reliability-outlier",
+          "section": "3.3",
+          "title_tex": "异常值：标记、核查，再决定处理",
+          "printed_page": "15",
+          "pdf_page": 22,
+          "destination": "section.3.3",
+          "matching_pdf_link_annotations": 2
+        },
+        {
+          "label": "sec:reliability-variance",
+          "section": "3.4",
+          "title_tex": "方差筛选：变化大小不是预测价值",
+          "printed_page": "16",
+          "pdf_page": 23,
+          "destination": "section.3.4",
+          "matching_pdf_link_annotations": 2
+        },
+        {
+          "label": "sec:reliability-chi2",
+          "section": "3.5",
+          "title_tex": "卡方关联筛选：频数、期望与局限",
+          "printed_page": "16",
+          "pdf_page": 23,
+          "destination": "section.3.5",
+          "matching_pdf_link_annotations": 2
+        }
+      ]
+    },
+    {
+      "topic_tex": "缩放 Scaling",
+      "entries": [
+        {
+          "label": "sec:data-scaling",
+          "section": "2.6",
+          "title_tex": "缩放：参数来自训练集",
+          "printed_page": "11",
+          "pdf_page": 18,
+          "destination": "section.2.6",
+          "matching_pdf_link_annotations": 2
+        }
+      ]
+    },
+    {
+      "topic_tex": "不平衡、SMOTE",
+      "entries": [
+        {
+          "label": "sec:data-sampling",
+          "section": "2.8",
+          "title_tex": "类别不平衡：调整训练，不改写评估对象",
+          "printed_page": "12",
+          "pdf_page": 19,
+          "destination": "section.2.8",
+          "matching_pdf_link_annotations": 2
+        },
+        {
+          "label": "sec:data-smote",
+          "section": "2.9",
+          "title_tex": "SMOTE：在少数类邻居之间插值",
+          "printed_page": "13",
+          "pdf_page": 20,
+          "destination": "section.2.9",
+          "matching_pdf_link_annotations": 2
+        }
+      ]
+    },
+    {
+      "topic_tex": "泄漏 Data Leakage",
+      "entries": [
+        {
+          "label": "sec:data-pipeline",
+          "section": "2.10",
+          "title_tex": "把处理步骤放进同一条流水线",
+          "printed_page": "13",
+          "pdf_page": 20,
+          "destination": "section.2.10",
+          "matching_pdf_link_annotations": 2
+        }
+      ]
+    },
+    {
+      "topic_tex": "交叉验证 Cross-validation",
+      "entries": [
+        {
+          "label": "sec:eval-cv",
+          "section": "4.2",
+          "title_tex": "交叉验证：评估整个拟合流程",
+          "printed_page": "19",
+          "pdf_page": 26,
+          "destination": "section.4.2",
+          "matching_pdf_link_annotations": 2
+        }
+      ]
+    },
+    {
+      "topic_tex": "Precision/Recall/Specificity",
+      "entries": [
+        {
+          "label": "sec:eval-precision-recall",
+          "section": "4.4",
+          "title_tex": "准确率、查准率与召回率：分母决定问题",
+          "printed_page": "20",
+          "pdf_page": 27,
+          "destination": "section.4.4",
+          "matching_pdf_link_annotations": 2
+        }
+      ]
+    },
+    {
+      "topic_tex": "F1、多标签 Hamming",
+      "entries": [
+        {
+          "label": "sec:eval-f1",
+          "section": "4.5",
+          "title_tex": "F1、平均方式与分类阈值",
+          "printed_page": "21",
+          "pdf_page": 28,
+          "destination": "section.4.5",
+          "matching_pdf_link_annotations": 2
+        },
+        {
+          "label": "sec:eval-multilabel",
+          "section": "4.6",
+          "title_tex": "多标签：逐个标签正确，还是整组正确？",
+          "printed_page": "22",
+          "pdf_page": 29,
+          "destination": "section.4.6",
+          "matching_pdf_link_annotations": 2
+        }
+      ]
+    },
+    {
+      "topic_tex": "ROC/AUC",
+      "entries": [
+        {
+          "label": "sec:eval-roc",
+          "section": "4.7",
+          "title_tex": "ROC：让阈值变化起来",
+          "printed_page": "22",
+          "pdf_page": 29,
+          "destination": "section.4.7",
+          "matching_pdf_link_annotations": 2
+        },
+        {
+          "label": "sec:eval-auc",
+          "section": "4.8",
+          "title_tex": "AUC：排序能力与并列得分",
+          "printed_page": "23",
+          "pdf_page": 30,
+          "destination": "section.4.8",
+          "matching_pdf_link_annotations": 2
+        }
+      ]
+    },
+    {
+      "topic_tex": "MAE/MSE/RMSE、$R^2$",
+      "entries": [
+        {
+          "label": "sec:eval-regression",
+          "section": "4.10",
+          "title_tex": "回归误差：先看单位与残差",
+          "printed_page": "25",
+          "pdf_page": 32,
+          "destination": "section.4.10",
+          "matching_pdf_link_annotations": 2
+        },
+        {
+          "label": "sec:eval-r2",
+          "section": "4.11",
+          "title_tex": "R²与平方和：把适用条件写出来",
+          "printed_page": "25",
+          "pdf_page": 32,
+          "destination": "section.4.11",
+          "matching_pdf_link_annotations": 2
+        }
+      ]
+    },
+    {
+      "topic_tex": "调参、Nested CV",
+      "entries": [
+        {
+          "label": "sec:diag-search",
+          "section": "5.1",
+          "title_tex": "参数、超参数与搜索预算",
+          "printed_page": "27",
+          "pdf_page": 34,
+          "destination": "section.5.1",
+          "matching_pdf_link_annotations": 2
+        },
+        {
+          "label": "sec:diag-nested",
+          "section": "5.2",
+          "title_tex": "嵌套交叉验证：评估选择流程",
+          "printed_page": "27",
+          "pdf_page": 34,
+          "destination": "section.5.2",
+          "matching_pdf_link_annotations": 2
+        }
+      ]
+    },
+    {
+      "topic_tex": "学习/验证曲线",
+      "entries": [
+        {
+          "label": "sec:diag-curves",
+          "section": "5.3",
+          "title_tex": "三种曲线：先读横轴，再谈诊断",
+          "printed_page": "28",
+          "pdf_page": 35,
+          "destination": "section.5.3",
+          "matching_pdf_link_annotations": 2
+        }
+      ]
+    },
+    {
+      "topic_tex": "Brier、LogLoss",
+      "entries": [
+        {
+          "label": "sec:diag-probability",
+          "section": "5.4",
+          "title_tex": "概率预测：Brier与对数损失",
+          "printed_page": "29",
+          "pdf_page": 36,
+          "destination": "section.5.4",
+          "matching_pdf_link_annotations": 2
+        }
+      ]
+    },
+    {
+      "topic_tex": "校准、阈值 Calibration",
+      "entries": [
+        {
+          "label": "sec:diag-calibration",
+          "section": "5.5",
+          "title_tex": "校准、排序与阈值分工",
+          "printed_page": "29",
+          "pdf_page": 36,
+          "destination": "section.5.5",
+          "matching_pdf_link_annotations": 2
+        },
+        {
+          "label": "sec:diag-platt",
+          "section": "5.6",
+          "title_tex": "Platt校准：给固定得分再拟合一个概率映射",
+          "printed_page": "30",
+          "pdf_page": 37,
+          "destination": "section.5.6",
+          "matching_pdf_link_annotations": 2
+        }
+      ]
+    },
+    {
+      "topic_tex": "MCC、置信区间",
+      "entries": [
+        {
+          "label": "sec:diag-mcc",
+          "section": "5.7",
+          "title_tex": "MCC：同时使用四种计数",
+          "printed_page": "31",
+          "pdf_page": 38,
+          "destination": "section.5.7",
+          "matching_pdf_link_annotations": 2
+        },
+        {
+          "label": "sec:diag-uncertainty",
+          "section": "5.8",
+          "title_tex": "不确定性：区间也有适用条件",
+          "printed_page": "31",
+          "pdf_page": 38,
+          "destination": "section.5.8",
+          "matching_pdf_link_annotations": 2
+        }
+      ]
+    },
+    {
+      "topic_tex": "Bootstrap、AIC/BIC",
+      "entries": [
+        {
+          "label": "sec:tools-bootstrap",
+          "section": "6.5",
+          "title_tex": "Bootstrap：从经验分布中有放回重采样",
+          "printed_page": "35",
+          "pdf_page": 42,
+          "destination": "section.6.5",
+          "matching_pdf_link_annotations": 2
+        },
+        {
+          "label": "sec:tools-aic",
+          "section": "6.6",
+          "title_tex": "AIC与BIC：在可比似然下权衡拟合与复杂度",
+          "printed_page": "36",
+          "pdf_page": 43,
+          "destination": "section.6.6",
+          "matching_pdf_link_annotations": 2
+        }
+      ]
+    },
+    {
+      "topic_tex": "感知机、VIF",
+      "entries": [
+        {
+          "label": "sec:linear-perceptron",
+          "section": "7.8",
+          "title_tex": "感知机：从分错的样本修正线性边界",
+          "printed_page": "42",
+          "pdf_page": 49,
+          "destination": "section.7.8",
+          "matching_pdf_link_annotations": 2
+        },
+        {
+          "label": "sec:linear-vif",
+          "section": "7.3",
+          "title_tex": "VIF：相关特征怎样放大系数方差？",
+          "printed_page": "39",
+          "pdf_page": 46,
+          "destination": "section.7.3",
+          "matching_pdf_link_annotations": 2
+        }
+      ]
+    },
+    {
+      "topic_tex": "Ridge/Lasso/Elastic Net",
+      "entries": [
+        {
+          "label": "sec:linear-ridge",
+          "section": "7.5",
+          "title_tex": "Ridge：连续收缩系数",
+          "printed_page": "40",
+          "pdf_page": 47,
+          "destination": "section.7.5",
+          "matching_pdf_link_annotations": 2
+        },
+        {
+          "label": "sec:linear-lasso",
+          "section": "7.6",
+          "title_tex": "Lasso：为什么能够产生零系数？",
+          "printed_page": "41",
+          "pdf_page": 48,
+          "destination": "section.7.6",
+          "matching_pdf_link_annotations": 2
+        },
+        {
+          "label": "sec:linear-elastic",
+          "section": "7.7",
+          "title_tex": "Elastic Net：同时控制稀疏与收缩",
+          "printed_page": "42",
+          "pdf_page": 49,
+          "destination": "section.7.7",
+          "matching_pdf_link_annotations": 2
+        }
+      ]
+    },
+    {
+      "topic_tex": "NB、Bagging、OOB",
+      "entries": [
+        {
+          "label": "sec:tree-naive-bayes",
+          "section": "8.4",
+          "title_tex": "朴素贝叶斯：给定类别后作独立近似",
+          "printed_page": "46",
+          "pdf_page": 53,
+          "destination": "section.8.4",
+          "matching_pdf_link_annotations": 2
+        },
+        {
+          "label": "sec:tree-bagging",
+          "section": "8.6",
+          "title_tex": "Bagging与随机森林：让平均更有价值",
+          "printed_page": "47",
+          "pdf_page": 54,
+          "destination": "section.8.6",
+          "matching_pdf_link_annotations": 4
+        },
+        {
+          "label": "sec:tree-oob",
+          "section": "8.7",
+          "title_tex": "袋外估计：只汇总没见过该样本的树",
+          "printed_page": "48",
+          "pdf_page": 55,
+          "destination": "section.8.7",
+          "matching_pdf_link_annotations": 2
+        }
+      ]
+    },
+    {
+      "topic_tex": "SVM、核 Kernel",
+      "entries": [
+        {
+          "label": "sec:svm-margin",
+          "section": "9.1",
+          "title_tex": "硬间隔与支持向量",
+          "printed_page": "52",
+          "pdf_page": 59,
+          "destination": "section.9.1",
+          "matching_pdf_link_annotations": 3
+        },
+        {
+          "label": "sec:svm-kernel",
+          "section": "9.3",
+          "title_tex": "核函数：在相似性上建立非线性边界",
+          "printed_page": "53",
+          "pdf_page": 60,
+          "destination": "section.9.3",
+          "matching_pdf_link_annotations": 2
+        }
+      ]
+    },
+    {
+      "topic_tex": "聚类、PCA",
+      "entries": [
+        {
+          "label": "sec:unsup-kmeans",
+          "section": "10.1",
+          "title_tex": "\\texorpdfstring {$K$}{K}-means：分配，再更新中心",
+          "printed_page": "54",
+          "pdf_page": 61,
+          "destination": "section.10.1",
+          "matching_pdf_link_annotations": 3
+        },
+        {
+          "label": "sec:unsup-pca",
+          "section": "10.5",
+          "title_tex": "PCA：寻找单位长度的最大方差方向",
+          "printed_page": "56",
+          "pdf_page": 63,
+          "destination": "section.10.5",
+          "matching_pdf_link_annotations": 3
+        }
+      ]
+    },
+    {
+      "topic_tex": "神经元、前向 Forward",
+      "entries": [
+        {
+          "label": "sec:nn-forward",
+          "section": "11.3",
+          "title_tex": "神经元与前向计算",
+          "printed_page": "59",
+          "pdf_page": 66,
+          "destination": "section.11.3",
+          "matching_pdf_link_annotations": 2
+        }
+      ]
+    },
+    {
+      "topic_tex": "ReLU/Sigmoid、XOR",
+      "entries": [
+        {
+          "label": "sec:nn-activations",
+          "section": "11.4",
+          "title_tex": "为什么需要非线性激活？",
+          "printed_page": "60",
+          "pdf_page": 67,
+          "destination": "section.11.4",
+          "matching_pdf_link_annotations": 2
+        },
+        {
+          "label": "sec:nn-xor",
+          "section": "11.5",
+          "title_tex": "XOR：隐藏表示怎样改变可分性",
+          "printed_page": "61",
+          "pdf_page": 68,
+          "destination": "section.11.5",
+          "matching_pdf_link_annotations": 2
+        }
+      ]
+    },
+    {
+      "topic_tex": "Softmax与输出/损失",
+      "entries": [
+        {
+          "label": "sec:nn-softmax",
+          "section": "11.6",
+          "title_tex": "Softmax：把一组得分变为分布",
+          "printed_page": "62",
+          "pdf_page": 69,
+          "destination": "section.11.6",
+          "matching_pdf_link_annotations": 2
+        }
+      ]
+    },
+    {
+      "topic_tex": "反向传播 Backprop",
+      "entries": [
+        {
+          "label": "sec:nn-backprop",
+          "section": "11.8",
+          "title_tex": "反向传播：把链式法则组织起来",
+          "printed_page": "64",
+          "pdf_page": 71,
+          "destination": "section.11.8",
+          "matching_pdf_link_annotations": 2
+        }
+      ]
+    },
+    {
+      "topic_tex": "Batch/Epoch/Step、SGD",
+      "entries": [
+        {
+          "label": "sec:train-batches",
+          "section": "12.1",
+          "title_tex": "样本、批量、更新次数与轮次",
+          "printed_page": "67",
+          "pdf_page": 74,
+          "destination": "section.12.1",
+          "matching_pdf_link_annotations": 2
+        },
+        {
+          "label": "sec:train-sgd",
+          "section": "12.2",
+          "title_tex": "小批量SGD：用部分数据估计梯度",
+          "printed_page": "68",
+          "pdf_page": 75,
+          "destination": "section.12.2",
+          "matching_pdf_link_annotations": 2
+        }
+      ]
+    },
+    {
+      "topic_tex": "Momentum/Adam",
+      "entries": [
+        {
+          "label": "sec:train-momentum",
+          "section": "12.3",
+          "title_tex": "动量：给更新方向加上记忆",
+          "printed_page": "68",
+          "pdf_page": 75,
+          "destination": "section.12.3",
+          "matching_pdf_link_annotations": 2
+        },
+        {
+          "label": "sec:train-adam",
+          "section": "12.4",
+          "title_tex": "RMSprop与Adam：按坐标调整更新",
+          "printed_page": "69",
+          "pdf_page": 76,
+          "destination": "section.12.4",
+          "matching_pdf_link_annotations": 2
+        }
+      ]
+    },
+    {
+      "topic_tex": "初始化、梯度消失",
+      "entries": [
+        {
+          "label": "sec:train-initialization",
+          "section": "12.7",
+          "title_tex": "初始化：打破对称，并控制传播量级",
+          "printed_page": "71",
+          "pdf_page": 78,
+          "destination": "section.12.7",
+          "matching_pdf_link_annotations": 2
+        },
+        {
+          "label": "sec:train-vanishing",
+          "section": "12.6",
+          "title_tex": "梯度消失：链条越长，乘积可能越小",
+          "printed_page": "71",
+          "pdf_page": 78,
+          "destination": "section.12.6",
+          "matching_pdf_link_annotations": 2
+        }
+      ]
+    },
+    {
+      "topic_tex": "Dropout、提前停止",
+      "entries": [
+        {
+          "label": "sec:train-dropout",
+          "section": "12.8",
+          "title_tex": "Dropout：训练时加噪声，评估时关掉",
+          "printed_page": "72",
+          "pdf_page": 79,
+          "destination": "section.12.8",
+          "matching_pdf_link_annotations": 2
+        },
+        {
+          "label": "sec:train-early-stopping",
+          "section": "12.9",
+          "title_tex": "提前停止：保存最优记录，再耐心等待",
+          "printed_page": "73",
+          "pdf_page": 80,
+          "destination": "section.12.9",
+          "matching_pdf_link_annotations": 2
+        }
+      ]
+    },
+    {
+      "topic_tex": "tanh/ELU/Softplus",
+      "entries": [
+        {
+          "label": "sec:numeric-activation",
+          "section": "13.1",
+          "title_tex": "激活变体：看函数，也看导数",
+          "printed_page": "76",
+          "pdf_page": 83,
+          "destination": "section.13.1",
+          "matching_pdf_link_annotations": 2
+        }
+      ]
+    },
+    {
+      "topic_tex": "LogSumExp、稳定CE",
+      "entries": [
+        {
+          "label": "sec:numeric-logits",
+          "section": "13.2",
+          "title_tex": "从logits稳定计算交叉熵",
+          "printed_page": "76",
+          "pdf_page": 83,
+          "destination": "section.13.2",
+          "matching_pdf_link_annotations": 2
+        }
+      ]
+    },
+    {
+      "topic_tex": "RMSprop、AdamW",
+      "entries": [
+        {
+          "label": "sec:numeric-decay",
+          "section": "13.3",
+          "title_tex": "RMSprop、L2与解耦权重衰减",
+          "printed_page": "77",
+          "pdf_page": 84,
+          "destination": "section.13.3",
+          "matching_pdf_link_annotations": 2
+        }
+      ]
+    },
+    {
+      "topic_tex": "梯度裁剪 Clipping",
+      "entries": [
+        {
+          "label": "sec:numeric-clipping",
+          "section": "13.4",
+          "title_tex": "裁剪梯度：限制范数，不修复全部不稳定",
+          "printed_page": "78",
+          "pdf_page": 85,
+          "destination": "section.13.4",
+          "matching_pdf_link_annotations": 2
+        }
+      ]
+    },
+    {
+      "topic_tex": "卷积、池化、感受野",
+      "entries": [
+        {
+          "label": "sec:cnn-convolution",
+          "section": "14.2",
+          "title_tex": "一次卷积怎样得到一个数？",
+          "printed_page": "80",
+          "pdf_page": 87,
+          "destination": "section.14.2",
+          "matching_pdf_link_annotations": 2
+        },
+        {
+          "label": "sec:cnn-pooling",
+          "section": "14.5",
+          "title_tex": "池化与理论感受野",
+          "printed_page": "82",
+          "pdf_page": 89,
+          "destination": "section.14.5",
+          "matching_pdf_link_annotations": 2
+        }
+      ]
+    },
+    {
+      "topic_tex": "残差、BN/LN",
+      "entries": [
+        {
+          "label": "sec:cnn-residual",
+          "section": "14.6",
+          "title_tex": "残差连接：为变换加一条直接路径",
+          "printed_page": "82",
+          "pdf_page": 89,
+          "destination": "section.14.6",
+          "matching_pdf_link_annotations": 2
+        },
+        {
+          "label": "sec:cnn-normalization",
+          "section": "14.7",
+          "title_tex": "归一化层：统计量在哪些轴上计算？",
+          "printed_page": "83",
+          "pdf_page": 90,
+          "destination": "section.14.7",
+          "matching_pdf_link_annotations": 2
+        }
+      ]
+    },
+    {
+      "topic_tex": "TF-IDF、嵌入 Embedding",
+      "entries": [
+        {
+          "label": "sec:text-tfidf",
+          "section": "15.2",
+          "title_tex": "词袋与TF-IDF：可解释的稀疏基线",
+          "printed_page": "86",
+          "pdf_page": 93,
+          "destination": "section.15.2",
+          "matching_pdf_link_annotations": 2
+        },
+        {
+          "label": "sec:text-embedding",
+          "section": "15.3",
+          "title_tex": "嵌入与Word2Vec：学习稠密向量",
+          "printed_page": "87",
+          "pdf_page": 94,
+          "destination": "section.15.3",
+          "matching_pdf_link_annotations": 2
+        }
+      ]
+    },
+    {
+      "topic_tex": "RNN、LSTM、GRU",
+      "entries": [
+        {
+          "label": "sec:seq-rnn",
+          "section": "16.1",
+          "title_tex": "RNN：同一组权重逐位置更新状态",
+          "printed_page": "88",
+          "pdf_page": 95,
+          "destination": "section.16.1",
+          "matching_pdf_link_annotations": 4
+        },
+        {
+          "label": "sec:seq-gates",
+          "section": "16.2",
+          "title_tex": "LSTM与GRU：门控制信息更新",
+          "printed_page": "88",
+          "pdf_page": 95,
+          "destination": "section.16.2",
+          "matching_pdf_link_annotations": 2
+        }
+      ]
+    },
+    {
+      "topic_tex": "GRU重置约定",
+      "entries": [
+        {
+          "label": "sec:seq-gru-reset",
+          "section": "16.2.1",
+          "title_tex": "GRU重置门：乘法位置不能随意交换",
+          "printed_page": "89",
+          "pdf_page": 96,
+          "destination": "subsection.16.2.1",
+          "matching_pdf_link_annotations": 2
+        }
+      ]
+    },
+    {
+      "topic_tex": "Q/K/V、Attention",
+      "entries": [
+        {
+          "label": "sec:seq-attention",
+          "section": "16.3",
+          "title_tex": "注意力：查询键，再汇总值",
+          "printed_page": "89",
+          "pdf_page": 96,
+          "destination": "section.16.3",
+          "matching_pdf_link_annotations": 2
+        }
+      ]
+    },
+    {
+      "topic_tex": "Causal/Padding Mask",
+      "entries": [
+        {
+          "label": "sec:seq-mask",
+          "section": "16.4",
+          "title_tex": "因果与填充遮罩：在Softmax之前处理",
+          "printed_page": "90",
+          "pdf_page": 97,
+          "destination": "section.16.4",
+          "matching_pdf_link_annotations": 2
+        }
+      ]
+    },
+    {
+      "topic_tex": "Transformer、Teacher Forcing",
+      "entries": [
+        {
+          "label": "sec:seq-transformer",
+          "section": "16.6",
+          "title_tex": "Transformer块：注意力、前馈与残差",
+          "printed_page": "91",
+          "pdf_page": 98,
+          "destination": "section.16.6",
+          "matching_pdf_link_annotations": 3
+        },
+        {
+          "label": "sec:seq-encoder-decoder",
+          "section": "16.7",
+          "title_tex": "编码器、解码器与下一Token目标",
+          "printed_page": "92",
+          "pdf_page": 99,
+          "destination": "section.16.7",
+          "matching_pdf_link_annotations": 2
+        }
+      ]
+    },
+    {
+      "topic_tex": "冻结、微调 Fine-tuning",
+      "entries": [
+        {
+          "label": "sec:transfer-freeze",
+          "section": "17.1",
+          "title_tex": "冻结与微调分别更新什么？",
+          "printed_page": "94",
+          "pdf_page": 101,
+          "destination": "section.17.1",
+          "matching_pdf_link_annotations": 2
+        }
+      ]
+    },
+    {
+      "topic_tex": "矩阵、SVD、梯度",
+      "entries": [
+        {
+          "label": "sec:math-matrix",
+          "section": "A.1",
+          "title_tex": "向量、矩阵与乘法形状",
+          "printed_page": "95",
+          "pdf_page": 102,
+          "destination": "section.A.1",
+          "matching_pdf_link_annotations": 2
+        },
+        {
+          "label": "sec:math-spectral",
+          "section": "A.3",
+          "title_tex": "特征值与奇异值：方向、缩放与降维",
+          "printed_page": "96",
+          "pdf_page": 103,
+          "destination": "section.A.3",
+          "matching_pdf_link_annotations": 2
+        },
+        {
+          "label": "sec:math-gradient",
+          "section": "A.4",
+          "title_tex": "导数、梯度与链式法则",
+          "printed_page": "96",
+          "pdf_page": 103,
+          "destination": "section.A.4",
+          "matching_pdf_link_annotations": 2
+        }
+      ]
+    },
+    {
+      "topic_tex": "概率、CDF与标准误",
+      "entries": [
+        {
+          "label": "sec:math-probability",
+          "section": "A.5",
+          "title_tex": "条件概率与贝叶斯公式",
+          "printed_page": "97",
+          "pdf_page": 104,
+          "destination": "section.A.5",
+          "matching_pdf_link_annotations": 2
+        },
+        {
+          "label": "sec:math-cdf",
+          "section": "A.8",
+          "title_tex": "CDF：把“落在左侧的概率”累计起来",
+          "printed_page": "99",
+          "pdf_page": 106,
+          "destination": "section.A.8",
+          "matching_pdf_link_annotations": 2
+        },
+        {
+          "label": "sec:math-standard-error",
+          "section": "A.9",
+          "title_tex": "标准误与一致性：更多样本能减少什么？",
+          "printed_page": "100",
+          "pdf_page": 107,
+          "destination": "section.A.9",
+          "matching_pdf_link_annotations": 2
+        }
+      ]
+    }
+  ],
+  "editorial_review": {
+    "date": "2026-10-30",
+    "topic_rows_manually_checked": 48,
+    "scope": "Entry wording and the teaching content at each destination; grouped topics now have corresponding individual page links."
+  },
+  "guard_validation": {
+    "clean_input": "PASS",
+    "injected_row_page_mismatch": "detected",
+    "injected_missing_destination": "detected",
+    "injected_wrong_printed_page": "detected"
+  }
+}

@@ -397,20 +397,17 @@ $t$ 为更新次数，$\eta_t$ 为学习率（Learning Rate），控制梯度对
 \caption{纵轴是参数值，横轴是更新次数；最优参数为 $\theta=0$。}
 \label{fig:learning-rate}
 \par\smallskip
-\readfigure{橙线每次只缩小一点；青线较快接近 0；深色线不断在 $2$ 与 $-2$ 之间跳动，
-损失并未减小。这个例子中 $0<\eta<2$ 才收敛，$\eta>2$ 则参数绝对值不断增大。}
+\readfigure{橙线缓慢缩小，青线更快接近0；深色线在$2$与$-2$之间振荡，损失不降。
+本例$0<\eta<2$时收敛，$\eta>2$时参数绝对值不断增大。}
 \end{figure}
 
-一般可微目标在足够小的步长下，负梯度方向具有局部下降意义。
-但神经网络目标通常非凸；不能据此保证到达全局最优。
-即使目标凸，也需要最小值存在、步长等条件，才能讨论具体算法的收敛。
-梯度为 0 只说明处于驻点，可能对应极小值、极大值或鞍点，损失也不必为 0。
+在可微且梯度非零处，足够小的负梯度步具有局部下降意义，不保证非凸目标的全局最优。
+即使目标凸，收敛仍需最小值存在、步长等条件。
+零梯度只说明处于驻点，可能是极大值或鞍点，损失不必为0。
 
 \begin{keyidea}[从全批量到小批量]
-全批量梯度下降每步使用全部训练样本。
-小批量随机梯度下降（Minibatch SGD）用一小批样本平均梯度近似整体梯度，
-计算更便宜，但训练损失可能上下波动。
-调学习率和停止时刻应参考训练与验证表现，不用测试集反复试验。
+全批量每步使用全部训练样本；小批量随机梯度下降（Minibatch SGD）用小批量平均梯度估计整体梯度。
+每步计算较少，损失可能波动。学习率与停止时刻在验证流程内选择，测试集不参与。
 \end{keyidea}
 
 \section{速查与自测}
@@ -418,6 +415,7 @@ $t$ 为更新次数，$\eta_t$ 为学习率（Learning Rate），控制梯度对
 
 \begingroup
 \small
+\setlength{\LTpre}{3pt}\setlength{\LTpost}{4pt}
 \renewcommand{\arraystretch}{1.2}
 \begin{xltabular}{\textwidth}{P{35mm}Y}
 \toprule
@@ -428,12 +426,10 @@ $t$ 为更新次数，$\eta_t$ 为学习率（Learning Rate），控制梯度对
 \endfoot
 网络怎样计算？ & 仿射变换与激活逐层组合；见\ref{sec:nn-forward}节。\\
 为什么需要激活？ & 仿射变换堆叠仍是仿射变换；见\ref{sec:nn-activations}节。\\
-Sigmoid 输出什么？ & 单个二元事件的概率估计，$\sigma(z)=1/(1+e^{-z})$。\\
-Softmax 输出什么？ & 互斥类别的一组概率，分母遍历该样本的全部类别。\\
+概率输出怎样选？ & Sigmoid对应二元事件；Softmax给互斥类别分布，和为1。\\
 多标签怎么做？ & 常见起点是每个标签一个 Sigmoid，配逐标签 BCE。\\
 反向传播做什么？ & 由损失计算梯度；每个梯度形状与对应参数一致。\\
 优化器做什么？ & 按更新规则调整参数；普通梯度下降减去 $\eta\nabla J$。\\
-训练损失越低越好？ & 还要检查验证表现；测试集用于最终评估。\\
 
 \end{xltabular}
 \endgroup
@@ -450,7 +446,6 @@ Softmax 输出什么？ & 互斥类别的一组概率，分母遍历该样本的
 
 \par\begingroup\small
 \noindent\textbf{进一步查阅：}
-以下资料用于核对本章的计算机制与接口约定；本章图表和数值例子独立编写。
 \href{https://d2l.ai/chapter_multilayer-perceptrons/backprop.html}{《动手学深度学习》：前向传播、反向传播与计算图}。
 PyTorch 文档：\href{https://docs.pytorch.org/docs/stable/generated/torch.nn.BCEWithLogitsLoss.html}{BCEWithLogitsLoss} 与
  \href{https://docs.pytorch.org/docs/stable/generated/torch.nn.CrossEntropyLoss.html}{CrossEntropyLoss}，核对 logits 输入及损失定义。

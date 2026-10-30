@@ -33,7 +33,8 @@
 \[
  \widehat e_D=\frac1{|D|}\sum_{i\in D}\mathbf1[\hat y_i\ne y_i].
 \]
-同一公式用于不同数据集时，角色不同。训练错误率低，不等于泛化误差低。
+其中$\mathbf1[\cdot]$为指示函数：条件成立取1，否则取0；$|D|$是样本数。
+同一公式用于不同数据集时，角色不同；训练错误率低，不等于泛化误差低。
 
 \begin{pitfall}[独立划分不只是“行号不重叠”]
 同一设备的多次记录若跨训练与测试，仍可能泄漏设备特征。
@@ -316,7 +317,8 @@ Precision--Recall曲线有助于观察查准与查全的关系；若报告其汇
 \label{sec:eval-regression}
 
 回归任务预测数值。对 $n$ 个样本，记真实目标 $y_i$、预测 $\hat y_i$，
-残差 $e_i=y_i-\hat y_i$。常见指标为
+残差 $e_i=y_i-\hat y_i$。常见指标为平均绝对误差（Mean Absolute Error, MAE）、
+均方误差MSE与均方根误差（Root Mean Squared Error, RMSE）：
 \begin{align}
  \mathrm{MAE}&=\frac1n\sum_i|e_i|,\\
  \mathrm{MSE}&=\frac1n\sum_i e_i^2,\qquad
@@ -352,9 +354,8 @@ MSE既可以作为训练目标，也可以作为验证或测试指标。
  R^2&=1-\frac{\mathrm{RSS}}{\mathrm{TSS}},\qquad & &\mathrm{TSS}>0.
  \label{eq:eval-r2}
 \end{align}
-完美预测的 $R^2=1$；与该均值基准同样的平方误差给出0；比它更差则为负。
-若评估集目标全相同，TSS为0，数学定义的分母失效；软件可能采用约定值，应说明处理方式。
-当前目标均值只是这个评估统计量的参照，不是允许用测试标签拟合部署模型；实际可部署的均值预测器应从训练数据估计。
+完美预测给1，与均值基准等误差给0，更差则为负。目标恒定时TSS为0，需说明软件约定。
+此均值仅作评估参照；部署的均值预测器须在训练内拟合。
 
 \begin{center}
 \small

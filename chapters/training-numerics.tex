@@ -22,7 +22,7 @@ Softplus平滑接近ReLU。图示比较函数，不直接代表模型效果排�
 \toprule
 激活 & 定义或性质 & 导数与边界\\
 \midrule
-tanh & $\tanh z$，输出在$(-1,1)$。 & $1-\tanh^2z$；两端仍饱和。\\
+tanh & 双曲正切$\frac{e^{2z}-1}{e^{2z}+1}$，范围$(-1,1)$。 & $1-\tanh^2z$；两端仍饱和。\\
 Leaky ReLU & $z\geq0$取$z$，否则$az$，$0<a<1$。 & 两侧导数1与$a$；原点输出0且通常不可微。\\
 ELU，$\alpha>0$ & $z\geq0$取$z$，否则$\alpha(e^z-1)$。 & 负侧导数$\alpha e^z$仍可很小；$\alpha=1$时原点可微。\\
 Softplus & $\log(1+e^z)$。 & 导数为Sigmoid；负端也会饱和。\\
@@ -43,14 +43,9 @@ ELU或tanh不保证激活均值恰好为0；Leaky ReLU也不保证完整网络�
 交叉熵需要负号，$y$是本例真实类别索引；更一般的目标分布$t_k$用$-\sum_k t_k\log p_k$。
 交叉熵与只含预测分布的熵不是同一个概念。
 
-\begin{figure}[htbp]
-\centering\input{figures/numerics/margin-loss}
-\caption{二分类有符号间隔下的损失比较；Hinge到达间隔1后为0，Logistic平滑下降。}
-\par\smallskip
-\readfigure{对$\vct z=(1000,1001,999)$，若目标为第1类，
+对$\vct z=(1000,1001,999)$，若目标为第1类，
 稳定损失为$1+\log(1+e^{-1}+e^{-2})\approx1.408$。
-无需先计算会溢出的$e^{1001}$，也无需先生成可能舍入为0的目标概率。}
-\end{figure}
+无需先计算会溢出的$e^{1001}$，也无需先生成可能舍入为0的目标概率。
 
 二分类用$y\in\{0,1\}$、logit $s$时，稳定BCE可写为
 \[
@@ -61,6 +56,15 @@ ELU或tanh不保证激活均值恰好为0；Leaky ReLU也不保证完整网络�
 
 减最大值避免指数上溢，某些很小的指数项仍可能下溢为0；不能声称完全消除所有浮点问题。
 Hinge通常用$y\in\{-1,1\}$与得分$s$，随$ys$增加而不增，不是随$s$增加对两类都下降。
+
+\begin{figure}[htbp]
+\centering\input{figures/numerics/margin-loss}
+\caption{二分类有符号间隔下的损失比较；Hinge到达间隔1后为0，Logistic平滑下降。}
+\par\smallskip
+\readfigure{横轴$m=ys$为有符号间隔：负值表示落在错误一侧，正值表示落在正确一侧。
+Hinge为$\max(0,1-m)$，在$m=0,1$处分别为1、0；Logistic为$\log(1+e^{-m})$，
+相应约为0.693、0.313。后者在有限间隔下仍为正；曲线更低不等于泛化更好。}
+\end{figure}
 
 \section{RMSprop、L2与解耦权重衰减}
 \label{sec:numeric-decay}

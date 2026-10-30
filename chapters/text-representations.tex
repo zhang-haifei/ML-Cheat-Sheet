@@ -6,7 +6,8 @@
 本章先建立数值表示，下一章再讨论不同位置之间怎样交换信息。
 
 \begin{keyidea}[符号编号没有大小距离含义]
-Token ID是查表索引，不表示语义的高低远近。词典、分词规则与模型输入必须一致；
+Token是文本的处理单元，ID是它在词典中的编号，只用于查表，不表示语义的高低远近。
+词典、分词规则与模型输入必须一致；
 需要从当前数据学习的词典和文档频率，应在训练内拟合。
 \end{keyidea}
 
@@ -17,7 +18,7 @@ Tokenization把文本切成处理单元（Token），可以是词、子词、字
 
 \begin{figure}[htbp]
 \centering\input{figures/sequence/tokens}
-\caption{一个人工分词与词典例子，词典含PAD=0、我=1、爱=2、猫=3。实际系统可采用不同切分。}
+\caption{一个人工分词与词典例子，词典含填充标记PAD=0、我=1、爱=2、猫=3。实际系统可采用不同切分。}
 \par\smallskip
 \readfigure{三项ID查三行嵌入，得到三条向量。ID为3不表示“猫”是“我”的三倍。
 验证与上线必须沿用同一词典及未知Token处理规则。}
@@ -56,7 +57,8 @@ D3：猫 跑 & 1 & 0 & 0 & 1\\
 \end{tabular}
 \end{center}
 
-TF-IDF组合词频与逆文档频率。本例使用原始计数$tf$、自然对数和平滑式
+TF-IDF（Term Frequency--Inverse Document Frequency）组合词频与逆文档频率。
+本例使用原始计数$tf$、自然对数和平滑式
 \[
  idf(t)=\log\frac{1+N}{1+df(t)}+1,\qquad v_{d,t}=tf(t,d)\,idf(t),
 \]
@@ -78,7 +80,8 @@ TF-IDF组合词频与逆文档频率。本例使用原始计数$tf$、自然对�
 长度$T$的ID序列查表得到$T\times d$矩阵，批量后常为$B\times T\times d$。
 仅嵌入矩阵就有$Vd$个参数；PAD、未知词和是否冻结按实现设计。
 
-Word2Vec通过局部上下文预测等目标学习词向量，典型形式包括CBOW与Skip-gram。
+Word2Vec通过局部上下文预测等目标学习词向量：
+连续词袋CBOW（Continuous Bag of Words）用上下文预测中心词，Skip-gram用中心词预测上下文。
 上下文相似可能产生向量相近，但相似性和类比关系是数据与训练的结果，
 不是对任意词都成立的语义定理。词向量还可能保留语料中的偏差。
 

@@ -495,6 +495,18 @@
           "target": 0
         }
       ],
+      "margin_losses": [
+        {
+          "margin": 0,
+          "hinge": 1,
+          "logistic": 0.6931471805599453
+        },
+        {
+          "margin": 1,
+          "hinge": 0,
+          "logistic": 0.31326168751822286
+        }
+      ],
       "activation_derivative_max_error": 2.470439408597258e-10,
       "categorical_ce_decimal": "1.40760596444438030448291990454507045147294710830619407473",
       "categorical_ce_stable": 1.4076059644444285,
