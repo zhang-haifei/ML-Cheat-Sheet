@@ -1,0 +1,169 @@
+{
+  "status": "PASS",
+  "torch_version": "2.9.0+cpu",
+  "device": "cpu",
+  "dtype": "float64",
+  "scope": "Targeted interface checks on constructed examples; not a task-level training benchmark.",
+  "normalization": {
+    "batch_mean": [
+      4.0,
+      16.0
+    ],
+    "batch_forward_variance": [
+      5.0,
+      20.0
+    ],
+    "batch_running_variance": [
+      6.666666666666667,
+      26.666666666666668
+    ],
+    "layer_mean": [
+      7.0,
+      13.0
+    ],
+    "layer_variance": [
+      27.5,
+      51.5
+    ],
+    "eval_without_running_stats_uses_current_batch": true,
+    "changing_other_sample_affects_bn_but_not_per_sample_ln": true,
+    "layernorm_last_axis_and_full_sample_axes_checked": true
+  },
+  "convolution_and_pooling": {
+    "cross_correlation_output": [
+      [
+        0.0,
+        -1.0,
+        -2.0
+      ],
+      [
+        0.0,
+        0.0,
+        2.0
+      ],
+      [
+        0.0,
+        -1.0,
+        1.0
+      ]
+    ],
+    "max_pool_output": [
+      [
+        6.0,
+        5.0
+      ],
+      [
+        3.0,
+        9.0
+      ]
+    ],
+    "average_pool_output": [
+      [
+        3.5,
+        2.0
+      ],
+      [
+        1.5,
+        7.0
+      ]
+    ],
+    "toy_network_parameters": 618,
+    "toy_network_output_shape": [
+      8,
+      10
+    ],
+    "global_pooling_preserves_batch_and_channels": true
+  },
+  "recurrent_states": {
+    "rnn_states": [
+      0.7615941559557649,
+      0.36339948438905245,
+      -0.6741436761583508
+    ],
+    "lstm_memory": 1.6999999999999997,
+    "lstm_hidden": 0.7483272564824792
+  },
+  "gru": {
+    "gate_update_convention": "z*h_previous + (1-z)*candidate",
+    "gru_cell_and_sequence_layer_match_reset_after_matrix": true,
+    "cases": [
+      {
+        "hidden_bias": [
+          0.0,
+          0.0
+        ],
+        "native_output": [
+          0.4810585786300049,
+          0.25
+        ],
+        "reset_after_matrix_reference": [
+          0.4810585786300049,
+          0.25
+        ],
+        "reset_before_matrix_reference": [
+          0.429178699175393,
+          0.31217650088579807
+        ]
+      },
+      {
+        "hidden_bias": [
+          0.2,
+          -0.4
+        ],
+        "native_output": [
+          0.5185247834990176,
+          0.20016600268752208
+        ],
+        "reset_after_matrix_reference": [
+          0.5185247834990176,
+          0.2001660026875221
+        ],
+        "reset_before_matrix_reference": [
+          0.509510916949111,
+          0.11586440898919931
+        ]
+      }
+    ]
+  },
+  "losses_and_single_sgd_step": {
+    "categorical_cross_entropy": 1.4076059644443804,
+    "extreme_bce": [
+      1000.0,
+      1000.0,
+      0.0,
+      0.0
+    ],
+    "single_step_gradients": [
+      -0.5378828427399902,
+      -0.2689414213699951,
+      -0.2689414213699951,
+      -0.2689414213699951
+    ],
+    "single_step_parameters": [
+      0.5537882842739991,
+      0.026894142136999512,
+      1.0268941421369995,
+      0.026894142136999512
+    ],
+    "single_step_probability": 0.7670763226166974
+  },
+  "date": "2026-11-02",
+  "python_version": "3.12.14",
+  "numpy_version": "2.3.5",
+  "pymupdf_version": "1.26.6",
+  "script_sha256": "fa72c7be6c0ac0780bae7126b0edcdb769dc965b9f8ecd7d93b6df777724c5ad",
+  "related_sections": [
+    "11.7--11.10",
+    "13.2",
+    "14.2--14.9",
+    "16.1--16.2.1"
+  ],
+  "reference_documentation": [
+    "https://docs.pytorch.org/docs/2.9/generated/torch.nn.BatchNorm2d.html",
+    "https://docs.pytorch.org/docs/2.9/generated/torch.nn.LayerNorm.html",
+    "https://docs.pytorch.org/docs/2.9/generated/torch.nn.Conv2d.html",
+    "https://docs.pytorch.org/docs/2.9/generated/torch.nn.RNN.html",
+    "https://docs.pytorch.org/docs/2.9/generated/torch.nn.LSTMCell.html",
+    "https://docs.pytorch.org/docs/2.9/generated/torch.nn.GRU.html"
+  ]
+}

@@ -51,3 +51,6 @@ DBSCAN论文改用可读取的AAAI官方CDN。LSTM的正式DOI返回403，Stanfo
 2026-10-29复查记录：原有3个未完整解析入口中，Stanford教材主页及官方HTML/PDF入口仍超时，LSTM正式DOI仍403，nn.init仍只确认stable重定向而未解析目标。另核对Cho等2014年论文的官方arXiv HTML，确认重置门与候选状态的定义。保留正式入口，不以未核验镜像替换。
 
 最后成书校读补齐《Convex Optimization》的汇总条目和作者提供的公开入口。原有35个地址沿用已记录的访问观察；本次不声称逐一重新访问，也不将3个工具读取受限入口视为失效。
+
+2026-11-02补充：针对性实测使用PyTorch 2.9.0+cpu，并核对该版本的[BatchNorm2d](https://docs.pytorch.org/docs/2.9/generated/torch.nn.BatchNorm2d.html)、[LayerNorm](https://docs.pytorch.org/docs/2.9/generated/torch.nn.LayerNorm.html)与[GRU](https://docs.pytorch.org/docs/2.9/generated/torch.nn.GRU.html)官方说明。结果见TORCH_CHECKS.json；此处版本化资料用于配套验证，不新增PDF外部入口。原有3个读取受限入口沿用已记录观察。
+同版本的[Conv2d](https://docs.pytorch.org/docs/2.9/generated/torch.nn.Conv2d.html)、[RNN](https://docs.pytorch.org/docs/2.9/generated/torch.nn.RNN.html)和[LSTMCell](https://docs.pytorch.org/docs/2.9/generated/torch.nn.LSTMCell.html)亦与本轮构造算例对应核对。
