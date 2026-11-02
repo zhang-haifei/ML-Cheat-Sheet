@@ -44,7 +44,7 @@
       "id": 6,
       "criterion": "已发现科学问题修复",
       "status": "satisfied",
-      "evidence": "REVIEW_NOTES.md与15组数值结果列出修正及验证。"
+      "evidence": "REVIEW_NOTES.md、15组独立数值与可选PyTorch 2.9.0+cpu针对性核验记录修正及验证。"
     },
     {
       "id": 7,
@@ -104,7 +104,7 @@
       "id": 16,
       "criterion": "源码可维护",
       "status": "satisfied",
-      "evidence": "main.tex唯一入口，正文/图源/共享样式/脚本分离；删除未用排版包依赖。"
+      "evidence": "main.tex唯一入口，正文/图源/共享样式/脚本分离；源码包支持全新解压后重打包，失败时保留有效ZIP。"
     },
     {
       "id": 17,
@@ -152,13 +152,14 @@
       "id": 24,
       "criterion": "构建说明",
       "status": "satisfied",
-      "evidence": "README.md列明XeLaTeX、字体、Python依赖及检查/打包命令。"
+      "evidence": "README.md列明依赖、构建检查及打包命令，并提供章节—复算脚本对照与可选PyTorch说明。"
     },
     {
       "id": 25,
       "criterion": "实际限制记录",
       "status": "satisfied",
-      "evidence": "3个资料入口读取限制、独立Python复算及同工具链复建范围已明确。"
+      "evidence": "3个资料入口读取限制、独立Python复算、PyTorch CPU小算例范围与同工具链复建范围已明确。"
     }
-  ]
+  ],
+  "delivery_maintenance_date": "2026-11-02"
 }

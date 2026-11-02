@@ -61,5 +61,13 @@
   "distinct_figure_caption_numbers": 87,
   "font_size_pt": 11,
   "line_spread": 1.12,
-  "removed_reference_or_answer_only_end_pages": 2
+  "removed_reference_or_answer_only_end_pages": 2,
+  "delivery_maintenance": {
+    "date": "2026-11-02",
+    "book_sources_unchanged_from_candidate": true,
+    "candidate_local_commit": "d04dadeb532a21c9bb0f2b8b77b91ff5b3a100b2",
+    "candidate_public_commit": "2aff93d49c01aaa8e4115c48d71b40acd5418b0e",
+    "core_numerical_results_identical": true,
+    "optional_native_checks": "TORCH_CHECKS.json"
+  }
 }
