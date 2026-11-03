@@ -1,13 +1,13 @@
 {
   "status": "PASS",
   "method": "Compare each topic-row link with its page-reference label, resolve PDF named destinations and printed page labels; check bookmark destinations and visible title text. Concept-to-entry relevance is reviewed manually.",
-  "pdf_sha256": "42762c88b16ced10869bc509c36b48b59a9a36882905ec42d80e7d4e4f81da12",
-  "pages": 112,
+  "pdf_sha256": "66ec5c8041b5f13cd7bad16b3832b67bc3c6ca1f773811d0c39f2b67415053e5",
+  "pages": 111,
   "topic_rows": 48,
   "topic_targets": 83,
   "topic_table_pdf_pages": [
-    109,
-    110
+    108,
+    109
   ],
   "bookmarks": 171,
   "labels": 208,
@@ -20,7 +20,7 @@
         {
           "label": "sec:learn-capacity",
           "section": "1.4",
-          "title_tex": "模型容量与泛化能力分别回答什么？",
+          "title_tex": "模型容量与泛化能力",
           "printed_page": "3",
           "pdf_page": 10,
           "destination": "section.1.4",
@@ -29,7 +29,7 @@
         {
           "label": "sec:learn-fit",
           "section": "1.6",
-          "title_tex": "欠拟合与过拟合：看训练，也看新数据",
+          "title_tex": "欠拟合与过拟合",
           "printed_page": "4",
           "pdf_page": 11,
           "destination": "section.1.6",
@@ -52,7 +52,7 @@
         {
           "label": "sec:learn-decomposition",
           "section": "1.8",
-          "title_tex": "平方误差怎样分成三部分？",
+          "title_tex": "平方误差的偏差—方差分解",
           "printed_page": "5",
           "pdf_page": 12,
           "destination": "section.1.8",
@@ -66,9 +66,9 @@
         {
           "label": "sec:data-missing",
           "section": "2.4",
-          "title_tex": "缺失值：不知道，不等于零",
-          "printed_page": "10",
-          "pdf_page": 17,
+          "title_tex": "缺失值与简单填补",
+          "printed_page": "8",
+          "pdf_page": 15,
           "destination": "section.2.4",
           "matching_pdf_link_annotations": 2
         }
@@ -81,17 +81,17 @@
           "label": "sec:data-onehot",
           "section": "2.2",
           "title_tex": "无序类别与独热编码",
-          "printed_page": "8",
-          "pdf_page": 15,
+          "printed_page": "7",
+          "pdf_page": 14,
           "destination": "section.2.2",
           "matching_pdf_link_annotations": 2
         },
         {
           "label": "sec:data-ordinal",
           "section": "2.3",
-          "title_tex": "有序编码保留顺序，不保证间距",
-          "printed_page": "9",
-          "pdf_page": 16,
+          "title_tex": "有序编码与等级间距",
+          "printed_page": "8",
+          "pdf_page": 15,
           "destination": "section.2.3",
           "matching_pdf_link_annotations": 2
         }
@@ -104,17 +104,17 @@
           "label": "sec:reliability-mechanism",
           "section": "3.1",
           "title_tex": "MCAR、MAR与MNAR：缺失依赖什么？",
-          "printed_page": "14",
-          "pdf_page": 21,
+          "printed_page": "13",
+          "pdf_page": 20,
           "destination": "section.3.1",
           "matching_pdf_link_annotations": 2
         },
         {
           "label": "sec:reliability-deletion",
           "section": "3.2",
-          "title_tex": "完整记录分析：MAR下也可能改变总体",
-          "printed_page": "14",
-          "pdf_page": 21,
+          "title_tex": "完整记录分析与总体构成",
+          "printed_page": "13",
+          "pdf_page": 20,
           "destination": "section.3.2",
           "matching_pdf_link_annotations": 2
         }
@@ -127,17 +127,17 @@
           "label": "sec:reliability-outlier",
           "section": "3.3",
           "title_tex": "异常值：标记、核查，再决定处理",
-          "printed_page": "15",
-          "pdf_page": 22,
+          "printed_page": "14",
+          "pdf_page": 21,
           "destination": "section.3.3",
           "matching_pdf_link_annotations": 2
         },
         {
           "label": "sec:reliability-variance",
           "section": "3.4",
-          "title_tex": "方差筛选：变化大小不是预测价值",
-          "printed_page": "16",
-          "pdf_page": 23,
+          "title_tex": "方差筛选与特征信息",
+          "printed_page": "15",
+          "pdf_page": 22,
           "destination": "section.3.4",
           "matching_pdf_link_annotations": 2
         },
@@ -145,8 +145,8 @@
           "label": "sec:reliability-chi2",
           "section": "3.5",
           "title_tex": "卡方关联筛选：频数、期望与局限",
-          "printed_page": "16",
-          "pdf_page": 23,
+          "printed_page": "15",
+          "pdf_page": 22,
           "destination": "section.3.5",
           "matching_pdf_link_annotations": 2
         }
@@ -159,8 +159,8 @@
           "label": "sec:data-scaling",
           "section": "2.6",
           "title_tex": "缩放：参数来自训练集",
-          "printed_page": "11",
-          "pdf_page": 18,
+          "printed_page": "10",
+          "pdf_page": 17,
           "destination": "section.2.6",
           "matching_pdf_link_annotations": 2
         }
@@ -172,9 +172,9 @@
         {
           "label": "sec:data-sampling",
           "section": "2.8",
-          "title_tex": "类别不平衡：调整训练，不改写评估对象",
-          "printed_page": "12",
-          "pdf_page": 19,
+          "title_tex": "类别不平衡与训练采样",
+          "printed_page": "11",
+          "pdf_page": 18,
           "destination": "section.2.8",
           "matching_pdf_link_annotations": 2
         },
@@ -182,8 +182,8 @@
           "label": "sec:data-smote",
           "section": "2.9",
           "title_tex": "SMOTE：在少数类邻居之间插值",
-          "printed_page": "13",
-          "pdf_page": 20,
+          "printed_page": "11",
+          "pdf_page": 18,
           "destination": "section.2.9",
           "matching_pdf_link_annotations": 2
         }
@@ -196,8 +196,8 @@
           "label": "sec:data-pipeline",
           "section": "2.10",
           "title_tex": "把处理步骤放进同一条流水线",
-          "printed_page": "13",
-          "pdf_page": 20,
+          "printed_page": "12",
+          "pdf_page": 19,
           "destination": "section.2.10",
           "matching_pdf_link_annotations": 2
         }
@@ -210,8 +210,8 @@
           "label": "sec:eval-cv",
           "section": "4.2",
           "title_tex": "交叉验证：评估整个拟合流程",
-          "printed_page": "19",
-          "pdf_page": 26,
+          "printed_page": "18",
+          "pdf_page": 25,
           "destination": "section.4.2",
           "matching_pdf_link_annotations": 2
         }
@@ -224,8 +224,8 @@
           "label": "sec:eval-precision-recall",
           "section": "4.4",
           "title_tex": "准确率、查准率与召回率：分母决定问题",
-          "printed_page": "20",
-          "pdf_page": 27,
+          "printed_page": "19",
+          "pdf_page": 26,
           "destination": "section.4.4",
           "matching_pdf_link_annotations": 2
         }
@@ -238,17 +238,17 @@
           "label": "sec:eval-f1",
           "section": "4.5",
           "title_tex": "F1、平均方式与分类阈值",
-          "printed_page": "21",
-          "pdf_page": 28,
+          "printed_page": "20",
+          "pdf_page": 27,
           "destination": "section.4.5",
           "matching_pdf_link_annotations": 2
         },
         {
           "label": "sec:eval-multilabel",
           "section": "4.6",
-          "title_tex": "多标签：逐个标签正确，还是整组正确？",
-          "printed_page": "22",
-          "pdf_page": 29,
+          "title_tex": "多标签的逐位评价与整组评价",
+          "printed_page": "21",
+          "pdf_page": 28,
           "destination": "section.4.6",
           "matching_pdf_link_annotations": 2
         }
@@ -260,7 +260,7 @@
         {
           "label": "sec:eval-roc",
           "section": "4.7",
-          "title_tex": "ROC：让阈值变化起来",
+          "title_tex": "ROC：阈值与类内错误率",
           "printed_page": "22",
           "pdf_page": 29,
           "destination": "section.4.7",
@@ -284,15 +284,15 @@
           "label": "sec:eval-regression",
           "section": "4.10",
           "title_tex": "回归误差：先看单位与残差",
-          "printed_page": "25",
-          "pdf_page": 32,
+          "printed_page": "24",
+          "pdf_page": 31,
           "destination": "section.4.10",
           "matching_pdf_link_annotations": 2
         },
         {
           "label": "sec:eval-r2",
           "section": "4.11",
-          "title_tex": "R²与平方和：把适用条件写出来",
+          "title_tex": "决定系数与平方和分解",
           "printed_page": "25",
           "pdf_page": 32,
           "destination": "section.4.11",
@@ -389,7 +389,7 @@
         {
           "label": "sec:diag-uncertainty",
           "section": "5.8",
-          "title_tex": "不确定性：区间也有适用条件",
+          "title_tex": "准确率的抽样不确定性",
           "printed_page": "31",
           "pdf_page": 38,
           "destination": "section.5.8",
@@ -459,8 +459,8 @@
           "label": "sec:linear-lasso",
           "section": "7.6",
           "title_tex": "Lasso：为什么能够产生零系数？",
-          "printed_page": "41",
-          "pdf_page": 48,
+          "printed_page": "40",
+          "pdf_page": 47,
           "destination": "section.7.6",
           "matching_pdf_link_annotations": 2
         },
@@ -468,8 +468,8 @@
           "label": "sec:linear-elastic",
           "section": "7.7",
           "title_tex": "Elastic Net：同时控制稀疏与收缩",
-          "printed_page": "42",
-          "pdf_page": 49,
+          "printed_page": "41",
+          "pdf_page": 48,
           "destination": "section.7.7",
           "matching_pdf_link_annotations": 2
         }
@@ -611,8 +611,8 @@
           "label": "sec:nn-backprop",
           "section": "11.8",
           "title_tex": "反向传播：把链式法则组织起来",
-          "printed_page": "64",
-          "pdf_page": 71,
+          "printed_page": "63",
+          "pdf_page": 70,
           "destination": "section.11.8",
           "matching_pdf_link_annotations": 2
         }
@@ -680,8 +680,8 @@
           "label": "sec:train-vanishing",
           "section": "12.6",
           "title_tex": "梯度消失：链条越长，乘积可能越小",
-          "printed_page": "71",
-          "pdf_page": 78,
+          "printed_page": "70",
+          "pdf_page": 77,
           "destination": "section.12.6",
           "matching_pdf_link_annotations": 2
         }
@@ -702,7 +702,7 @@
         {
           "label": "sec:train-early-stopping",
           "section": "12.9",
-          "title_tex": "提前停止：保存最优记录，再耐心等待",
+          "title_tex": "提前停止与检查点选择",
           "printed_page": "73",
           "pdf_page": 80,
           "destination": "section.12.9",
@@ -758,7 +758,7 @@
         {
           "label": "sec:numeric-clipping",
           "section": "13.4",
-          "title_tex": "裁剪梯度：限制范数，不修复全部不稳定",
+          "title_tex": "梯度裁剪与更新幅度",
           "printed_page": "78",
           "pdf_page": 85,
           "destination": "section.13.4",
@@ -796,8 +796,8 @@
           "label": "sec:cnn-residual",
           "section": "14.6",
           "title_tex": "残差连接：为变换加一条直接路径",
-          "printed_page": "82",
-          "pdf_page": 89,
+          "printed_page": "83",
+          "pdf_page": 90,
           "destination": "section.14.6",
           "matching_pdf_link_annotations": 2
         },
@@ -864,7 +864,7 @@
         {
           "label": "sec:seq-gru-reset",
           "section": "16.2.1",
-          "title_tex": "GRU重置门：乘法位置不能随意交换",
+          "title_tex": "GRU重置门的乘法位置",
           "printed_page": "89",
           "pdf_page": 96,
           "destination": "subsection.16.2.1",
@@ -916,8 +916,8 @@
           "label": "sec:seq-encoder-decoder",
           "section": "16.7",
           "title_tex": "编码器、解码器与下一Token目标",
-          "printed_page": "92",
-          "pdf_page": 99,
+          "printed_page": "91",
+          "pdf_page": 98,
           "destination": "section.16.7",
           "matching_pdf_link_annotations": 2
         }
@@ -930,8 +930,8 @@
           "label": "sec:transfer-freeze",
           "section": "17.1",
           "title_tex": "冻结与微调分别更新什么？",
-          "printed_page": "94",
-          "pdf_page": 101,
+          "printed_page": "93",
+          "pdf_page": 100,
           "destination": "section.17.1",
           "matching_pdf_link_annotations": 2
         }
@@ -944,8 +944,8 @@
           "label": "sec:math-matrix",
           "section": "A.1",
           "title_tex": "向量、矩阵与乘法形状",
-          "printed_page": "95",
-          "pdf_page": 102,
+          "printed_page": "94",
+          "pdf_page": 101,
           "destination": "section.A.1",
           "matching_pdf_link_annotations": 2
         },
@@ -953,8 +953,8 @@
           "label": "sec:math-spectral",
           "section": "A.3",
           "title_tex": "特征值与奇异值：方向、缩放与降维",
-          "printed_page": "96",
-          "pdf_page": 103,
+          "printed_page": "95",
+          "pdf_page": 102,
           "destination": "section.A.3",
           "matching_pdf_link_annotations": 2
         },
@@ -962,8 +962,8 @@
           "label": "sec:math-gradient",
           "section": "A.4",
           "title_tex": "导数、梯度与链式法则",
-          "printed_page": "96",
-          "pdf_page": 103,
+          "printed_page": "95",
+          "pdf_page": 102,
           "destination": "section.A.4",
           "matching_pdf_link_annotations": 2
         }
@@ -976,41 +976,30 @@
           "label": "sec:math-probability",
           "section": "A.5",
           "title_tex": "条件概率与贝叶斯公式",
-          "printed_page": "97",
-          "pdf_page": 104,
+          "printed_page": "96",
+          "pdf_page": 103,
           "destination": "section.A.5",
           "matching_pdf_link_annotations": 2
         },
         {
           "label": "sec:math-cdf",
           "section": "A.8",
-          "title_tex": "CDF：把“落在左侧的概率”累计起来",
-          "printed_page": "99",
-          "pdf_page": 106,
+          "title_tex": "累积分布函数与区间概率",
+          "printed_page": "98",
+          "pdf_page": 105,
           "destination": "section.A.8",
           "matching_pdf_link_annotations": 2
         },
         {
           "label": "sec:math-standard-error",
           "section": "A.9",
-          "title_tex": "标准误与一致性：更多样本能减少什么？",
-          "printed_page": "100",
-          "pdf_page": 107,
+          "title_tex": "标准误与估计量的一致性",
+          "printed_page": "98",
+          "pdf_page": 105,
           "destination": "section.A.9",
           "matching_pdf_link_annotations": 2
         }
       ]
     }
-  ],
-  "editorial_review": {
-    "date": "2026-10-30",
-    "topic_rows_manually_checked": 48,
-    "scope": "Entry wording and the teaching content at each destination; grouped topics now have corresponding individual page links."
-  },
-  "guard_validation": {
-    "clean_input": "PASS",
-    "injected_row_page_mismatch": "detected",
-    "injected_missing_destination": "detected",
-    "injected_wrong_printed_page": "detected"
-  }
+  ]
 }
