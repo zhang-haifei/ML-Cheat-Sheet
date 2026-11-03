@@ -1,26 +1,26 @@
-\chapter{文本表示：从符号到模型输入}
+\chapter{文本表示：词袋、加权与嵌入}
 \label{ch:text}
 
-文本要先转成模型能处理的表示。词袋、TF-IDF与嵌入向量保留的信息不同，
-并非一个必然比另一个更高级。先用简单基线理解任务，再决定是否需要序列与上下文模型。
-本章先建立数值表示，下一章再讨论不同位置之间怎样交换信息。
+文本建模首先要确定处理单元及其数值表示。
+词袋记录词项出现，TF-IDF调整词项权重，嵌入以稠密向量表示Token。
+本章比较这些表示保留的信息，下一章再讨论序列位置之间怎样交换信息。
 
-\begin{keyidea}[符号编号没有大小距离含义]
-Token是文本的处理单元，ID是它在词典中的编号，只用于查表，不表示语义的高低远近。
+\begin{keyidea}[处理单元、编号与向量]
+Token是文本的处理单元，ID是词典中的查表索引，嵌入向量则提供可计算的表示。
 词典、分词规则与模型输入必须一致；
 需要从当前数据学习的词典和文档频率，应在训练内拟合。
 \end{keyidea}
 
-\section{Tokenization、词干与停用词}
+\section{文本切分、词形处理与停用词}
 \label{sec:text-tokens}
-Tokenization把文本切成处理单元（Token），可以是词、子词、字符等。
+词元化（Tokenization）把文本切成处理单元（Token），可以是词、子词、字符等。
 中文不必按空格切分，词干提取也不是所有语言和模型都需要的步骤。
 
 \begin{figure}[htbp]
 \centering\input{figures/sequence/tokens}
 \caption{一个人工分词与词典例子，词典含填充标记PAD=0、我=1、爱=2、猫=3。实际系统可采用不同切分。}
 \par\smallskip
-\readfigure{三项ID查三行嵌入，得到三条向量。ID为3不表示“猫”是“我”的三倍。
+\readfigure{三项ID查三行嵌入，得到三条向量。编号负责定位，向量内容由嵌入矩阵提供。
 验证与上线必须沿用同一词典及未知Token处理规则。}
 \end{figure}
 
@@ -42,7 +42,7 @@ Tokenization把文本切成处理单元（Token），可以是词、子词、字
 \label{sec:text-tfidf}
 词袋（Bag of Words）把文档表示为词典上的计数或出现指示向量。
 它忽略词序：“猫追狗”与“狗追猫”在相同分词下可以具有相同词袋，但含义不同。
-指示值0/1不是一个“二元分类器”，只是特征数值。
+出现指示中的0/1记录词项是否存在。
 
 \begin{center}
 \begin{tabular}{lrrrr}
@@ -70,7 +70,7 @@ TF-IDF（Term Frequency--Inverse Document Frequency）组合词频与逆文档�
 若一篇新文档没有任何词落在固定词典内，它会形成全零向量，不能直接除以0来归一化。
 
 不同实现有不同TF、平滑与归一化约定，应报告完整设置。
-常见词权重降低不代表它没有语义价值，稀有词权重高也不证明它具有预测或因果作用。
+IDF降低高文档频率词项的相对权重，突出较少见词项；这些词项对任务的价值再由后续模型学习。
 
 \quick{词典与IDF从训练数据学习，随后固定用于验证、测试和新文档。}
 
@@ -82,8 +82,8 @@ TF-IDF（Term Frequency--Inverse Document Frequency）组合词频与逆文档�
 
 Word2Vec通过局部上下文预测等目标学习词向量：
 连续词袋CBOW（Continuous Bag of Words）用上下文预测中心词，Skip-gram用中心词预测上下文。
-上下文相似可能产生向量相近，但相似性和类比关系是数据与训练的结果，
-不是对任意词都成立的语义定理。词向量还可能保留语料中的偏差。
+上下文相似的词常得到相近向量，相似性与类比关系的具体表现取决于语料和训练目标。
+向量也会吸收语料中的偏差。
 
 \begin{center}
 \begin{tabularx}{\textwidth}{P{35mm}YY}
@@ -97,8 +97,8 @@ Word2Vec通过局部上下文预测等目标学习词向量：
 \end{tabularx}
 \end{center}
 
-预训练嵌入可冻结后作为特征，也可以随任务微调。预处理应与预训练模型约定一致，
-不能任意删词、改变Token划分后仍假定原模型语义不变。
+预训练嵌入可冻结后作为特征，也可以随任务微调。
+切分、词典和文本处理应与预训练约定衔接，改动这些步骤会改变查表结果和上下文。
 
 \begingroup\small
 \noindent\textbf{参考：}Manning等，\textit{Introduction to Information Retrieval}（2008）第6章；

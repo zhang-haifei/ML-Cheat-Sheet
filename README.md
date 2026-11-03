@@ -1,10 +1,10 @@
 # 机器学习与深度学习：图解速查手册
 
-面向初学者的中文图解参考书，将概念、独立矢量图、公式与可复算的小例子放在一起。当前为第一版定稿候选：112页、17个主章节、两份附录、87份TikZ/PGFPlots图源；已完成逐章科学复审与读者路线校读。
+面向初学者的中文图解参考书，将概念、独立矢量图、公式与可复算的小例子放在一起。当前为第一版润色稿：111页、17个主章节、两份附录、87份TikZ/PGFPlots图源；已完成逐章科学复审、读者路线校读及全文润色。
 
 - [阅读整书PDF](review/handbook-working-draft.pdf)
 - [下载可编译源码包](review/handbook-source.zip)
-- [当前进度](PROGRESS.md) · [编排与定稿](EDITORIAL_PLAN.md)
+- [当前进度](PROGRESS.md) · [编排与定稿](EDITORIAL_PLAN.md) · [本轮润色说明与前后对照](docs/EDITORIAL_REPORT.md)
 
 ## 构建与验证
 
@@ -48,7 +48,7 @@ python scripts/check_source_package.py
 | 第15--16章：TF-IDF、循环与注意力 | [verify_sequence.py](scripts/verify_sequence.py) |
 | 跨章：多标签、感知机、OOB、CDF、SE、VIF与校准 | [verify_review.py](scripts/verify_review.py) |
 
-15组基础复算仅需NumPy。另提供可选的[PyTorch接口核对](scripts/check_torch_conventions.py)：在已安装PyTorch的环境运行以下命令，检查BN/LN、卷积与池化、RNN/LSTM/GRU、稳定损失和单步SGD。本次以PyTorch 2.9.0+cpu、CPU float64实测，结果见[TORCH_CHECKS.json](docs/TORCH_CHECKS.json)。
+15组基础复算仅需NumPy。另提供可选的[PyTorch接口核对](scripts/check_torch_conventions.py)：在已安装PyTorch的环境运行以下命令，检查BN/LN、卷积与池化、RNN/LSTM/GRU、稳定损失和单步SGD。2026-11-02以PyTorch 2.9.0+cpu、CPU float64实测，结果见[TORCH_CHECKS.json](docs/TORCH_CHECKS.json)。
 
 ```bash
 python scripts/check_torch_conventions.py

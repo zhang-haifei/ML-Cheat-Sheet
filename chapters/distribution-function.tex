@@ -1,10 +1,10 @@
-\section{CDF：把“落在左侧的概率”累计起来}
+\section{累积分布函数与区间概率}
 \label{sec:math-cdf}
 累积分布函数（Cumulative Distribution Function, CDF）定义为
 \[
  F_X(t)=P(X\leq t),\quad t\in\R.
 \]
-$X$是随机变量，$t$是查询位置；不要把等式右侧写成与$t$无关的固定事件。
+$X$是随机变量，$t$是查询位置；随着$t$右移，事件$X\leq t$包含的取值逐渐增多。
 CDF单调不减、右连续，在负无穷和正无穷处的极限分别为0和1。
 它适用于离散、连续以及混合分布。
 

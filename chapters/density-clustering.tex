@@ -29,7 +29,7 @@ $N_\varepsilon(x)=\{x_j:d(x,x_j)\leq\varepsilon\}$。
 
 尺度和距离仍很关键：$\varepsilon$过小可能几乎全为噪声，过大可能合为一簇。
 不同密度的簇未必能用同一阈值识别；高维距离也会变得困难。
-“形状灵活”不等于对数据没有结构假设。
+DBSCAN依赖同一密度尺度，适合用密度连接表达的分组结构。
 
 \section{层次聚类：链接方式决定合并距离}
 \label{sec:unsup-hierarchy}
@@ -49,7 +49,7 @@ $N_\varepsilon(x)=\{x_j:d(x,x_j)\leq\varepsilon\}$。
 平均链接取跨簇点对距离的平均。
 Ward方法则以组内平方和增加为准则，常用于欧氏设置，不能混同于上述最短/最长距离。
 
-\quick{聚类都需要选表示、尺度、距离与规则。比较结果时说明簇数、噪声处理和用途，不能只按图形好看判断。}
+\quick{比较聚类结果时，固定或说明表示、尺度与距离，再报告簇数、噪声处理和领域解释。}
 
 \begingroup\small
 \noindent\textbf{参考：}Ester等，DBSCAN（1996）；ISLR第二版第12章；scikit-learn Clustering文档。

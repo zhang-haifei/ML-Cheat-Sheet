@@ -161,5 +161,7 @@
       "evidence": "3个资料入口读取限制、独立Python复算、PyTorch CPU小算例范围与同工具链复建范围已明确。"
     }
   ],
-  "delivery_maintenance_date": "2026-11-02"
+  "delivery_maintenance_date": "2026-11-02",
+  "editorial_revision_date": "2026-11-03",
+  "editorial_report": "EDITORIAL_REPORT.md"
 }
