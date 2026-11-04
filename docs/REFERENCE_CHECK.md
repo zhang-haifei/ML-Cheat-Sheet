@@ -37,7 +37,7 @@ DBSCAN论文改用可读取的AAAI官方CDN。LSTM的正式DOI返回403，Stanfo
 | [www.deeplearningbook.org / 主页](https://www.deeplearningbook.org/) | 已解析 |  |
 | [www.statlearning.com / 主页](https://www.statlearning.com/) | 已解析 |  |
 | [web.stanford.edu / cvxbook](https://web.stanford.edu/~boyd/cvxbook/) | 已解析 | 2026-10-30补核作者教材主页，补全正文已引用的Boyd与Vandenberghe教材汇总入口 |
-| [GitHub / 配套源码包](https://github.com/zhang-haifei/ML-Cheat-Sheet/blob/editorial/full-manuscript-polish/review/handbook-source.zip) | 仓库连接器核对 | 阅读说明中的配套文件入口；交付时核对work分支与源码包Git blob，不将其计作科学参考资料 |
+| [GitHub / 配套源码包](https://github.com/zhang-haifei/ML-Cheat-Sheet/blob/main/review/handbook-source.zip) | 仓库连接器核对 | 阅读说明中的配套文件入口；交付时核对main分支与源码包Git blob，不将其计作科学参考资料 |
 | [zh.d2l.ai / 主页](https://zh.d2l.ai/) | 已解析 |  |
 | [docs.pytorch.org / BatchNorm2d](https://docs.pytorch.org/docs/stable/generated/torch.nn.BatchNorm2d.html) | 重定向后已解析 | 工具返回2.15文档；核对统计轴、方差分母、运行统计与评估模式 |
 | [docs.pytorch.org / LayerNorm](https://docs.pytorch.org/docs/stable/generated/torch.nn.LayerNorm.html) | 重定向后已解析 | 工具返回2.15文档；核对normalized_shape末尾轴与训练/评估统计 |
@@ -56,3 +56,5 @@ DBSCAN论文改用可读取的AAAI官方CDN。LSTM的正式DOI返回403，Stanfo
 同版本的[Conv2d](https://docs.pytorch.org/docs/2.9/generated/torch.nn.Conv2d.html)、[RNN](https://docs.pytorch.org/docs/2.9/generated/torch.nn.RNN.html)和[LSTMCell](https://docs.pytorch.org/docs/2.9/generated/torch.nn.LSTMCell.html)亦与本轮构造算例对应核对。
 
 2026-11-03全文润色：36个科学资料地址及正式引文保持原样，沿用上述实际访问日期与观察。1个配套源码地址改为独立润色分支，与本轮PDF/源码包配套；37个URI注释及不同地址仍逐项核对。
+
+2026-11-04合并与清理：配套源码入口统一为main分支。36个科学资料地址和正文引文未变。

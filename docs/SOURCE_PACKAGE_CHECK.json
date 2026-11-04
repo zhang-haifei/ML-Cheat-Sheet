@@ -1,6 +1,6 @@
 {
   "status": "PASS",
-  "date": "2026-11-03",
+  "date": "2026-11-04",
   "pages": 111,
   "page_text_identical": true,
   "page_rasters_identical": true,
@@ -10,14 +10,14 @@
   "raster_format": "RGB, no alpha, annotations excluded",
   "raster_page_hash_chain_sha256": "a4ffa5c83c27b39cebb91c4bb5ca0ddf6502a1284d2b4b534b2eea13c6463b86",
   "pymupdf_version": "1.26.6",
-  "distributed_pdf_sha256": "66ec5c8041b5f13cd7bad16b3832b67bc3c6ca1f773811d0c39f2b67415053e5",
-  "comparison_environment": "Separate ZIP extraction in a directory containing spaces, same installed XeLaTeX/TeX/fonts and Python libraries.",
+  "distributed_pdf_sha256": "3a1a292eda45438449713ba63c5fde383030f821eb4c3879bf35b8d04e9ed8b0",
+  "comparison_environment": "Clean main sources; separate ZIP extraction in a directory containing spaces, same installed XeLaTeX/TeX/fonts and Python libraries.",
   "numerical_checks": 15,
   "numerical_results_identical": true,
   "optional_torch_checks": {
     "current_run": false,
     "previous_report_date": "2026-11-02",
-    "scope": "Existing native-interface report retained; formulas and scripts unchanged during this editorial revision."
+    "scope": "Existing native-interface report retained; scientific formulas and scripts unchanged."
   },
   "navigation_results_identical_except_pdf_metadata_hash": true,
   "isolated_navigation": {
@@ -32,7 +32,7 @@
   "isolated_build_audit": {
     "target": "main",
     "pages": 111,
-    "pdf_sha256": "528458e5ed933e8b58f9aa33d46bf743c3c984c77d20fc25c54ebb5be849a535",
+    "pdf_sha256": "c49e1682fe52ae07a117e8b6dfb767d01737e7e0539e8e9d0c5edc63d8067eee",
     "overfull": 0,
     "underfull": 0,
     "missing_characters": 0,
@@ -47,10 +47,10 @@
     "missing_inputs": []
   },
   "source_only_package": true,
-  "source_members": 164,
+  "source_members": 160,
   "packaging_regression_checks": {
     "status": "PASS",
-    "source_members": 164,
+    "source_members": 160,
     "fresh_extraction_repackage_identical": true,
     "repeat_package_identical": true,
     "build_script_archive_mode": "100755",

@@ -61,6 +61,6 @@
 
 按科学准确性、技术表达、语言自然度、教学效果和全书连贯性五项复读。判据是实际解释及其上下文，不使用AI文本检测分数，也不以改动行数衡量质量。
 
-构建与页数见BUILD_CHECK.json；公式、标签、图源及数值表保全见CONTENT_PRESERVATION.json；15组数值结果见MATH_CHECKS.json；主题导航见NAVIGATION_CHECK.json；实际渲染检查见VISUAL_REVIEW.md；独立源码包复建见SOURCE_PACKAGE_CHECK.json。
+构建与页数见BUILD_CHECK.json；15组数值结果见MATH_CHECKS.json；主题导航见NAVIGATION_CHECK.json；实际渲染检查见VISUAL_REVIEW.md；独立源码包复建见SOURCE_PACKAGE_CHECK.json。
 
 当前没有保留待处理的编辑争议。后续可依据具体阅读反馈作局部修订。

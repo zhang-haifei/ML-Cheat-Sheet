@@ -9,8 +9,8 @@ from pathlib import Path
 
 
 def package(root):
-    files = [root / name for name in ['main.tex', 'README.md', 'PROGRESS.md',
-                                    'EDITORIAL_PLAN.md', '.gitignore', '.gitattributes']]
+    files = [root / name for name in ['main.tex', 'README.md', 'AGENTS.md',
+                                    '.gitignore', '.gitattributes']]
     for directory in ['chapters', 'figures', 'styles', 'scripts', 'docs']:
         files += [p for p in (root / directory).rglob('*')
                   if p.is_file() and '__pycache__' not in p.parts]
