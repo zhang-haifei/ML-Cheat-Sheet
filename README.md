@@ -1,69 +1,40 @@
 # 机器学习与深度学习：图解速查手册
 
-面向初学者的中文图解参考书，将概念、独立矢量图、公式与可复算的小例子放在一起。当前main为第一版全文润色稿：111页、17个主章节、两份附录、87份TikZ/PGFPlots图源；已完成逐章科学复审、读者路线校读及全文润色。
+用图解、公式和能手算的小例子，理解机器学习与深度学习中的概念和计算。从数据准备、模型评估到神经网络与注意力，本书把方法要解决的问题、计算过程和结果解释放在一起。
 
-- [阅读整书PDF](review/handbook-working-draft.pdf)
-- [下载可编译源码包](review/handbook-source.zip)
-- [润色说明与前后对照](docs/EDITORIAL_REPORT.md)
+**[在线阅读 PDF](https://github.com/zhang-haifei/ML-Cheat-Sheet/blob/main/review/handbook-working-draft.pdf)** · **[下载 PDF](https://github.com/zhang-haifei/ML-Cheat-Sheet/raw/refs/heads/main/review/handbook-working-draft.pdf)**
 
-## 构建与验证
+当前版本：111页，17章、两份附录、87幅图解。
 
-需要XeLaTeX、latexmk、TeX Live中文/扩展/科学组件，以及Noto Serif/Sans/Mono CJK SC和Latin Modern字体。
+## 适合谁阅读
 
-```bash
-scripts/build.sh
-python -m pip install numpy pymupdf
-python scripts/verify_all.py
-python scripts/audit_build.py main
-python scripts/audit_navigation.py
-python scripts/audit_layout.py
-python scripts/package_source.py
-python scripts/check_source_package.py
-```
+如果你正在第一次系统学习机器学习，可以从数据和评估入手，逐步理解模型怎样学习。如果你已经接触过相关课程，也可以把它放在手边，回查公式、比较方法，或理清几个容易混淆的概念。
 
-构建结果在 `build/main.pdf`。`verify_all.py`统一运行各章数值复核；`audit_build.py`检查构建日志、输入依赖、图源和PDF链接；`audit_navigation.py`核对主题条目、页码、PDF目的位置与书签；`audit_layout.py`筛查页尾留白供人工复查；`package_source.py`生成不含PDF、临时文件和Git历史的源码包。正常TeX Live安装无需工作区专用路径，托管环境已有配置则由构建脚本自动加载。
+阅读时会用到函数、基础概率、向量和矩阵。遇到不熟悉的数学工具，可以随时翻到附录A，先看小例子，再回到正文。
 
-从源码包全新解压后也可运行上述命令。打包脚本自动创建 `review/`；完整写出归档后才替换当前ZIP，失败时保留上一份有效文件。
-`check_source_package.py`将当前ZIP解压到临时目录，核对重新打包的字节一致性，并验证缺失输入或写入中断时保留原包。
+## 书里讲什么
 
-## 找到对应的算例
-
-各脚本输出构造算例的数值检查；图形由LaTeX编译。具体核验范围见脚本断言与[复算结果](docs/MATH_CHECKS.json)。
-
-| 正文主题 | 复核入口 |
+| 章节 | 阅读内容 |
 |---|---|
-| 第1章：拟合、泛化与偏差—方差 | [verify_foundations.py](scripts/verify_foundations.py) |
-| 第2章：填补、缩放与采样 | [verify_data.py](scripts/verify_data.py) |
-| 第3章：缺失机制与特征筛选 | [verify_reliability.py](scripts/verify_reliability.py) |
-| 第4章：分类、ROC与回归指标 | [verify_evaluation.py](scripts/verify_evaluation.py) |
-| 第5章：搜索、概率与区间 | [verify_diagnostics.py](scripts/verify_diagnostics.py) |
-| 第6章及附录A：建模工具、矩阵与梯度 | [verify_tools_math.py](scripts/verify_tools_math.py) |
-| 第7章：线性模型与近邻 | [verify_linear.py](scripts/verify_linear.py) |
-| 第8章：树与集成 | [verify_trees.py](scripts/verify_trees.py) |
-| 第9--10章：核、聚类与PCA | [verify_kernel_unsupervised.py](scripts/verify_kernel_unsupervised.py) |
-| 第11章：神经网络前反向与参数更新 | [verify_math.py](scripts/verify_math.py) |
-| 第12章：优化器、初始化与训练规则 | [verify_training.py](scripts/verify_training.py) |
-| 第13章及第17章任务头：稳定计算与参数数 | [verify_numerics.py](scripts/verify_numerics.py) |
-| 第14章：卷积、形状与归一化 | [verify_cnn.py](scripts/verify_cnn.py) |
-| 第15--16章：TF-IDF、循环与注意力 | [verify_sequence.py](scripts/verify_sequence.py) |
-| 跨章：多标签、感知机、OOB、CDF、SE、VIF与校准 | [verify_review.py](scripts/verify_review.py) |
+| 第1—3章：任务与数据 | 泛化与过拟合、数据编码、填补与缩放、缺失机制、特征筛选 |
+| 第4—6章：评估与建模 | 数据划分、分类与回归指标、模型选择、概率校准、损失与风险 |
+| 第7—10章：经典方法 | 线性模型、正则化、近邻、树与集成、支持向量机、聚类与PCA |
+| 第11—13章：神经网络与训练 | 前向计算、反向传播、参数更新、优化器、初始化、稳定计算与正则化 |
+| 第14—17章：结构与应用 | 卷积网络、文本表示、循环网络、注意力、Transformer与迁移学习 |
+| 附录A、B | 数学速查、符号约定、方法比较，以及带页码链接的主题索引 |
 
-15组基础复算仅需NumPy。另提供可选的[PyTorch接口核对](scripts/check_torch_conventions.py)：在已安装PyTorch的环境运行以下命令，检查BN/LN、卷积与池化、RNN/LSTM/GRU、稳定损失和单步SGD。2026-11-02以PyTorch 2.9.0+cpu、CPU float64实测，结果见[TORCH_CHECKS.json](docs/TORCH_CHECKS.json)。
+例如，读决策边界图时，可以沿着得分公式判断一个点落在哪一侧；读反向传播时，可以手算一次参数更新；读注意力时，可以对照查询、键和值的形状，跟着矩阵运算得到输出。图后的“读图”说明会把图中关系与算例连起来。
 
-```bash
-python scripts/check_torch_conventions.py
-```
+## 怎样阅读
 
-## 文件组织
+1. **第一次学习建模**：先读第1章建立整体认识，再读第2—6章的数据、评估与建模工具；随后选择第7—10章中与你的任务相关的方法。
+2. **重点学习深度学习**：先熟悉第4章的数据划分和第6章的损失，再连读第11—13章，串起前向、反向与参数更新；最后按兴趣进入卷积、文本、序列或迁移学习。
+3. **遇到问题随手回查**：从附录B的主题索引和方法比较找入口，点击页码回到相应图解；矩阵、梯度与概率问题可查附录A。
 
-| 路径 | 用途 |
-|---|---|
-| `main.tex` | 唯一整书入口 |
-| `chapters/` | 正文、附录、阅读导航 |
-| `figures/` | 独立矢量图源和数值CSV |
-| `styles/` | 中文字体、颜色与版式 |
-| `scripts/` | 构建、数值复核、审计与打包 |
-| `docs/` | 当前验证及审校说明 |
-| `review/` | 当前整书PDF与源码包 |
+PDF提供章节书签和可点击的目录、主题页码。读一个主题时，可以先看它要解决的问题，再看图中的轴、箭头和形状，最后对照公式复算例子。章末参考资料可供进一步学习。
 
-仓库保留当前正文、全部图源、样式、构建与验证脚本、必要审校说明，以及一份PDF和源码包。构建中间文件、预览图、旧稿和会话记录均不纳入交付。
+## 配套材料与反馈
+
+[下载配套源码包](https://github.com/zhang-haifei/ML-Cheat-Sheet/raw/refs/heads/main/review/handbook-source.zip)，可以查看正文、矢量图源和算例复核脚本。希望修改图解或重新编译时，请参阅[构建与复核说明](docs/BUILDING.md)。
+
+欢迎通过[Issues](https://github.com/zhang-haifei/ML-Cheat-Sheet/issues)反馈勘误或阅读建议。请附上章节或PDF页码、相关原文，以及你认为需要改进的地方。

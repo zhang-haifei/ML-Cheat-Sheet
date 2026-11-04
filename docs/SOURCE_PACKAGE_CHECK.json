@@ -47,10 +47,10 @@
     "missing_inputs": []
   },
   "source_only_package": true,
-  "source_members": 160,
+  "source_members": 161,
   "packaging_regression_checks": {
     "status": "PASS",
-    "source_members": 160,
+    "source_members": 161,
     "fresh_extraction_repackage_identical": true,
     "repeat_package_identical": true,
     "build_script_archive_mode": "100755",
@@ -58,5 +58,16 @@
     "mid_write_failure_preserves_previous_archive": true,
     "failed_write_leaves_no_temporary_file": true
   },
-  "post_verification_update": "Only this verification report is replaced before final deterministic repack; all other members match the verified extracted snapshot."
+  "post_verification_update": "The build and page-comparison evidence above comes from the clean main build. This documentation-only update was packaged and independently extracted/repackaged with byte-identity and write-failure checks; no new TeX build was needed.",
+  "documentation_update": {
+    "date": "2026-11-04",
+    "changed": [
+      "README.md",
+      "docs/BUILDING.md"
+    ],
+    "scope": "Reader-facing introduction and relocated build instructions; all TeX sources, figure data, styles, scripts and distributed PDF unchanged from commit 4efe709ce13172443013dc92296fb94e942d79c6",
+    "full_tex_build_rerun": false,
+    "existing_build_verification_retained": true,
+    "relative_document_links_resolve": true
+  }
 }
