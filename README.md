@@ -4,7 +4,7 @@
 
 **[在线阅读 PDF](https://github.com/zhang-haifei/ML-Cheat-Sheet/blob/main/review/handbook-working-draft.pdf)** · **[下载 PDF](https://github.com/zhang-haifei/ML-Cheat-Sheet/raw/refs/heads/main/review/handbook-working-draft.pdf)**
 
-当前版本：111页，17章、两份附录、87幅图解。
+当前版本：114页，17章、两份附录、87幅图解。
 
 ## 适合谁阅读
 
