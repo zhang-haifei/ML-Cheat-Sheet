@@ -17,14 +17,14 @@ python scripts/package_source.py
 python scripts/check_source_package.py
 ```
 
-构建结果在 `build/main.pdf`。`verify_all.py`统一运行各章数值复核；`audit_build.py`检查构建日志、输入依赖、图源和PDF链接；`audit_navigation.py`核对主题条目、页码、PDF目的位置与书签；`audit_layout.py`筛查页尾留白供人工复查；`package_source.py`生成不含PDF、临时文件和Git历史的源码包。正常TeX Live安装无需工作区专用路径，托管环境已有配置则由构建脚本自动加载。
+构建结果在 `build/main.pdf`。`verify_all.py`统一运行各章数值复核；`audit_build.py`检查构建日志、输入依赖、图源和PDF链接；`audit_navigation.py`核对主题条目、页码、PDF目的位置与书签；`audit_layout.py`筛查页尾留白供人工复查；`package_source.py`生成不含PDF、临时文件和Git历史的源码包。
 
 从源码包全新解压后也可运行上述命令。打包脚本自动创建 `review/`；完整写出归档后才替换当前ZIP，失败时保留上一份有效文件。
 `check_source_package.py`将当前ZIP解压到临时目录，核对重新打包的字节一致性，并验证缺失输入或写入中断时保留原包。
 
 ## 找到对应的算例
 
-各脚本输出构造算例的数值检查；图形由LaTeX编译。具体核验范围见脚本断言与[复算结果](MATH_CHECKS.json)。
+各脚本输出构造算例的数值检查；图形由LaTeX编译。具体复核内容见各脚本的计算和断言，运行后可查看数值结果。
 
 | 正文主题 | 复核入口 |
 |---|---|
@@ -44,7 +44,7 @@ python scripts/check_source_package.py
 | 第15--16章：TF-IDF、循环与注意力 | [verify_sequence.py](../scripts/verify_sequence.py) |
 | 跨章：多标签、感知机、OOB、CDF、SE、VIF与校准 | [verify_review.py](../scripts/verify_review.py) |
 
-15组基础复算仅需NumPy。另提供可选的[PyTorch接口核对](../scripts/check_torch_conventions.py)：在已安装PyTorch的环境运行以下命令，检查BN/LN、卷积与池化、RNN/LSTM/GRU、稳定损失和单步SGD。2026-11-02以PyTorch 2.9.0+cpu、CPU float64实测，结果见[TORCH_CHECKS.json](TORCH_CHECKS.json)。
+15组基础复算仅需NumPy。另提供可选的[PyTorch接口核对](../scripts/check_torch_conventions.py)：在已安装PyTorch的环境运行以下命令，检查BN/LN、卷积与池化、RNN/LSTM/GRU、稳定损失和单步SGD。
 
 ```bash
 python scripts/check_torch_conventions.py
@@ -59,7 +59,7 @@ python scripts/check_torch_conventions.py
 | `figures/` | 独立矢量图源和数值CSV |
 | `styles/` | 中文字体、颜色与版式 |
 | `scripts/` | 构建、数值复核、审计与打包 |
-| `docs/` | 当前验证及审校说明 |
+| `docs/` | 构建与算例复核说明 |
 | `review/` | 当前整书PDF与源码包 |
 
-仓库保留当前正文、全部图源、样式、构建与验证脚本、必要审校说明，以及一份PDF和源码包。构建中间文件、预览图、旧稿和会话记录均不纳入交付。
+PDF与源码包位于 `review/`。编译产生的中间文件位于 `build/`，可随时删除后重新构建。

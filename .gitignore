@@ -1,4 +1,3 @@
 /build/
-/work/
 *.synctex.gz
 __pycache__/

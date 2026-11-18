@@ -9,7 +9,7 @@ from pathlib import Path
 
 
 def package(root):
-    files = [root / name for name in ['main.tex', 'README.md', 'AGENTS.md',
+    files = [root / name for name in ['main.tex', 'README.md',
                                     '.gitignore', '.gitattributes']]
     for directory in ['chapters', 'figures', 'styles', 'scripts', 'docs']:
         files += [p for p in (root / directory).rglob('*')
